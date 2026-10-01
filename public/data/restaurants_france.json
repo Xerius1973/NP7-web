@@ -1,0 +1,1627 @@
+{
+  "version": "4.0",
+  "scope": "Base de référence élargie des enseignes et plats courants en France; couverture non exhaustive",
+  "restaurants": [
+    {
+      "restaurant": "McDonald's",
+      "aliases": [
+        "mcdo",
+        "mcdonalds",
+        "macdo"
+      ],
+      "products": [
+        {
+          "name": "Big Mac",
+          "aliases": [
+            "big mac"
+          ],
+          "portion": "1 burger",
+          "kcal": 530,
+          "protein": 27,
+          "carbs": 42,
+          "fat": 27,
+          "source": "officiel McDonald's France"
+        },
+        {
+          "name": "McChicken",
+          "aliases": [
+            "mc chicken"
+          ],
+          "portion": "1 burger",
+          "kcal": 434,
+          "protein": 19,
+          "carbs": 45,
+          "fat": 19,
+          "source": "officiel McDonald's France"
+        },
+        {
+          "name": "Hamburger",
+          "aliases": [
+            "hamburger"
+          ],
+          "portion": "1 burger",
+          "kcal": 253,
+          "protein": 13,
+          "carbs": 29,
+          "fat": 8.9,
+          "source": "McDonald's France"
+        },
+        {
+          "name": "Cheeseburger",
+          "aliases": [
+            "cheeseburger",
+            "cheese burger"
+          ],
+          "portion": "1 burger",
+          "kcal": 300,
+          "protein": 15,
+          "carbs": 32,
+          "fat": 13,
+          "source": "estimation"
+        },
+        {
+          "name": "Double Cheeseburger",
+          "aliases": [
+            "double cheeseburger",
+            "double cheese"
+          ],
+          "portion": "1 burger",
+          "kcal": 450,
+          "protein": 25,
+          "carbs": 34,
+          "fat": 25,
+          "source": "estimation"
+        },
+        {
+          "name": "Chicken McNuggets 6",
+          "aliases": [
+            "6 nuggets",
+            "6 mcnuggets",
+            "mc nuggets"
+          ],
+          "portion": "6 pièces",
+          "kcal": 259,
+          "protein": 16,
+          "carbs": 16,
+          "fat": 14,
+          "source": "estimation"
+        },
+        {
+          "name": "McFlurry",
+          "aliases": [
+            "mcflurry"
+          ],
+          "portion": "1 dessert",
+          "kcal": 350,
+          "protein": 7,
+          "carbs": 45,
+          "fat": 16,
+          "source": "estimation"
+        },
+        {
+          "name": "Big Tasty",
+          "aliases": [
+            "big tasty"
+          ],
+          "portion": "1 burger",
+          "kcal": 850,
+          "protein": 45,
+          "carbs": 50,
+          "fat": 48,
+          "source": "estimation"
+        },
+        {
+          "name": "Frites petite",
+          "aliases": [
+            "petite frite",
+            "petites frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 231,
+          "protein": 2.7,
+          "carbs": 29,
+          "fat": 11,
+          "source": "officiel McDonald's France"
+        },
+        {
+          "name": "Frites grande",
+          "aliases": [
+            "grande frite",
+            "grandes frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 434,
+          "protein": 5.1,
+          "carbs": 54,
+          "fat": 21,
+          "source": "officiel McDonald's France"
+        },
+        {
+          "name": "CBO",
+          "aliases": [],
+          "portion": "1 portion",
+          "kcal": 659,
+          "protein": 27,
+          "carbs": 57,
+          "fat": 35,
+          "source": "officiel McDonald's France"
+        },
+        {
+          "name": "Sauce Pommes-Frites",
+          "aliases": [
+            "sauce pommes-frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 27,
+          "protein": 0.1,
+          "carbs": 1.7,
+          "fat": 2.2,
+          "source": "officiel McDonald's France"
+        },
+        {
+          "name": "Sauce Creamy Deluxe",
+          "aliases": [],
+          "portion": "1 portion",
+          "kcal": 79,
+          "protein": 0.2,
+          "carbs": 0.8,
+          "fat": 8.2,
+          "source": "officiel McDonald's France"
+        },
+        {
+          "name": "Sauce Ketchup",
+          "aliases": [],
+          "portion": "1 portion",
+          "kcal": 13,
+          "protein": 0.2,
+          "carbs": 2.9,
+          "fat": 0,
+          "source": "officiel McDonald's France"
+        }
+      ]
+    },
+    {
+      "restaurant": "Burger King",
+      "aliases": [
+        "burgerking",
+        "bk"
+      ],
+      "products": [
+        {
+          "name": "Whopper",
+          "aliases": [
+            "whopper"
+          ],
+          "portion": "1 burger",
+          "kcal": 629,
+          "protein": 28,
+          "carbs": 49,
+          "fat": 35,
+          "source": "officiel Burger King France"
+        },
+        {
+          "name": "Whopper Cheese",
+          "aliases": [
+            "whopper cheese"
+          ],
+          "portion": "1 burger",
+          "kcal": 750,
+          "protein": 35,
+          "carbs": 52,
+          "fat": 45,
+          "source": "estimation"
+        },
+        {
+          "name": "Long Chicken",
+          "aliases": [
+            "long chicken"
+          ],
+          "portion": "1 burger",
+          "kcal": 620,
+          "protein": 27,
+          "carbs": 52,
+          "fat": 32,
+          "source": "estimation"
+        },
+        {
+          "name": "Big Fish",
+          "aliases": [
+            "big fish"
+          ],
+          "portion": "1 burger",
+          "kcal": 560,
+          "protein": 20,
+          "carbs": 55,
+          "fat": 28,
+          "source": "estimation"
+        },
+        {
+          "name": "Crispy Chicken",
+          "aliases": [
+            "crispy chicken"
+          ],
+          "portion": "1 burger",
+          "kcal": 600,
+          "protein": 25,
+          "carbs": 55,
+          "fat": 30,
+          "source": "estimation"
+        },
+        {
+          "name": "King Fries Double Cheddar",
+          "aliases": [],
+          "portion": "1 portion",
+          "kcal": 563,
+          "protein": 10,
+          "carbs": 63,
+          "fat": 29,
+          "source": "officiel Burger King France"
+        },
+        {
+          "name": "King Fries Cheddar & Crispy Onions",
+          "aliases": [],
+          "portion": "1 portion",
+          "kcal": 561,
+          "protein": 8.8,
+          "carbs": 71,
+          "fat": 28,
+          "source": "officiel Burger King France"
+        },
+        {
+          "name": "King Fries Cheddar & Bacon",
+          "aliases": [],
+          "portion": "1 portion",
+          "kcal": 538,
+          "protein": 12,
+          "carbs": 66,
+          "fat": 26,
+          "source": "officiel Burger King France"
+        }
+      ]
+    },
+    {
+      "restaurant": "KFC",
+      "aliases": [],
+      "products": [
+        {
+          "name": "Twister",
+          "aliases": [
+            "twister"
+          ],
+          "portion": "1 wrap",
+          "kcal": 550,
+          "protein": 25,
+          "carbs": 55,
+          "fat": 27,
+          "source": "estimation"
+        },
+        {
+          "name": "Zinger",
+          "aliases": [
+            "zinger"
+          ],
+          "portion": "1 burger",
+          "kcal": 520,
+          "protein": 24,
+          "carbs": 48,
+          "fat": 27,
+          "source": "estimation"
+        },
+        {
+          "name": "Bucket",
+          "aliases": [
+            "bucket kfc"
+          ],
+          "portion": "1 portion",
+          "kcal": 1200,
+          "protein": 65,
+          "carbs": 75,
+          "fat": 65,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Quick",
+      "aliases": [],
+      "products": [
+        {
+          "name": "Giant",
+          "aliases": [
+            "giant"
+          ],
+          "portion": "1 burger",
+          "kcal": 700,
+          "protein": 35,
+          "carbs": 48,
+          "fat": 40,
+          "source": "estimation"
+        },
+        {
+          "name": "Master Bacon",
+          "aliases": [
+            "master bacon"
+          ],
+          "portion": "1 burger",
+          "kcal": 750,
+          "protein": 38,
+          "carbs": 50,
+          "fat": 45,
+          "source": "estimation"
+        },
+        {
+          "name": "Méga Giant",
+          "aliases": [
+            "méga giant"
+          ],
+          "portion": "1 portion",
+          "kcal": 859,
+          "protein": 46,
+          "carbs": 38,
+          "fat": 58,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Suprême bacon - bacon de poulet",
+          "aliases": [
+            "suprême bacon - bacon de poulet"
+          ],
+          "portion": "1 portion",
+          "kcal": 882,
+          "protein": 45,
+          "carbs": 55,
+          "fat": 57,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Suprême bacon Chicken - bacon de poulet",
+          "aliases": [
+            "suprême bacon chicken - bacon de poulet"
+          ],
+          "portion": "1 portion",
+          "kcal": 855,
+          "protein": 34,
+          "carbs": 71,
+          "fat": 41,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Suprême Spicy Chicken",
+          "aliases": [
+            "suprême spicy chicken"
+          ],
+          "portion": "1 portion",
+          "kcal": 758,
+          "protein": 31,
+          "carbs": 71,
+          "fat": 38,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Suprême classiQ",
+          "aliases": [
+            "suprême classiq"
+          ],
+          "portion": "1 portion",
+          "kcal": 808,
+          "protein": 43,
+          "carbs": 48,
+          "fat": 52,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Giant Max",
+          "aliases": [
+            "giant max"
+          ],
+          "portion": "1 portion",
+          "kcal": 657,
+          "protein": 28,
+          "carbs": 38,
+          "fat": 43,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Giant Max Chicken",
+          "aliases": [
+            "giant max chicken"
+          ],
+          "portion": "1 portion",
+          "kcal": 700,
+          "protein": 23,
+          "carbs": 54,
+          "fat": 42,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Giant Max Cheesy",
+          "aliases": [
+            "giant max cheesy"
+          ],
+          "portion": "1 portion",
+          "kcal": 749,
+          "protein": 23,
+          "carbs": 59,
+          "fat": 46,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Quick'n toast - bacon de poulet",
+          "aliases": [
+            "quick'n toast - bacon de poulet"
+          ],
+          "portion": "1 portion",
+          "kcal": 619,
+          "protein": 33,
+          "carbs": 48,
+          "fat": 33,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Long Bacon - Bacon de poulet",
+          "aliases": [
+            "long bacon - bacon de poulet"
+          ],
+          "portion": "1 portion",
+          "kcal": 574,
+          "protein": 33,
+          "carbs": 39,
+          "fat": 32,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Long chicken",
+          "aliases": [
+            "long chicken"
+          ],
+          "portion": "1 portion",
+          "kcal": 528,
+          "protein": 22,
+          "carbs": 50,
+          "fat": 26,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Long fish",
+          "aliases": [
+            "long fish"
+          ],
+          "portion": "1 portion",
+          "kcal": 503,
+          "protein": 25,
+          "carbs": 45,
+          "fat": 24,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Long Cordon Bleu",
+          "aliases": [
+            "long cordon bleu"
+          ],
+          "portion": "1 portion",
+          "kcal": 631,
+          "protein": 22,
+          "carbs": 51,
+          "fat": 37,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Giant Original",
+          "aliases": [
+            "giant original"
+          ],
+          "portion": "1 portion",
+          "kcal": 545,
+          "protein": 27,
+          "carbs": 27,
+          "fat": 36,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "ClassiQ Crispy Onion beef",
+          "aliases": [
+            "classiq crispy onion beef"
+          ],
+          "portion": "1 portion",
+          "kcal": 435,
+          "protein": 23,
+          "carbs": 29,
+          "fat": 25,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "ClassiQ Crispy Onion Chicken",
+          "aliases": [
+            "classiq crispy onion chicken"
+          ],
+          "portion": "1 portion",
+          "kcal": 416,
+          "protein": 15,
+          "carbs": 41,
+          "fat": 21,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Double Cheeseburger",
+          "aliases": [
+            "double cheeseburger"
+          ],
+          "portion": "1 portion",
+          "kcal": 407,
+          "protein": 25,
+          "carbs": 29,
+          "fat": 21,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Double Cheeseburger Bacon",
+          "aliases": [
+            "double cheeseburger bacon"
+          ],
+          "portion": "1 portion",
+          "kcal": 446,
+          "protein": 27,
+          "carbs": 29,
+          "fat": 21,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Cheeseburger",
+          "aliases": [
+            "cheeseburger"
+          ],
+          "portion": "1 portion",
+          "kcal": 279,
+          "protein": 15,
+          "carbs": 28,
+          "fat": 11,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Junior Giant",
+          "aliases": [
+            "junior giant"
+          ],
+          "portion": "1 portion",
+          "kcal": 352,
+          "protein": 16,
+          "carbs": 26,
+          "fat": 20,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Hamburger",
+          "aliases": [
+            "hamburger"
+          ],
+          "portion": "1 portion",
+          "kcal": 271,
+          "protein": 15,
+          "carbs": 28,
+          "fat": 10,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Mini Long Bacon",
+          "aliases": [
+            "mini long bacon"
+          ],
+          "portion": "1 portion",
+          "kcal": 306,
+          "protein": 15,
+          "carbs": 25,
+          "fat": 14,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Mini Long Chicken",
+          "aliases": [
+            "mini long chicken"
+          ],
+          "portion": "1 portion",
+          "kcal": 364,
+          "protein": 14,
+          "carbs": 37,
+          "fat": 17,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Mini Long Cheese",
+          "aliases": [
+            "mini long cheese"
+          ],
+          "portion": "1 portion",
+          "kcal": 266,
+          "protein": 14,
+          "carbs": 27,
+          "fat": 11,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Wrap Giant Veggie",
+          "aliases": [
+            "wrap giant veggie"
+          ],
+          "portion": "1 portion",
+          "kcal": 462,
+          "protein": 13,
+          "carbs": 40,
+          "fat": 27,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Wrap Cheese et Bacon - bacon de poulet",
+          "aliases": [
+            "wrap cheese et bacon - bacon de poulet"
+          ],
+          "portion": "1 portion",
+          "kcal": 542,
+          "protein": 22,
+          "carbs": 46,
+          "fat": 30,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Qarré bœuf",
+          "aliases": [
+            "qarré bœuf"
+          ],
+          "portion": "1 portion",
+          "kcal": 326,
+          "protein": 17,
+          "carbs": 27,
+          "fat": 17,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Qarré Poulet",
+          "aliases": [
+            "qarré poulet"
+          ],
+          "portion": "1 portion",
+          "kcal": 365,
+          "protein": 16,
+          "carbs": 38,
+          "fat": 16,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Qarré Véggie",
+          "aliases": [
+            "qarré véggie"
+          ],
+          "portion": "1 portion",
+          "kcal": 356,
+          "protein": 16,
+          "carbs": 22,
+          "fat": 21,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Giant'N CHEESE",
+          "aliases": [
+            "giant'n cheese"
+          ],
+          "portion": "1 portion",
+          "kcal": 621,
+          "protein": 31,
+          "carbs": 27,
+          "fat": 42,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Petite Frites",
+          "aliases": [
+            "petite frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 172,
+          "protein": 2,
+          "carbs": 23,
+          "fat": 8,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Moyenne Frites",
+          "aliases": [
+            "moyenne frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 296,
+          "protein": 4,
+          "carbs": 39,
+          "fat": 13,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Grande Frites",
+          "aliases": [
+            "grande frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 404,
+          "protein": 5,
+          "carbs": 53,
+          "fat": 18,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Grande Frites Cheddar",
+          "aliases": [
+            "grande frites cheddar"
+          ],
+          "portion": "1 portion",
+          "kcal": 443,
+          "protein": 6,
+          "carbs": 55,
+          "fat": 21,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Petite Rustiques",
+          "aliases": [
+            "petite rustiques"
+          ],
+          "portion": "1 portion",
+          "kcal": 167,
+          "protein": 3,
+          "carbs": 21,
+          "fat": 7,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Moyenne Rustiques",
+          "aliases": [
+            "moyenne rustiques"
+          ],
+          "portion": "1 portion",
+          "kcal": 261,
+          "protein": 5,
+          "carbs": 33,
+          "fat": 11,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Grande Rustiques",
+          "aliases": [
+            "grande rustiques"
+          ],
+          "portion": "1 portion",
+          "kcal": 384,
+          "protein": 7,
+          "carbs": 48,
+          "fat": 17,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Petite Salade",
+          "aliases": [
+            "petite salade"
+          ],
+          "portion": "1 portion",
+          "kcal": 11,
+          "protein": 1,
+          "carbs": 1,
+          "fat": 0,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        },
+        {
+          "name": "Tomates cerises",
+          "aliases": [
+            "tomates cerises"
+          ],
+          "portion": "1 portion",
+          "kcal": 17,
+          "protein": 0,
+          "carbs": 3,
+          "fat": 0,
+          "source": "officiel Quick France — déclaration nutritionnelle valable à partir du 9 juin 2026"
+        }
+      ]
+    },
+    {
+      "restaurant": "Subway",
+      "aliases": [],
+      "products": [
+        {
+          "name": "Sub Poulet",
+          "aliases": [
+            "subway poulet",
+            "sub poulet"
+          ],
+          "portion": "1 sandwich",
+          "kcal": 450,
+          "protein": 28,
+          "carbs": 55,
+          "fat": 15,
+          "source": "estimation"
+        },
+        {
+          "name": "Sub Steak",
+          "aliases": [
+            "subway steak",
+            "sub steak"
+          ],
+          "portion": "1 sandwich",
+          "kcal": 500,
+          "protein": 30,
+          "carbs": 55,
+          "fat": 18,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "O'Tacos",
+      "aliases": [
+        "otacos",
+        "o tacos"
+      ],
+      "products": [
+        {
+          "name": "Tacos 1 viande",
+          "aliases": [
+            "tacos 1 viande"
+          ],
+          "portion": "1 tacos",
+          "kcal": 650,
+          "protein": 30,
+          "carbs": 65,
+          "fat": 28,
+          "source": "estimation"
+        },
+        {
+          "name": "Tacos 2 viandes",
+          "aliases": [
+            "tacos 2 viandes"
+          ],
+          "portion": "1 tacos",
+          "kcal": 800,
+          "protein": 40,
+          "carbs": 70,
+          "fat": 38,
+          "source": "estimation"
+        },
+        {
+          "name": "Tacos 3 viandes",
+          "aliases": [
+            "tacos 3 viandes",
+            "tacos trois viandes"
+          ],
+          "portion": "1 tacos",
+          "kcal": 1000,
+          "protein": 50,
+          "carbs": 80,
+          "fat": 48,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Domino's Pizza",
+      "aliases": [
+        "dominos",
+        "domino's"
+      ],
+      "products": [
+        {
+          "name": "Pizza 4 fromages",
+          "aliases": [
+            "pizza 4 fromages",
+            "4 fromages"
+          ],
+          "portion": "1 pizza",
+          "kcal": 900,
+          "protein": 35,
+          "carbs": 100,
+          "fat": 38,
+          "source": "estimation"
+        },
+        {
+          "name": "Pizza Margherita",
+          "aliases": [
+            "pizza margherita",
+            "margherita"
+          ],
+          "portion": "1 pizza",
+          "kcal": 800,
+          "protein": 30,
+          "carbs": 105,
+          "fat": 25,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Five Guys",
+      "aliases": [],
+      "products": [
+        {
+          "name": "Cheeseburger",
+          "aliases": [
+            "five guys cheeseburger"
+          ],
+          "portion": "1 burger",
+          "kcal": 840,
+          "protein": 40,
+          "carbs": 40,
+          "fat": 55,
+          "source": "estimation"
+        },
+        {
+          "name": "Frites",
+          "aliases": [
+            "five guys frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 950,
+          "protein": 15,
+          "carbs": 131,
+          "fat": 39,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Pizza Hut",
+      "aliases": [
+        "pizzahut"
+      ],
+      "products": [
+        {
+          "name": "Margherita",
+          "aliases": [
+            "pizza margherita"
+          ],
+          "portion": "1 pizza",
+          "kcal": 850,
+          "protein": 32,
+          "carbs": 105,
+          "fat": 28,
+          "source": "estimation"
+        },
+        {
+          "name": "4 Fromages",
+          "aliases": [
+            "4 fromages"
+          ],
+          "portion": "1 pizza",
+          "kcal": 950,
+          "protein": 38,
+          "carbs": 100,
+          "fat": 40,
+          "source": "estimation"
+        },
+        {
+          "name": "Pepperoni",
+          "aliases": [
+            "pizza pepperoni"
+          ],
+          "portion": "1 pizza",
+          "kcal": 1000,
+          "protein": 40,
+          "carbs": 105,
+          "fat": 45,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Buffalo Grill",
+      "aliases": [
+        "buffalo"
+      ],
+      "products": [
+        {
+          "name": "Cheeseburger",
+          "aliases": [
+            "buffalo cheeseburger"
+          ],
+          "portion": "1 burger",
+          "kcal": 850,
+          "protein": 40,
+          "carbs": 55,
+          "fat": 48,
+          "source": "estimation"
+        },
+        {
+          "name": "Frites",
+          "aliases": [
+            "buffalo frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 400,
+          "protein": 5,
+          "carbs": 55,
+          "fat": 18,
+          "source": "estimation"
+        },
+        {
+          "name": "Chicken wings",
+          "aliases": [
+            "wings"
+          ],
+          "portion": "1 portion",
+          "kcal": 600,
+          "protein": 35,
+          "carbs": 25,
+          "fat": 38,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Brioche Dorée",
+      "aliases": [
+        "brioche doree"
+      ],
+      "products": [
+        {
+          "name": "Sandwich poulet",
+          "aliases": [
+            "sandwich poulet brioche doree"
+          ],
+          "portion": "1 sandwich",
+          "kcal": 450,
+          "protein": 25,
+          "carbs": 50,
+          "fat": 17,
+          "source": "estimation"
+        },
+        {
+          "name": "Jambon emmental",
+          "aliases": [
+            "jambon emmental"
+          ],
+          "portion": "1 sandwich",
+          "kcal": 430,
+          "protein": 22,
+          "carbs": 42,
+          "fat": 19,
+          "source": "estimation"
+        },
+        {
+          "name": "Croissant",
+          "aliases": [
+            "croissant brioche doree"
+          ],
+          "portion": "1 pièce",
+          "kcal": 410,
+          "protein": 8,
+          "carbs": 46,
+          "fat": 22,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "PAUL",
+      "aliases": [
+        "paul boulangerie"
+      ],
+      "products": [
+        {
+          "name": "Jambon emmental",
+          "aliases": [
+            "paul jambon emmental"
+          ],
+          "portion": "1 sandwich",
+          "kcal": 450,
+          "protein": 23,
+          "carbs": 45,
+          "fat": 20,
+          "source": "estimation"
+        },
+        {
+          "name": "Croissant",
+          "aliases": [
+            "paul croissant"
+          ],
+          "portion": "1 pièce",
+          "kcal": 410,
+          "protein": 8,
+          "carbs": 46,
+          "fat": 22,
+          "source": "estimation"
+        },
+        {
+          "name": "Pain au chocolat",
+          "aliases": [
+            "chocolatine",
+            "pain chocolat paul"
+          ],
+          "portion": "1 pièce",
+          "kcal": 420,
+          "protein": 8,
+          "carbs": 48,
+          "fat": 22,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Starbucks",
+      "aliases": [
+        "starbucks coffee"
+      ],
+      "products": [
+        {
+          "name": "Caffè Latte",
+          "aliases": [
+            "latte starbucks"
+          ],
+          "portion": "1 boisson",
+          "kcal": 180,
+          "protein": 9,
+          "carbs": 18,
+          "fat": 7,
+          "source": "estimation"
+        },
+        {
+          "name": "Cappuccino",
+          "aliases": [
+            "cappuccino starbucks"
+          ],
+          "portion": "1 boisson",
+          "kcal": 140,
+          "protein": 7,
+          "carbs": 14,
+          "fat": 6,
+          "source": "estimation"
+        },
+        {
+          "name": "Cookie",
+          "aliases": [
+            "cookie starbucks"
+          ],
+          "portion": "1 pièce",
+          "kcal": 330,
+          "protein": 4,
+          "carbs": 44,
+          "fat": 16,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Pokawa",
+      "aliases": [
+        "pokawa poke"
+      ],
+      "products": [
+        {
+          "name": "Poke saumon",
+          "aliases": [
+            "poke saumon"
+          ],
+          "portion": "1 bowl",
+          "kcal": 650,
+          "protein": 30,
+          "carbs": 75,
+          "fat": 22,
+          "source": "estimation"
+        },
+        {
+          "name": "Poke poulet",
+          "aliases": [
+            "poke poulet"
+          ],
+          "portion": "1 bowl",
+          "kcal": 620,
+          "protein": 35,
+          "carbs": 75,
+          "fat": 18,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Big Fernand",
+      "aliases": [],
+      "products": [
+        {
+          "name": "Le Big Fernand",
+          "aliases": [
+            "big fernand burger"
+          ],
+          "portion": "1 burger",
+          "kcal": 800,
+          "protein": 38,
+          "carbs": 50,
+          "fat": 45,
+          "source": "estimation"
+        },
+        {
+          "name": "Fernandines",
+          "aliases": [
+            "big fernand frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 450,
+          "protein": 6,
+          "carbs": 55,
+          "fat": 22,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Les Burgers de Papa",
+      "aliases": [
+        "burger de papa"
+      ],
+      "products": [
+        {
+          "name": "Cheeseburger",
+          "aliases": [
+            "burger de papa cheeseburger"
+          ],
+          "portion": "1 burger",
+          "kcal": 800,
+          "protein": 35,
+          "carbs": 55,
+          "fat": 45,
+          "source": "estimation"
+        },
+        {
+          "name": "Frites",
+          "aliases": [
+            "burger de papa frites"
+          ],
+          "portion": "1 portion",
+          "kcal": 420,
+          "protein": 5,
+          "carbs": 55,
+          "fat": 19,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Chicken Street",
+      "aliases": [],
+      "products": [
+        {
+          "name": "Tenders",
+          "aliases": [
+            "chicken street tenders"
+          ],
+          "portion": "1 portion",
+          "kcal": 650,
+          "protein": 40,
+          "carbs": 40,
+          "fat": 35,
+          "source": "estimation"
+        },
+        {
+          "name": "Burger poulet",
+          "aliases": [
+            "chicken street burger"
+          ],
+          "portion": "1 burger",
+          "kcal": 650,
+          "protein": 30,
+          "carbs": 50,
+          "fat": 32,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Chamas Tacos",
+      "aliases": [
+        "chamas"
+      ],
+      "products": [
+        {
+          "name": "Tacos 1 viande",
+          "aliases": [
+            "chamas tacos 1 viande"
+          ],
+          "portion": "1 tacos",
+          "kcal": 650,
+          "protein": 30,
+          "carbs": 65,
+          "fat": 28,
+          "source": "estimation"
+        },
+        {
+          "name": "Tacos 2 viandes",
+          "aliases": [
+            "chamas tacos 2 viandes"
+          ],
+          "portion": "1 tacos",
+          "kcal": 800,
+          "protein": 40,
+          "carbs": 70,
+          "fat": 38,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Tacos Avenue",
+      "aliases": [],
+      "products": [
+        {
+          "name": "Tacos 1 viande",
+          "aliases": [
+            "tacos avenue 1 viande"
+          ],
+          "portion": "1 tacos",
+          "kcal": 650,
+          "protein": 30,
+          "carbs": 65,
+          "fat": 28,
+          "source": "estimation"
+        },
+        {
+          "name": "Tacos 2 viandes",
+          "aliases": [
+            "tacos avenue 2 viandes"
+          ],
+          "portion": "1 tacos",
+          "kcal": 800,
+          "protein": 40,
+          "carbs": 70,
+          "fat": 38,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Nabab Kebab",
+      "aliases": [
+        "nabab"
+      ],
+      "products": [
+        {
+          "name": "Kebab",
+          "aliases": [
+            "nabab kebab"
+          ],
+          "portion": "1 sandwich",
+          "kcal": 700,
+          "protein": 30,
+          "carbs": 75,
+          "fat": 30,
+          "source": "estimation"
+        },
+        {
+          "name": "Assiette kebab",
+          "aliases": [
+            "assiette kebab nabab"
+          ],
+          "portion": "1 assiette",
+          "kcal": 850,
+          "protein": 45,
+          "carbs": 75,
+          "fat": 35,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Pret A Manger",
+      "aliases": [
+        "pret",
+        "pret a manger"
+      ],
+      "products": [
+        {
+          "name": "Chicken Caesar Wrap",
+          "aliases": [
+            "caesar wrap"
+          ],
+          "portion": "1 wrap",
+          "kcal": 480,
+          "protein": 27,
+          "carbs": 42,
+          "fat": 22,
+          "source": "estimation"
+        },
+        {
+          "name": "Tuna sandwich",
+          "aliases": [
+            "sandwich thon"
+          ],
+          "portion": "1 sandwich",
+          "kcal": 420,
+          "protein": 25,
+          "carbs": 45,
+          "fat": 15,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "EXKi",
+      "aliases": [],
+      "products": [
+        {
+          "name": "Salade poulet",
+          "aliases": [
+            "exki poulet"
+          ],
+          "portion": "1 salade",
+          "kcal": 450,
+          "protein": 30,
+          "carbs": 35,
+          "fat": 20,
+          "source": "estimation"
+        },
+        {
+          "name": "Wrap poulet",
+          "aliases": [
+            "exki wrap poulet"
+          ],
+          "portion": "1 wrap",
+          "kcal": 500,
+          "protein": 28,
+          "carbs": 50,
+          "fat": 20,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Pomme de Pain",
+      "aliases": [
+        "pomme de pain"
+      ],
+      "products": [
+        {
+          "name": "Sandwich poulet",
+          "aliases": [
+            "pomme de pain poulet"
+          ],
+          "portion": "1 sandwich",
+          "kcal": 450,
+          "protein": 25,
+          "carbs": 50,
+          "fat": 17,
+          "source": "estimation"
+        },
+        {
+          "name": "Sandwich jambon fromage",
+          "aliases": [
+            "pomme de pain jambon fromage"
+          ],
+          "portion": "1 sandwich",
+          "kcal": 440,
+          "protein": 23,
+          "carbs": 45,
+          "fat": 18,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "La Mie Câline",
+      "aliases": [
+        "la mie caline"
+      ],
+      "products": [
+        {
+          "name": "Pain au chocolat",
+          "aliases": [
+            "mie caline pain au chocolat"
+          ],
+          "portion": "1 pièce",
+          "kcal": 420,
+          "protein": 8,
+          "carbs": 48,
+          "fat": 22,
+          "source": "estimation"
+        },
+        {
+          "name": "Cookie",
+          "aliases": [
+            "mie caline cookie"
+          ],
+          "portion": "1 pièce",
+          "kcal": 300,
+          "protein": 4,
+          "carbs": 40,
+          "fat": 14,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Sushi Shop",
+      "aliases": [
+        "sushi shop"
+      ],
+      "products": [
+        {
+          "name": "Sushi saumon 6 pièces",
+          "aliases": [
+            "6 sushi saumon"
+          ],
+          "portion": "6 pièces",
+          "kcal": 300,
+          "protein": 16,
+          "carbs": 42,
+          "fat": 8,
+          "source": "estimation"
+        },
+        {
+          "name": "California saumon avocat 6 pièces",
+          "aliases": [
+            "california saumon avocat"
+          ],
+          "portion": "6 pièces",
+          "kcal": 330,
+          "protein": 15,
+          "carbs": 42,
+          "fat": 12,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Pitaya",
+      "aliases": [],
+      "products": [
+        {
+          "name": "Pad Thaï poulet",
+          "aliases": [
+            "pad thai poulet"
+          ],
+          "portion": "1 plat",
+          "kcal": 750,
+          "protein": 35,
+          "carbs": 90,
+          "fat": 25,
+          "source": "estimation"
+        },
+        {
+          "name": "Bo Bun",
+          "aliases": [
+            "bo bun"
+          ],
+          "portion": "1 plat",
+          "kcal": 700,
+          "protein": 30,
+          "carbs": 80,
+          "fat": 25,
+          "source": "estimation"
+        }
+      ]
+    },
+    {
+      "restaurant": "Columbus Café",
+      "aliases": [
+        "columbus cafe"
+      ],
+      "products": [
+        {
+          "name": "Cookie",
+          "aliases": [
+            "columbus cookie"
+          ],
+          "portion": "1 pièce",
+          "kcal": 330,
+          "protein": 4,
+          "carbs": 44,
+          "fat": 16,
+          "source": "estimation"
+        },
+        {
+          "name": "Latte",
+          "aliases": [
+            "columbus latte"
+          ],
+          "portion": "1 boisson",
+          "kcal": 180,
+          "protein": 9,
+          "carbs": 18,
+          "fat": 7,
+          "source": "estimation"
+        }
+      ]
+    }
+  ],
+  "nutrition_accuracy_note": "Valeurs marquées 'officiel' récupérées sur les pages nutritionnelles officielles consultées en septembre 2026; les autres produits restent des estimations et doivent être remplacés par des données officielles lorsqu'elles sont disponibles."
+}
