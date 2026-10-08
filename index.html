@@ -408,23 +408,6 @@ function restaurantDBMatches(text){
 <script>loadRestaurantDB();</script>
 
 <script>
-function genericRestaurantEstimate(text){
-  const s=normalize(text);
-  let k=0,p=0,c=0,f=0,label="";
-  if(s.includes("pizza")){k=850;p=32;c=105;f=30;label="Pizza (estimation)";}
-  else if(s.includes("burger")){k=650;p=30;c=45;f=32;label="Burger (estimation)";}
-  else if(s.includes("kebab")||s.includes("doner")){k=700;p=30;c=75;f=30;label="Kebab (estimation)";}
-  else if(s.includes("tacos")){k=800;p=38;c=70;f=38;label="Tacos (estimation)";}
-  else if(s.includes("poke")){k=650;p=30;c=75;f=22;label="Poke bowl (estimation)";}
-  else if(s.includes("sushi")){k=400;p=20;c=55;f=10;label="Sushi (estimation)";}
-  else if(s.includes("sandwich")){k=450;p=22;c=45;f=18;label="Sandwich (estimation)";}
-  else if(s.includes("frites")){k=400;p=5;c=55;f=18;label="Frites (estimation)";}
-  else return null;
-  return {name:label,q:1,k,pr:p,ca:c,f};
-}
-</script>
-
-<script>
 (function(){
   const oldNormalize = window.normalize;
   window.normalizeRestaurantText = function(v){
