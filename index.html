@@ -407,6 +407,7 @@ function restaurantDBMatches(text){
 
 <script>loadRestaurantDB();</script>
 
+<script>
 function genericRestaurantEstimate(text){
   const s=normalize(text);
   let k=0,p=0,c=0,f=0,label="";
@@ -421,7 +422,7 @@ function genericRestaurantEstimate(text){
   else return null;
   return {name:label,q:1,k,pr:p,ca:c,f};
 }
-
+</script>
 
 <script>
 (function(){
