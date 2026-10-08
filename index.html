@@ -244,12 +244,12 @@ async function startBarcodeScanner(){
     document.getElementById('np7ScanStatus').textContent='Impossible d’ouvrir la caméra. Vérifie l’autorisation caméra de Safari.';
   }
 }
-function stopBarcodeScanner(){
+function stopBarcodeScanner(hide=true){
   try{if(np7BarcodeControls)np7BarcodeControls.stop()}catch(e){}
   np7BarcodeControls=null;
   const video=document.getElementById('np7ScanVideo');
   if(video&&video.srcObject){video.srcObject.getTracks().forEach(t=>t.stop());video.srcObject=null}
-  document.getElementById('np7Scanner').classList.remove('show');
+  if(hide) document.getElementById('np7Scanner').classList.remove('show');
 }
 function lookupBarcodeManual(){
   const code=(document.getElementById('np7BarcodeManual').value||'').replace(/\\D/g,'');
@@ -278,7 +278,9 @@ async function lookupBarcode(code){
     const salt=Number(ntr['salt_100g']??0)||0;
     const product={name:p.product_name_fr||p.product_name||'Produit scanné',brand:p.brands||'',barcode:String(p.code||code),quantity:p.quantity||'',kcal,prot,carbs,fat,sugars,fiber,salt,ingredients:p.ingredients_text||'',allergens:(p.allergens_tags||[]).map(x=>String(x).replace(/^.*:/,'')).join(', '),nutriscore:p.nutriscore_grade||'',nova:p.nova_group||'',image:p.image_front_url||''};
     renderBarcodeProduct(product);
-    stopBarcodeScanner();
+    // Stop the camera after a successful scan, but keep the product result visible
+    // so the user can choose the quantity and tap "+ Ajouter à mon repas".
+    stopBarcodeScanner(false);
   }catch(e){
     console.error(e);
     result.innerHTML='<div class="np7-scan-status">⚠️ Impossible de contacter Open Food Facts. Vérifie ta connexion internet puis réessaie.</div>';
