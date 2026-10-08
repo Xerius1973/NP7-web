@@ -80,6 +80,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--np7-blue)!important;b
   body{font-size:15px}
   #np7BottomNav{left:8px;right:8px;bottom:8px}
 }
+
+/* Hide secondary writing/credits at the very bottom of pages */
+.app > p:last-child,.view > p:last-child,.view > .small:last-child,.view > .meta:last-child{display:none!important}
 </style>
 <script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
 </head><body><div class="app"><header><span class="tag">PERSONAL</span><div class="brand">NP7</div><h1>Calories, macros & sport</h1><div class="sub">Version autonome — aucun crédit OpenAI nécessaire</div></header><nav class="tabs"><button class="tab active" data-v="home">Accueil</button><button class="tab" data-v="meals">Repas</button><button class="tab" data-v="sport">Sport</button><button class="tab" data-v="weight">Poids</button><button class="tab" data-v="history">Historique</button><button class="tab" data-v="ai">IA locale</button></nav>
