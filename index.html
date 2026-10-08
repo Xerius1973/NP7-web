@@ -286,11 +286,30 @@ async function lookupBarcode(code){
     result.innerHTML='<div class="np7-scan-status">⚠️ Impossible de contacter Open Food Facts. Vérifie ta connexion internet puis réessaie.</div>';
   }
 }
+function np7DetectQuantity(q){
+  const text=String(q||'').toLowerCase().replace(/,/g,'.').trim();
+  if(!text)return 100;
+  let total=0;
+  const multi=text.match(/(\\d+)\\s*[x×]\\s*(\\d+(?:\\.\\d+)?)\\s*(kg|g|ml|cl|l)\\b/);
+  if(multi){
+    let v=Number(multi[1])*Number(multi[2]),u=multi[3];
+    if(u==='kg')v*=1000; else if(u==='l')v*=1000; else if(u==='cl')v*=10;
+    return Math.max(1,Math.round(v));
+  }
+  const m=text.match(/(\\d+(?:\\.\\d+)?)\\s*(kg|g|ml|cl|l)\\b/);
+  if(m){
+    let v=Number(m[1]),u=m[2];
+    if(u==='kg')v*=1000; else if(u==='l')v*=1000; else if(u==='cl')v*=10;
+    return Math.max(1,Math.round(v));
+  }
+  return 100;
+}
 function renderBarcodeProduct(p){
   const safeName=esc(p.name),safeBrand=esc(p.brand);
   const img=p.image?'<img src="'+np7EscAttr(p.image)+'" alt="">':'';
   const tags=[p.nutriscore?'Nutri-Score '+String(p.nutriscore).toUpperCase():'',p.nova?'NOVA '+p.nova:''].filter(Boolean).join(' • ');
-  document.getElementById('np7BarcodeResult').innerHTML=`<div class="card" style="margin-top:12px"><div class="np7-product">${img}<div><b>${safeName}</b>${safeBrand?'<div class="small">'+safeBrand+'</div>':''}<div class="small">Code : ${esc(p.barcode)}${p.quantity?' • '+esc(p.quantity):''}</div></div></div><div class="meta" style="margin-top:12px"><b>${Math.round(p.kcal)} kcal</b> / 100 g • P ${p.prot.toFixed(1)} g • G ${p.carbs.toFixed(1)} g • L ${p.fat.toFixed(1)} g<br>Sucres ${p.sugars.toFixed(1)} g • Fibres ${p.fiber.toFixed(1)} g • Sel ${p.salt.toFixed(2)} g${tags?'<br>'+esc(tags):''}</div><div class="form" style="margin-top:12px"><div class="field"><label>Quantité g</label><input id="np7ScanQty" type="number" value="100" min="1"></div></div><button class="btn primary" onclick="addScannedProduct()">+ Ajouter à mon repas</button>${p.ingredients?'<div class="small" style="margin-top:10px"><b>Ingrédients :</b> '+esc(p.ingredients)+'</div>':''}${p.allergens?'<div class="small" style="margin-top:6px"><b>Allergènes :</b> '+esc(p.allergens)+'</div>':''}</div>`;
+  const autoQty=np7DetectQuantity(p.quantity);
+  document.getElementById('np7BarcodeResult').innerHTML=`<div class="card" style="margin-top:12px"><div class="np7-product">${img}<div><b>${safeName}</b>${safeBrand?'<div class="small">'+safeBrand+'</div>':''}<div class="small">Code : ${esc(p.barcode)}${p.quantity?' • '+esc(p.quantity):''}</div></div></div><div class="meta" style="margin-top:12px"><b>${Math.round(p.kcal)} kcal</b> / 100 g • P ${p.prot.toFixed(1)} g • G ${p.carbs.toFixed(1)} g • L ${p.fat.toFixed(1)} g<br>Sucres ${p.sugars.toFixed(1)} g • Fibres ${p.fiber.toFixed(1)} g • Sel ${p.salt.toFixed(2)} g${tags?'<br>'+esc(tags):''}</div><div class="form" style="margin-top:12px"><div class="field"><label>Quantité g</label><input id="np7ScanQty" type="number" value="${autoQty}" min="1"><div class="small" style="margin-top:4px">📦 Quantité détectée automatiquement depuis le produit</div></div></div><button class="btn primary" onclick="addScannedProduct()">+ Ajouter à mon repas</button>${p.ingredients?'<div class="small" style="margin-top:10px"><b>Ingrédients :</b> '+esc(p.ingredients)+'</div>':''}${p.allergens?'<div class="small" style="margin-top:6px"><b>Allergènes :</b> '+esc(p.allergens)+'</div>':''}</div>`;
   window.np7LastScanned=p;
 }
 function addScannedProduct(){
