@@ -64,14 +64,27 @@ input,select,textarea{transition:border-color .2s,box-shadow .2s,transform .2s}
 input:focus,select:focus,textarea:focus{border-color:var(--np7-blue)!important;box-shadow:0 0 0 4px rgba(22,119,255,.10)!important;outline:none}
 .np7-shake{animation:np7Shake .35s ease}
 @keyframes np7Shake{25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+
+/* Barcode scanner */
+#np7Scanner{display:none;margin-top:14px}
+#np7Scanner.show{display:block}
+#np7ScanVideo{width:100%;max-height:360px;object-fit:cover;border-radius:20px;background:#111;display:block}
+.np7-scan-frame{position:relative;margin:12px 0;overflow:hidden;border-radius:20px;background:#111}
+.np7-scan-frame:after{content:"";position:absolute;left:12%;right:12%;top:50%;height:2px;background:#ffd21a;box-shadow:0 0 12px rgba(255,210,26,.9)}
+.np7-scan-status{padding:10px 12px;border-radius:12px;background:#f4f7fb;margin-top:10px;font-size:13px}
+.np7-product{display:grid;grid-template-columns:80px 1fr;gap:12px;align-items:start;margin-top:12px}
+.np7-product img{width:80px;height:80px;object-fit:contain;border-radius:14px;background:#f5f5f5}
+.np7-product .meta{line-height:1.55}
+@media(max-width:600px){#np7ScanVideo{max-height:300px}}
 @media(max-width:600px){
   body{font-size:15px}
   #np7BottomNav{left:8px;right:8px;bottom:8px}
 }
 </style>
+<script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
 </head><body><div class="app"><header><span class="tag">PERSONAL</span><div class="brand">NP7</div><h1>Calories, macros & sport</h1><div class="sub">Version autonome — aucun crédit OpenAI nécessaire</div></header><nav class="tabs"><button class="tab active" data-v="home">Accueil</button><button class="tab" data-v="meals">Repas</button><button class="tab" data-v="sport">Sport</button><button class="tab" data-v="weight">Poids</button><button class="tab" data-v="history">Historique</button><button class="tab" data-v="ai">IA locale</button></nav>
-<section id="home" class="view active"><div class="grid"><div class="card"><div class="label">Calories</div><div class="big" id="k">0</div><div class="small" id="kl">0 restantes</div><div class="progress"><i id="kb"></i></div></div><div class="card"><div class="label">Protéines</div><div class="big" id="p">0 g</div><div class="small" id="pl">0 g restantes</div><div class="progress"><i id="pb"></i></div></div><div class="card"><div class="label">Glucides</div><div class="big" id="c">0 g</div><div class="small" id="cl">0 g restantes</div><div class="progress"><i id="cb"></i></div></div><div class="card"><div class="label">Lipides</div><div class="big" id="f">0 g</div><div class="small" id="fl">0 g restantes</div><div class="progress"><i id="fb"></i></div></div></div><div class="grid2"><div class="card"><h3>🎯 Objectif</h3><div class="cards"><div class="macro"><span class="label">Cible</span><br><b id="tk">2400</b> kcal</div><div class="macro"><span class="label">Sport</span><br><b id="sk">0</b> kcal</div><div class="macro"><span class="label">Net</span><br><b id="nk">0</b> kcal</div></div></div><div class="card"><h3>⚡ Rapide</h3><button class="btn primary" onclick="view('ai')">🤖 Décrire mon repas</button> <button class="btn yellow" onclick="view('sport')">🏋️ Séance</button></div></div><div class="card"><div class="row"><h3>🍽️ Aujourd’hui</h3><span id="count" class="small"></span></div><div id="homeFoods"></div></div></section>
-<section id="meals" class="view"><div class="card"><h3>🍽️ Ajout manuel</h3><div class="form"><div class="field wide"><label>Aliment</label><input id="fn" placeholder="poulet"></div><div class="field"><label>Quantité g</label><input id="fq" type="number" value="100"></div><div class="field"><label>Kcal/100g</label><input id="fk" type="number"></div><div class="field"><label>Prot/100g</label><input id="fp" type="number" step=".1"></div><div class="field"><label>Gluc/100g</label><input id="fc" type="number" step=".1"></div><div class="field"><label>Lip/100g</label><input id="ff" type="number" step=".1"></div></div><button class="btn primary" onclick="manual()">+ Ajouter</button></div><div class="card"><div class="row"><h3>Journée</h3><button class="btn danger" onclick="clearDay()">Réinitialiser</button></div><div id="foods"></div></div></section>
+<section id="home" class="view active"><div class="grid"><div class="card"><div class="label">Calories</div><div class="big" id="k">0</div><div class="small" id="kl">0 restantes</div><div class="progress"><i id="kb"></i></div></div><div class="card"><div class="label">Protéines</div><div class="big" id="p">0 g</div><div class="small" id="pl">0 g restantes</div><div class="progress"><i id="pb"></i></div></div><div class="card"><div class="label">Glucides</div><div class="big" id="c">0 g</div><div class="small" id="cl">0 g restantes</div><div class="progress"><i id="cb"></i></div></div><div class="card"><div class="label">Lipides</div><div class="big" id="f">0 g</div><div class="small" id="fl">0 g restantes</div><div class="progress"><i id="fb"></i></div></div></div><div class="grid2"><div class="card"><h3>🎯 Objectif</h3><div class="cards"><div class="macro"><span class="label">Cible</span><br><b id="tk">2400</b> kcal</div><div class="macro"><span class="label">Sport</span><br><b id="sk">0</b> kcal</div><div class="macro"><span class="label">Net</span><br><b id="nk">0</b> kcal</div></div></div><div class="card"><h3>⚡ Rapide</h3><button class="btn primary" onclick="view('ai')">🤖 Décrire mon repas</button> <button class="btn yellow" onclick="view('sport')">🏋️ Séance</button><button id="np7ScannerHomeBtn" class="btn yellow" type="button" onclick="view('meals');setTimeout(function(){openBarcodeScanner()},150)">📷 SCANNER UN CODE-BARRES</button></div></div><div class="card"><div class="row"><h3>🍽️ Aujourd’hui</h3><span id="count" class="small"></span></div><div id="homeFoods"></div></div></section>
+<section id="meals" class="view"><div class="card"><h3>📷 Scanner un produit</h3><p class="small">Scanne le code-barres d’un produit pour récupérer automatiquement ses informations nutritionnelles.</p><button class="btn primary" onclick="openBarcodeScanner()">📷 Ouvrir le scanner</button><div id="np7Scanner"><div class="np7-scan-frame"><video id="np7ScanVideo" playsinline muted></video></div><div id="np7ScanStatus" class="np7-scan-status">Autorise l’accès à la caméra puis place le code-barres dans le cadre.</div><div class="row" style="margin-top:10px"><button class="btn ghost" onclick="stopBarcodeScanner()">Fermer la caméra</button></div><div class="form" style="margin-top:12px"><div class="field wide"><label>Code-barres</label><input id="np7BarcodeManual" inputmode="numeric" placeholder="Ex. 3017620422003"></div></div><button class="btn yellow" onclick="lookupBarcodeManual()">Rechercher ce code</button><div id="np7BarcodeResult"></div></div></div><div class="card"><h3>🍽️ Ajout manuel</h3><div class="form"><div class="field wide"><label>Aliment</label><input id="fn" placeholder="poulet"></div><div class="field"><label>Quantité g</label><input id="fq" type="number" value="100"></div><div class="field"><label>Kcal/100g</label><input id="fk" type="number"></div><div class="field"><label>Prot/100g</label><input id="fp" type="number" step=".1"></div><div class="field"><label>Gluc/100g</label><input id="fc" type="number" step=".1"></div><div class="field"><label>Lip/100g</label><input id="ff" type="number" step=".1"></div></div><button class="btn primary" onclick="manual()">+ Ajouter</button></div><div class="card"><div class="row"><h3>Journée</h3><button class="btn danger" onclick="clearDay()">Réinitialiser</button></div><div id="foods"></div></div></section>
 <section id="sport" class="view"><div class="card"><h3>🤖 IA Sport NP7</h3><p class="small">Décris simplement ta séance. Exemple : <b>« J’ai nagé 45 minutes »</b>, <b>« 1h de muscu intense »</b>, <b>« j’ai couru 30 min »</b>. NP7 reconnaît le sport, la durée et l’intensité puis estime les calories.</p><textarea id="sportAi" placeholder="Ex : J’ai nagé 45 minutes à intensité modérée..."></textarea><button class="btn primary" onclick="analyzeSportAI()">🤖 Analyser ma séance</button><div id="sportAiResult" style="margin-top:12px"></div></div><div class="card"><h3>🏋️ Ajouter une séance</h3><div class="form"><div class="field wide"><label>Sport</label><select id="st"><option value="muscu">Musculation</option><option value="running">Course</option><option value="walking">Marche</option><option value="cycling">Vélo</option><option value="football">Football</option><option value="combat">JJB / combat</option><option value="swimming">Natation</option><option value="basketball">Basketball</option><option value="tennis">Tennis</option><option value="badminton">Badminton</option><option value="rugby">Rugby</option><option value="boxing">Boxe</option><option value="kickboxing">Kick-boxing</option><option value="judo">Judo</option><option value="mma">MMA</option><option value="crossfit">CrossFit</option><option value="hiit">HIIT</option><option value="hiking">Randonnée</option><option value="dance">Danse</option><option value="yoga">Yoga</option><option value="jump_rope">Corde à sauter</option></select></div><div class="field"><label>Durée min</label><input id="sm" type="number" value="60"></div><div class="field"><label>Intensité</label><select id="si"><option value=".85">Légère</option><option value="1" selected>Modérée</option><option value="1.15">Intense</option></select></div></div><p class="small">Estimation basée sur ton poids et une intensité choisie. Ce n’est pas une mesure de montre.</p><button class="btn primary" onclick="workout()">Ajouter</button></div><div class="card"><h3>Historique sport</h3><div id="works"></div></div></section>
 <section id="weight" class="view"><div class="card"><h3>⚖️ Profil</h3><div class="form"><div class="field"><label>Poids kg</label><input id="w" type="number" step=".1"></div><div class="field"><label>Taille cm</label><input id="h" type="number"></div><div class="field"><label>Âge</label><input id="a" type="number"></div><div class="field"><label>Sexe</label><select id="sex"><option value="male">Homme</option><option value="female">Femme</option></select></div><div class="field wide"><label>Activité</label><select id="act"><option value="1.35">1–2 / semaine</option><option value="1.55" selected>3–4 / semaine</option><option value="1.725">5–6 / semaine</option><option value="1.9">Très actif</option></select></div><div class="field wide"><label>Objectif</label><select id="goal"><option value="cut">Sécher / recomposition</option><option value="maintain">Maintenir</option><option value="bulk">Prise de masse</option></select></div></div><button class="btn yellow" onclick="targets()">🎯 Recalculer</button></div><div class="card"><h3>Ajouter une pesée</h3><input id="we" type="number" step=".1" placeholder="75"><button class="btn primary" onclick="addWeight()">Ajouter</button><div id="wh"></div></div></section>
 <section id="history" class="view"><div class="card"><h3>📊 Historique</h3><div id="hist"></div></div></section>
@@ -193,6 +206,98 @@ function addOFFProduct(i){
 function goAIWithNutrition(){showView("ai");document.getElementById("aiInput").focus()}
 
 render();
+
+/* NP7 Barcode scanner + Open Food Facts */
+let np7BarcodeReader=null, np7BarcodeControls=null, np7BarcodeBusy=false;
+function np7EscAttr(v){return String(v).replace(/&/g,'&amp;').replace(/\"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function openBarcodeScanner(){
+  const box=document.getElementById('np7Scanner');
+  if(!box)return;
+  box.classList.add('show');
+  document.getElementById('np7BarcodeResult').innerHTML='';
+  document.getElementById('np7ScanStatus').textContent='Démarrage de la caméra…';
+  startBarcodeScanner();
+}
+async function startBarcodeScanner(){
+  if(!window.ZXingBrowser){document.getElementById('np7ScanStatus').textContent='Le module de scan n’est pas disponible. Utilise le champ Code-barres ci-dessous.';return}
+  try{
+    if(np7BarcodeControls) np7BarcodeControls.stop();
+    np7BarcodeReader=new ZXingBrowser.BrowserMultiFormatReader();
+    const video=document.getElementById('np7ScanVideo');
+    np7BarcodeControls=await np7BarcodeReader.decodeFromConstraints(
+      {video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}},
+      video,
+      async (result,error)=>{
+        if(!result||np7BarcodeBusy)return;
+        np7BarcodeBusy=true;
+        const code=String(result.getText?result.getText():result.text||'').replace(/\\D/g,'');
+        if(code){
+          document.getElementById('np7ScanStatus').textContent='Code détecté : '+code+' — recherche du produit…';
+          await lookupBarcode(code);
+        }
+        setTimeout(()=>{np7BarcodeBusy=false},1200);
+      }
+    );
+    document.getElementById('np7ScanStatus').textContent='📷 Scanne le code-barres avec la caméra arrière.';
+  }catch(e){
+    console.error(e);
+    document.getElementById('np7ScanStatus').textContent='Impossible d’ouvrir la caméra. Vérifie l’autorisation caméra de Safari.';
+  }
+}
+function stopBarcodeScanner(){
+  try{if(np7BarcodeControls)np7BarcodeControls.stop()}catch(e){}
+  np7BarcodeControls=null;
+  const video=document.getElementById('np7ScanVideo');
+  if(video&&video.srcObject){video.srcObject.getTracks().forEach(t=>t.stop());video.srcObject=null}
+  document.getElementById('np7Scanner').classList.remove('show');
+}
+function lookupBarcodeManual(){
+  const code=(document.getElementById('np7BarcodeManual').value||'').replace(/\\D/g,'');
+  if(code.length<8){toast('Code-barres invalide');return}
+  lookupBarcode(code);
+}
+async function lookupBarcode(code){
+  const result=document.getElementById('np7BarcodeResult');
+  result.innerHTML='<div class="np7-scan-status">🔎 Recherche dans Open Food Facts…</div>';
+  try{
+    const url='https://world.openfoodfacts.org/api/v2/product/'+encodeURIComponent(code)+'.json?fields=code,product_name,product_name_fr,brands,quantity,nutriments,ingredients_text,allergens_tags,nutriscore_grade,nova_group,image_front_url';
+    const r=await fetch(url,{headers:{Accept:'application/json'}});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    if(data.status!==1||!data.product){
+      result.innerHTML='<div class="np7-scan-status">❌ Produit introuvable pour ce code. Tu peux vérifier le code ou saisir les valeurs manuellement.</div>';
+      return;
+    }
+    const p=data.product||{}, ntr=p.nutriments||{};
+    const kcal=Number(ntr['energy-kcal_100g']??ntr['energy-kcal_value']??0)||0;
+    const prot=Number(ntr['proteins_100g']??0)||0;
+    const carbs=Number(ntr['carbohydrates_100g']??0)||0;
+    const fat=Number(ntr['fat_100g']??0)||0;
+    const sugars=Number(ntr['sugars_100g']??0)||0;
+    const fiber=Number(ntr['fiber_100g']??0)||0;
+    const salt=Number(ntr['salt_100g']??0)||0;
+    const product={name:p.product_name_fr||p.product_name||'Produit scanné',brand:p.brands||'',barcode:String(p.code||code),quantity:p.quantity||'',kcal,prot,carbs,fat,sugars,fiber,salt,ingredients:p.ingredients_text||'',allergens:(p.allergens_tags||[]).map(x=>String(x).replace(/^.*:/,'')).join(', '),nutriscore:p.nutriscore_grade||'',nova:p.nova_group||'',image:p.image_front_url||''};
+    renderBarcodeProduct(product);
+    stopBarcodeScanner();
+  }catch(e){
+    console.error(e);
+    result.innerHTML='<div class="np7-scan-status">⚠️ Impossible de contacter Open Food Facts. Vérifie ta connexion internet puis réessaie.</div>';
+  }
+}
+function renderBarcodeProduct(p){
+  const safeName=esc(p.name),safeBrand=esc(p.brand);
+  const img=p.image?'<img src="'+np7EscAttr(p.image)+'" alt="">':'';
+  const tags=[p.nutriscore?'Nutri-Score '+String(p.nutriscore).toUpperCase():'',p.nova?'NOVA '+p.nova:''].filter(Boolean).join(' • ');
+  document.getElementById('np7BarcodeResult').innerHTML=`<div class="card" style="margin-top:12px"><div class="np7-product">${img}<div><b>${safeName}</b>${safeBrand?'<div class="small">'+safeBrand+'</div>':''}<div class="small">Code : ${esc(p.barcode)}${p.quantity?' • '+esc(p.quantity):''}</div></div></div><div class="meta" style="margin-top:12px"><b>${Math.round(p.kcal)} kcal</b> / 100 g • P ${p.prot.toFixed(1)} g • G ${p.carbs.toFixed(1)} g • L ${p.fat.toFixed(1)} g<br>Sucres ${p.sugars.toFixed(1)} g • Fibres ${p.fiber.toFixed(1)} g • Sel ${p.salt.toFixed(2)} g${tags?'<br>'+esc(tags):''}</div><div class="form" style="margin-top:12px"><div class="field"><label>Quantité g</label><input id="np7ScanQty" type="number" value="100" min="1"></div></div><button class="btn primary" onclick="addScannedProduct()">+ Ajouter à mon repas</button>${p.ingredients?'<div class="small" style="margin-top:10px"><b>Ingrédients :</b> '+esc(p.ingredients)+'</div>':''}${p.allergens?'<div class="small" style="margin-top:6px"><b>Allergènes :</b> '+esc(p.allergens)+'</div>':''}</div>`;
+  window.np7LastScanned=p;
+}
+function addScannedProduct(){
+  const p=window.np7LastScanned;if(!p)return;
+  const q=Math.max(1,Number(document.getElementById('np7ScanQty').value)||100);
+  foods().push({name:p.name+(p.brand?' — '+p.brand:''),q,k:p.kcal*q/100,pr:p.prot*q/100,ca:p.carbs*q/100,f:p.fat*q/100,barcode:p.barcode,source:'Open Food Facts',brand:p.brand,sugars:p.sugars*q/100,fiber:p.fiber*q/100,salt:p.salt*q/100,ingredients:p.ingredients,allergens:p.allergens,nutriscore:p.nutriscore,nova:p.nova,image:p.image});
+  save();toast('Produit ajouté à ton repas');
+  document.getElementById('np7BarcodeResult').innerHTML='<div class="np7-scan-status">✅ Produit ajouté à ton repas.</div>';
+}
 </script>
 <script>
 let CIQUAL=[];
