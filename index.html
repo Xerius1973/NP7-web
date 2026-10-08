@@ -540,7 +540,7 @@ function restaurantDBMatches(text){
   const icons={
     "accueil":"⌂","home":"⌂","repas":"🍽️","meal":"🍽️","macros":"◉","macro":"◉",
     "poids":"⚖️","weight":"⚖️","historique":"↺","history":"↺","ia":"✨","ai":"✨",
-    "sport":"🏋️","seances":"🏋️","profil":"👤","parametres":"⚙️"
+    "sport":"🏋️","seances":"🏋️","profil":"👤","compte":"👤","account":"👤","parametres":"⚙️"
   };
   function clean(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();}
   function findTabs(){
@@ -557,6 +557,7 @@ function restaurantDBMatches(text){
   }
   function buildNav(){
     const nav=document.getElementById("np7BottomNav"); if(!nav)return;
+    nav.innerHTML="";
     const tabs=findTabs();
     const used=[];
     tabs.forEach(el=>{
