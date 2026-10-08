@@ -612,4 +612,19 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
  try{const raw=atob(base64),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0)),data=JSON.parse(new TextDecoder().decode(bytes));if(!Array.isArray(data))return;let added=0;S.wo=Array.isArray(S.wo)?S.wo:[];data.forEach(w=>{const id='healthkit:'+w.id;if(S.wo.some(x=>x.id===id))return;S.wo.unshift({id,date:(w.start||'').slice(0,10)||today(),type:String(w.type||'Sport').toLowerCase(),label:w.type||'Sport',min:Math.round((Number(w.duration)||0)/60),k:Math.max(0,Math.round(Number(w.calories)||0)),source:'Apple Santé / Apple Watch',intensity:1,distance:Number(w.distance)||0,start:w.start,end:w.end,importedAt:new Date().toISOString()});added++;});if(added)save();else render();if(added)toast('⌚ '+added+' séance'+(added>1?'s':'')+' importée'+(added>1?'s':'')+' depuis Apple Santé');}catch(e){console.error('NP7 HealthKit import',e)}
 };
 </script>
-</body></html>
+<script>
+(function(){
+  function cleanStrayCode(){
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    const bad=/genericRestaurantEstimate|let k=0,p=0,c=0,f=0,label|Pizza \(estimation\)|function genericRestaurant/i;
+    const remove=[];
+    while(walker.nextNode()){
+      const n=walker.currentNode;
+      if(bad.test(n.nodeValue||'')) remove.push(n);
+    }
+    remove.forEach(n=>n.remove());
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',cleanStrayCode);
+  else cleanStrayCode();
+})();
+</script></body></html>
