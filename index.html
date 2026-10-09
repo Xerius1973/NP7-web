@@ -94,6 +94,18 @@ input:focus,select:focus,textarea:focus{border-color:var(--np7-blue)!important;b
 
 /* Hide secondary writing/credits at the very bottom of pages */
 .app > p:last-child,.view > p:last-child,.view > .small:last-child,.view > .meta:last-child{display:none!important}
+
+/* NP7 scanner fix: keep the scanner fully inside the bottom bar */
+#np7BottomNav{box-sizing:border-box!important;height:68px!important;align-items:stretch!important;overflow:visible}
+#np7BottomNav .np7-scan-item{
+  box-sizing:border-box!important;flex:1 1 0!important;min-width:0!important;width:auto!important;
+  height:100%!important;max-height:100%!important;min-height:0!important;align-self:stretch!important;
+  margin:0!important;margin-top:0!important;padding:2px!important;border:0!important;
+  border-radius:16px!important;transform:none!important;position:relative!important;
+  box-shadow:none!important;
+}
+#np7BottomNav .np7-scan-item .ico{font-size:22px!important;line-height:1!important}
+#np7BottomNav .np7-scan-item:active{transform:scale(.97)!important}
 </style>
 <script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
 </head><body><div class="app"><header><span class="tag">PERSONAL</span><div class="brand">NP7</div><h1>Calories, macros & sport</h1><div class="sub">Version autonome — aucun crédit OpenAI nécessaire</div></header><nav class="tabs"><button class="tab active" data-v="home">Accueil</button><button class="tab" data-v="meals">Repas</button><button class="tab" data-v="sport">Sport</button><button class="tab" data-v="weight">Poids</button><button class="tab" data-v="account">👤 Compte</button></nav>
