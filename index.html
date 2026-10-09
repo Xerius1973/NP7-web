@@ -27,6 +27,15 @@ button:active,.btn:active,.tab:active{transform:scale(.95)}
 }
 #np7BottomNav .np7-nav-item .ico{font-size:22px;line-height:1}
 #np7BottomNav .np7-nav-item.active{color:var(--np7-blue);background:rgba(22,119,255,.09)}
+#np7BottomNav .np7-scan-item{
+ flex:1.35;align-self:center;height:78px;margin-top:-22px;border:3px solid #fff;
+ border-radius:24px;background:linear-gradient(145deg,#ffe56b,#ffd43b);color:#10233f;
+ box-shadow:0 8px 22px rgba(255,190,0,.38);font-size:11px;font-weight:900;gap:4px;
+}
+#np7BottomNav .np7-scan-item .ico{font-size:31px;line-height:1}
+#np7BottomNav .np7-scan-item.active{background:linear-gradient(145deg,#ffe56b,#ffd43b);color:#10233f}
+#np7BottomNav .np7-scan-item.active:after{display:none}
+
 #np7BottomNav .np7-nav-item.active:after{
  content:"";position:absolute;bottom:4px;width:5px;height:5px;border-radius:50%;background:var(--np7-yellow)
 }
@@ -575,6 +584,20 @@ function restaurantDBMatches(text){
       nav.appendChild(b);
       el.style.display="none";
     });
+    // Bouton Scanner central, plus grand que les autres onglets.
+    const scan=document.createElement("button");
+    scan.className="np7-nav-item np7-scan-item";
+    scan.dataset.label="Scanner";
+    scan.type="button";
+    scan.innerHTML='<span class="ico">📷</span><span>SCANNER</span>';
+    scan.addEventListener("click",()=>{
+      if(typeof window.view==="function") window.view("meals");
+      else document.querySelector('[data-v="meals"]')?.click();
+      setTimeout(()=>{if(typeof window.openBarcodeScanner==="function")window.openBarcodeScanner();},180);
+      nav.querySelectorAll(".np7-nav-item").forEach(b=>b.classList.toggle("active",b===scan));
+    });
+    const middle=Math.floor(nav.children.length/2);
+    nav.insertBefore(scan,nav.children[middle]||null);
     if(!nav.children.length){
       nav.style.display="none";
       document.body.style.paddingBottom="20px";
