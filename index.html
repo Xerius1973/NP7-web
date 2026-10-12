@@ -1231,6 +1231,7 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
  }
  async function saveCloud(data){
    if(!client||!user||loadingCloud)return;
+   try{localStorage.setItem('NP7V4_user_'+user.id,JSON.stringify(data));}catch(e){}
    clearTimeout(syncTimer);
    syncTimer=setTimeout(async()=>{
      try{
@@ -1256,19 +1257,29 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
      const {data:row,error}=await client.from('np7_user_data').select('data,updated_at').eq('user_id',u.id).maybeSingle();
      if(error)throw error;
      const local=JSON.parse(localStorage.getItem('NP7V4')||'null')||{};
+     const userLocal=JSON.parse(localStorage.getItem('NP7V4_user_'+u.id)||'null');
+     const claimed=localStorage.getItem('NP7V4_claimed_user');
+     let activeData;
      if(row&&row.data){
-       const merged=mergeData(local,row.data);
-       localStorage.setItem('NP7V4',JSON.stringify(merged));
-       // S is a top-level lexical binding from the main NP7 script.
-       if(typeof S!=='undefined'){Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,merged);if(typeof render==='function')render();}
-       loadingCloud=false;
-       await saveCloud(merged);
-       syncStatus('Données chargées et synchronisées.');
+       // Never merge a generic local cache into an existing account: it may belong to a different user on this device.
+       activeData=row.data;
+     }else if(userLocal){
+       activeData=userLocal;
+     }else if(!claimed||claimed===u.id){
+       // Migrate anonymous data only for the first account that claims this browser.
+       activeData=local;
+       localStorage.setItem('NP7V4_claimed_user',u.id);
      }else{
-       loadingCloud=false;
-       await saveCloud(typeof S!=='undefined'?S:local);
-       syncStatus('Première sauvegarde cloud effectuée.');
+       activeData={p:{w:75,h:175,a:22,sex:'male',act:1.55,goal:'cut',k:2400,pr:160,ca:275,f:80},d:{},wo:[],wh:[],custom:{}};
      }
+     localStorage.setItem('NP7V4',JSON.stringify(activeData));
+     localStorage.setItem('NP7V4_user_'+u.id,JSON.stringify(activeData));
+     localStorage.setItem('NP7V4_claimed_user',u.id);
+     if(typeof S!=='undefined'){Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,activeData);if(typeof render==='function')render();}
+     loadingCloud=false;
+     if(row&&row.data){syncStatus('Données de ton compte chargées.');}
+     await saveCloud(activeData);
+     if(!row)syncStatus('Première sauvegarde cloud effectuée.');
    }catch(e){
      loadingCloud=false;
      syncStatus('Connexion active, mais sauvegarde non configurée. Exécute le SQL fourni dans le chat. ('+(e.message||'erreur')+')',true);
@@ -1297,7 +1308,9 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
    if(!client)return;
    const {error}=await client.auth.signOut();
    if(error){status(error.message,true);return}
-   paintSession(null);status('Déconnexion réussie. Les données locales de cet appareil sont conservées.',false);
+   localStorage.removeItem('NP7V4');localStorage.setItem('NP7V4',JSON.stringify({p:{w:75,h:175,a:22,sex:'male',act:1.55,goal:'cut',k:2400,pr:160,ca:275,f:80},d:{},wo:[],wh:[],custom:{}}));
+   if(typeof S!=='undefined'){Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,JSON.parse(localStorage.getItem('NP7V4')));if(typeof render==='function')render();}
+   paintSession(null);status('Déconnexion réussie. Les données de ce compte restent séparées sur cet appareil.',false);
  };
  window.np7ResetPassword=async function(){
    if(!client){status('Le service de connexion ne se charge pas. Recharge la page.',true);return}
