@@ -1167,4 +1167,39 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
  window.addEventListener('load',setup);
 })();
 </script>
+
+<script id="np7-calorie-navigation-hard-fix">
+(function(){
+ function openCaloriePage(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  const target=document.getElementById('calories');
+  if(!target)return;
+  document.querySelectorAll('.view').forEach(el=>{el.classList.remove('active');el.style.display='none';});
+  target.classList.add('active');
+  target.style.display='block';
+  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
+  const calTab=document.querySelector('[data-v="calories"]');
+  if(calTab)calTab.classList.add('active');
+  if(typeof window.np7RefreshCalorieChart==='function')window.np7RefreshCalorieChart();
+  window.scrollTo({top:0,behavior:'smooth'});
+ }
+ function setup(){
+  const old=document.getElementById('np7OpenCalorieChart');
+  if(old){
+   const btn=old.cloneNode(true);
+   old.replaceWith(btn);
+   btn.type='button';
+   btn.onclick=openCaloriePage;
+   btn.addEventListener('click',openCaloriePage);
+  }
+  const card=document.querySelector('#home>.grid:first-child>.card:first-child');
+  if(card){card.onclick=openCaloriePage;card.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){openCaloriePage(e)}}}
+  const back=document.querySelector('#calories .np7-cal-page-head button');
+  if(back){back.onclick=function(e){if(e){e.preventDefault();e.stopPropagation();}document.querySelectorAll('.view').forEach(el=>{el.classList.remove('active');el.style.display='none'});const home=document.getElementById('home');if(home){home.classList.add('active');home.style.display='block'}window.scrollTo({top:0,behavior:'smooth'});};}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+ window.addEventListener('load',setup);
+ setTimeout(setup,300);setTimeout(setup,1000);
+})();
+</script>
 </body></html>
