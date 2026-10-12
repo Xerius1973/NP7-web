@@ -692,4 +692,23 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
  };
  window.addEventListener('load',loadAccountProfile);
 })();
-</script></body></html>
+</script>
+<script id="np7-remove-emojis-runtime">
+(function(){
+  const emojiPattern = /(?:\p{Extended_Pictographic}(?:\uFE0F|\uFE0E)?(?:\u200D\p{Extended_Pictographic}(?:\uFE0F|\uFE0E)?)*)|(?:\p{Regional_Indicator}{2})|[\u{1F3FB}-\u{1F3FF}\uFE0F\uFE0E\u20E3]/gu;
+  function cleanText(node){
+    if(node.nodeType===Node.TEXT_NODE){
+      const next=node.nodeValue.replace(emojiPattern,"");
+      if(next!==node.nodeValue) node.nodeValue=next;
+      return;
+    }
+    if(node.nodeType!==Node.ELEMENT_NODE) return;
+    if(/^(SCRIPT|STYLE|TEXTAREA|INPUT)$/i.test(node.tagName)) return;
+    for(const child of [...node.childNodes]) cleanText(child);
+  }
+  function clean(){cleanText(document.body);}
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",clean,{once:true}); else clean();
+  new MutationObserver(()=>clean()).observe(document.documentElement,{subtree:true,childList:true,characterData:true});
+})();
+</script>
+</body></html>
