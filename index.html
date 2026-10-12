@@ -149,7 +149,79 @@ body .bot{background:#172d49!important;color:#edf4ff!important}
 #np7BottomNav .np7-nav-item{color:#a8b8d0!important}
 #np7BottomNav .np7-nav-item.active{background:rgba(22,119,255,.2)!important;color:#fff!important}
 #np7Splash{background:linear-gradient(145deg,#06101f,#0b2d56 70%,#1677ff)!important}
-</style></head><body><div class="app"><header><span class="tag">PERSONAL</span><div class="brand">NP7</div><h1>Calories, macros & sport</h1><div class="sub">Version autonome — aucun crédit OpenAI nécessaire</div></header><nav class="tabs"><button class="tab active" data-v="home">Accueil</button><button class="tab" data-v="meals">Repas</button><button class="tab" data-v="sport">Sport</button><button class="tab" data-v="weight">Poids</button><button class="tab" data-v="account">👤 Compte</button></nav>
+</style>
+<style id="np7-premium-sport-redesign">
+/* NP7 PREMIUM SPORT — presentation only, no application logic changed */
+:root{--np7-blue:#1677ff;--np7-blue-deep:#0b4fd8;--np7-yellow:#ffd43b;--np7-bg:#071426;--np7-card:#10223a;--np7-line:#203653;--np7-text:#edf4ff;--np7-muted:#9fb2cc;--np7-radius:22px}
+html{background:var(--np7-bg)!important}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;letter-spacing:.05px;background:radial-gradient(ellipse at 50% -15%,rgba(22,119,255,.18),transparent 48%),var(--np7-bg)!important;color:var(--np7-text)!important;-webkit-font-smoothing:antialiased}
+.app{max-width:1120px!important;padding:18px 16px 118px!important}
+header{position:relative;isolation:isolate;overflow:hidden;margin:0 0 20px!important;padding:26px 24px!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:26px!important;background:linear-gradient(125deg,#0c2d56 0%,#0b4fd8 72%,#1677ff 100%)!important;box-shadow:0 18px 50px rgba(0,0,0,.24)!important}
+header:after{content:"";position:absolute;z-index:-1;width:230px;height:230px;right:-75px;top:-105px;border:1px solid rgba(255,255,255,.15);border-radius:50%;box-shadow:0 0 0 26px rgba(255,255,255,.035),0 0 0 54px rgba(255,255,255,.025)}
+.brand{font-size:34px!important;letter-spacing:3px!important;font-weight:950!important}
+header h1{font-size:clamp(23px,3vw,32px)!important;letter-spacing:-.8px!important;line-height:1.15!important;margin:19px 0 8px!important}
+header .sub{font-size:13px!important;color:rgba(255,255,255,.82)!important}
+.tag{background:var(--np7-yellow)!important;color:#14243a!important;letter-spacing:.7px!important;padding:7px 11px!important}
+.tabs{gap:8px!important;margin:0 0 18px!important;padding:3px 1px 8px!important;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs .tab{border:1px solid #29415f!important;background:#10223a!important;color:#c4d2e5!important;border-radius:14px!important;padding:11px 16px!important;font-size:13px!important;font-weight:800!important;box-shadow:none!important}
+.tabs .tab.active,.tabs .tab[aria-selected=true]{background:var(--np7-blue)!important;border-color:var(--np7-blue)!important;color:white!important;box-shadow:0 7px 18px rgba(22,119,255,.22)!important}
+.view{animation:np7PremiumEnter .28s ease both}
+@keyframes np7PremiumEnter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:none}}
+.grid,.grid2,.cards,.form{gap:12px!important}
+.grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.grid2{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.card,.panel,.box,.meal,.stat,.hero,.section-card,.macro{background:linear-gradient(155deg,rgba(18,39,65,.98),rgba(13,30,51,.98))!important;border:1px solid rgba(143,177,219,.14)!important;border-radius:22px!important;padding:18px!important;box-shadow:0 10px 28px rgba(0,0,0,.13)!important;color:var(--np7-text)!important}
+.view>.card{margin-bottom:14px!important}
+.card h3,.panel h3,.section-card h3{font-size:16px!important;font-weight:850!important;letter-spacing:-.25px!important;margin-top:0!important;margin-bottom:14px!important}
+#home .grid>.card{min-height:138px!important;position:relative;overflow:hidden}
+#home .grid>.card:after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--np7-blue),rgba(22,119,255,0)) ;opacity:.8}
+.label{font-size:11px!important;letter-spacing:.65px!important;text-transform:uppercase!important;color:#9fb2cc!important}
+.big{font-size:clamp(25px,3vw,32px)!important;font-weight:900!important;letter-spacing:-1px!important;margin:9px 0 5px!important;font-variant-numeric:tabular-nums}
+.small,.meta{font-size:12px!important;line-height:1.55!important;color:var(--np7-muted)!important}
+.progress{height:7px!important;background:#243b58!important;border-radius:99px!important;margin-top:12px!important}
+.progress i{background:linear-gradient(90deg,#0b63ce,#39a0ff)!important;border-radius:99px!important;transition:width .4s ease!important}
+.macro{padding:13px!important;border-radius:15px!important;background:rgba(5,19,35,.45)!important}
+.macro b{font-size:18px!important;color:#fff!important}
+.field label{font-size:11px!important;letter-spacing:.4px!important;text-transform:uppercase!important;color:#a8b8d0!important}
+input,select,textarea,.field input,.field select,.field textarea{min-height:43px;border:1px solid #29415f!important;border-radius:13px!important;background:#091a2e!important;color:#edf4ff!important;padding:11px 12px!important;outline:none!important}
+textarea{min-height:108px!important;resize:vertical}
+input:focus,select:focus,textarea:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:#1677ff!important;box-shadow:0 0 0 3px rgba(22,119,255,.16)!important}
+input::placeholder,textarea::placeholder{color:#758ba8!important}
+.btn,button.btn{border-radius:13px!important;padding:11px 15px!important;font-size:13px!important;font-weight:850!important;letter-spacing:.05px!important;box-shadow:none!important}
+.btn.primary{background:linear-gradient(135deg,#1677ff,#0b55d4)!important;color:#fff!important;box-shadow:0 7px 18px rgba(22,119,255,.18)!important}
+.btn.yellow{background:linear-gradient(135deg,#ffe36a,#ffd43b)!important;color:#17263a!important;box-shadow:0 7px 16px rgba(255,212,59,.1)!important}
+.btn.ghost{background:#1a304b!important;color:#e7effa!important;border:1px solid #29415f!important}
+.btn.danger{background:rgba(230,70,70,.13)!important;color:#ffaaaa!important;border:1px solid rgba(230,70,70,.24)!important}
+button,.btn,.tab{transition:transform .16s ease,filter .16s ease,box-shadow .16s ease!important}
+button:hover,.btn:hover,.tab:hover{filter:brightness(1.07)}
+button:active,.btn:active,.tab:active{transform:scale(.98)!important}
+.row{gap:10px!important}
+.food{align-items:center!important;padding:13px 0!important;border-bottom:1px solid rgba(143,177,219,.13)!important}
+.food b,.food strong{font-weight:800!important}
+.food .btn{margin-top:0!important}
+.bubble{border-radius:16px!important;padding:12px 14px!important}
+.bubble.me{background:linear-gradient(135deg,#1677ff,#0b55d4)!important}
+.bubble.bot{background:#172d49!important;border:1px solid #29415f!important;color:#edf4ff!important}
+.empty{padding:28px 18px!important;color:#91a6c2!important}
+.toast{background:#f0f6ff!important;color:#10223a!important;box-shadow:0 10px 35px rgba(0,0,0,.3)!important;border-radius:14px!important;font-weight:750!important}
+#np7Scanner .np7-scan-status{background:#172d49!important;color:#e7effa!important;border:1px solid #29415f!important;border-radius:14px!important}
+#np7Scanner .np7-scan-frame,#np7ScanVideo{border-radius:18px!important}
+#np7BottomNav{background:rgba(10,26,45,.94)!important;border:1px solid rgba(143,177,219,.2)!important;box-shadow:0 14px 40px rgba(0,0,0,.4)!important}
+#np7BottomNav .np7-nav-item{border-radius:17px!important;font-size:10px!important;letter-spacing:.05px!important}
+#np7BottomNav .np7-nav-item .ico{font-size:21px!important}
+#np7BottomNav .np7-nav-item.active{background:rgba(22,119,255,.18)!important;color:#fff!important}
+#np7BottomNav .np7-nav-item.active:after{background:var(--np7-yellow)!important}
+#np7BottomNav .np7-scan-item{background:linear-gradient(145deg,#ffe56b,#ffd43b)!important;color:#10233f!important;border-radius:16px!important}
+#np7Splash{background:radial-gradient(circle at 50% 35%,#1455a0 0%,#071426 70%)!important}
+#np7Splash .logo{font-size:68px!important;letter-spacing:-3px!important;text-shadow:0 8px 35px rgba(22,119,255,.35)}
+#np7GoalMsg{background:#10223a!important;color:#edf4ff!important;border:1px solid #29415f!important}
+@media(min-width:900px){.app{padding-top:24px!important}.grid2>.card{min-height:155px}.view>.card{padding:22px!important}}
+@media(max-width:750px){.app{padding:12px 12px 112px!important}.grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.grid2{grid-template-columns:1fr!important}.cards{grid-template-columns:repeat(3,minmax(0,1fr))!important}.card,.panel,.box,.meal,.stat,.hero,.section-card{padding:15px!important;border-radius:19px!important}header{padding:22px 19px!important;border-radius:22px!important}.brand{font-size:31px!important}#home .grid>.card{min-height:128px!important}}
+@media(max-width:420px){.app{padding-left:10px!important;padding-right:10px!important}.grid,.grid2,.form{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}.grid2>.card{min-width:0}.form .wide{grid-column:1/-1}.cards{gap:6px!important}.macro{padding:10px 8px!important}.macro b{font-size:16px!important}.big{font-size:25px!important}.card h3{font-size:15px!important}#np7BottomNav{left:7px!important;right:7px!important;bottom:7px!important}.tabs .tab{padding:10px 12px!important}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+</head><body><div class="app"><header><span class="tag">PERSONAL</span><div class="brand">NP7</div><h1>Calories, macros & sport</h1><div class="sub">Version autonome — aucun crédit OpenAI nécessaire</div></header><nav class="tabs"><button class="tab active" data-v="home">Accueil</button><button class="tab" data-v="meals">Repas</button><button class="tab" data-v="sport">Sport</button><button class="tab" data-v="weight">Poids</button><button class="tab" data-v="account">👤 Compte</button></nav>
 <section id="home" class="view active"><div class="grid"><div class="card"><div class="label">Calories</div><div class="big" id="k">0</div><div class="small" id="kl">0 restantes</div><div class="progress"><i id="kb"></i></div></div><div class="card"><div class="label">Protéines</div><div class="big" id="p">0 g</div><div class="small" id="pl">0 g restantes</div><div class="progress"><i id="pb"></i></div></div><div class="card"><div class="label">Glucides</div><div class="big" id="c">0 g</div><div class="small" id="cl">0 g restantes</div><div class="progress"><i id="cb"></i></div></div><div class="card"><div class="label">Lipides</div><div class="big" id="f">0 g</div><div class="small" id="fl">0 g restantes</div><div class="progress"><i id="fb"></i></div></div></div><div class="grid2"><div class="card"><h3>🎯 Objectif</h3><div class="cards"><div class="macro"><span class="label">Cible</span><br><b id="tk">2400</b> kcal</div><div class="macro"><span class="label">Sport</span><br><b id="sk">0</b> kcal</div><div class="macro"><span class="label">Net</span><br><b id="nk">0</b> kcal</div></div></div><div class="card"><h3>⚡ Rapide</h3><button class="btn primary" onclick="view('ai')">🤖 Décrire mon repas</button> <button class="btn yellow" onclick="view('sport')">🏋️ Séance</button><button id="np7ScannerHomeBtn" class="btn yellow" type="button" onclick="view('meals');setTimeout(function(){openBarcodeScanner()},150)">📷 SCANNER UN CODE-BARRES</button></div></div><div class="card"><div class="row"><h3>🍽️ Aujourd’hui</h3><span id="count" class="small"></span></div><div id="homeFoods"></div></div></section>
 <section id="meals" class="view"><div class="card"><h3>📷 Scanner un produit</h3><p class="small">Scanne le code-barres d’un produit pour récupérer automatiquement ses informations nutritionnelles.</p><button class="btn primary" onclick="openBarcodeScanner()">📷 Ouvrir le scanner</button><div id="np7Scanner"><div class="np7-scan-frame"><video id="np7ScanVideo" playsinline muted></video></div><div id="np7ScanStatus" class="np7-scan-status">Autorise l’accès à la caméra puis place le code-barres dans le cadre.</div><div class="row" style="margin-top:10px"><button class="btn ghost" onclick="stopBarcodeScanner()">Fermer la caméra</button></div><div class="form" style="margin-top:12px"><div class="field wide"><label>Code-barres</label><input id="np7BarcodeManual" inputmode="numeric" placeholder="Ex. 3017620422003"></div></div><button class="btn yellow" onclick="lookupBarcodeManual()">Rechercher ce code</button><div id="np7BarcodeResult"></div></div></div><div class="card"><h3>🥑 Ajouter sans peser</h3><p class="small">Choisis un aliment et une portion habituelle. NP7 estime automatiquement son poids et ses nutriments.</p><div class="form"><div class="field wide"><label>Rechercher un aliment</label><input id="np7FoodSearch" list="np7FoodSuggestions" placeholder="Ex. avocat, pâtes, tomate, poulet…" autocomplete="off" oninput="updateFoodSearch()" onchange="updateFoodSearch()"><datalist id="np7FoodSuggestions"></datalist><select id="np7PortionFood" onchange="updatePortionOptions()" aria-label="Aliment correspondant" style="margin-top:8px"></select><p class="small" id="np7FoodSearchHint">Tape le nom de n’importe quel aliment de la base, puis sélectionne le résultat.</p></div><div class="field wide"><label>Portion</label><select id="np7PortionSize"></select></div></div><button class="btn primary" onclick="addPortionFood()">+ Ajouter la portion</button><p class="small">Les poids sont des estimations moyennes, sans balance.</p></div></div><div class="card"><div class="row"><h3>Journée</h3><button class="btn danger" onclick="clearDay()">Réinitialiser</button></div><div id="foods"></div></div></section>
 <section id="sport" class="view"><div class="card"><h3>🤖 IA Sport NP7</h3><p class="small">Décris simplement ta séance. Exemple : <b>« J’ai nagé 45 minutes »</b>, <b>« 1h de muscu intense »</b>, <b>« j’ai couru 30 min »</b>. NP7 reconnaît le sport, la durée et l’intensité puis estime les calories.</p><textarea id="sportAi" placeholder="Ex : J’ai nagé 45 minutes à intensité modérée..."></textarea><button class="btn primary" onclick="analyzeSportAI()">🤖 Analyser ma séance</button><div id="sportAiResult" style="margin-top:12px"></div></div><div class="card"><h3>🏋️ Ajouter une séance</h3><div class="form"><div class="field wide"><label>Sport</label><select id="st"><option value="muscu">Musculation</option><option value="running">Course</option><option value="walking">Marche</option><option value="cycling">Vélo</option><option value="football">Football</option><option value="combat">JJB / combat</option><option value="swimming">Natation</option><option value="basketball">Basketball</option><option value="tennis">Tennis</option><option value="badminton">Badminton</option><option value="rugby">Rugby</option><option value="boxing">Boxe</option><option value="kickboxing">Kick-boxing</option><option value="judo">Judo</option><option value="mma">MMA</option><option value="crossfit">CrossFit</option><option value="hiit">HIIT</option><option value="hiking">Randonnée</option><option value="dance">Danse</option><option value="yoga">Yoga</option><option value="jump_rope">Corde à sauter</option></select></div><div class="field"><label>Durée min</label><input id="sm" type="number" value="60"></div><div class="field"><label>Intensité</label><select id="si"><option value=".85">Légère</option><option value="1" selected>Modérée</option><option value="1.15">Intense</option></select></div></div><p class="small">Estimation basée sur ton poids et une intensité choisie. Ce n’est pas une mesure de montre.</p><button class="btn primary" onclick="workout()">Ajouter</button></div><div class="card"><h3>Historique sport</h3><div id="works"></div></div></section>
