@@ -712,4 +712,40 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
   new MutationObserver(()=>clean()).observe(document.documentElement,{subtree:true,childList:true,characterData:true});
 })();
 </script>
+
+<script id="np7-force-nav-icons">
+(function(){
+ function install(){
+  const nav=document.getElementById("np7BottomNav");
+  if(!nav)return;
+  const defs=[
+   ["home","🏠","Accueil"],["meals","🍽️","Repas"],["sport","🏋️","Sport"],["weight","⚖️","Poids"],["account","👤","Compte"]
+  ];
+  nav.innerHTML="";
+  defs.forEach(([id,emoji,label])=>{
+   const target=document.querySelector('.tabs .tab[data-v="'+id+'"]');
+   if(!target)return;
+   const b=document.createElement("button");
+   b.type="button";b.className="np7-nav-item";b.dataset.label=label;
+   b.innerHTML='<span class="ico">'+emoji+'</span><span>'+label+'</span>';
+   b.addEventListener("click",()=>target.click());
+   nav.appendChild(b);
+   target.style.display="none";
+  });
+  const scan=document.createElement("button");
+  scan.type="button";scan.className="np7-nav-item np7-scan-item";
+  scan.innerHTML='<span class="ico">📷</span><span>Scanner</span>';
+  scan.addEventListener("click",()=>{
+   const meals=document.querySelector('.tabs .tab[data-v="meals"]');
+   if(meals)meals.click();
+   setTimeout(()=>{if(typeof openBarcodeScanner==="function")openBarcodeScanner();},220);
+  });
+  if(nav.children.length>=2)nav.insertBefore(scan,nav.children[2]);else nav.appendChild(scan);
+  nav.style.display="flex";
+ }
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>setTimeout(install,100),{once:true});
+ else setTimeout(install,100);
+ window.addEventListener("load",()=>setTimeout(install,250));
+})();
+</script>
 </body></html>
