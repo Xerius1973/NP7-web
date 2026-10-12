@@ -12,6 +12,31 @@ body{padding-bottom:92px!important}
 button,.btn,a,.tab,[role="button"]{transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease,background .18s ease}
 button:active,.btn:active,.tab:active{transform:scale(.95)}
 .card,.panel,.box,.food,.meal,.stat,.hero,.section-card{border-radius:20px!important;box-shadow:var(--np7-shadow);border:1px solid rgba(22,119,255,.06)}
+/* Restore fixed bottom navigation */
+#np7BottomNav{
+ position:fixed!important;left:12px!important;right:12px!important;bottom:12px!important;z-index:9999!important;
+ height:68px!important;background:rgba(12,29,50,.97)!important;
+ backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important;
+ border:1px solid #29415f!important;border-radius:24px!important;
+ box-shadow:0 12px 35px rgba(0,0,0,.28)!important;
+ display:flex!important;align-items:stretch!important;justify-content:space-around!important;padding:6px!important;
+}
+#np7BottomNav .np7-nav-item{
+ flex:1!important;border:0!important;background:transparent!important;color:#a8b8d0!important;
+ border-radius:18px!important;display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:center!important;gap:3px!important;font-size:10px!important;font-weight:700!important;cursor:pointer!important;
+}
+#np7BottomNav .np7-nav-item .ico{font-size:22px!important;line-height:1!important}
+#np7BottomNav .np7-nav-item.active{color:#ffd43b!important;background:rgba(255,212,59,.10)!important}
+#np7BottomNav .np7-scan-item{
+ flex:1!important;min-width:0!important;height:100%!important;align-self:stretch!important;margin:0!important;
+ border:0!important;border-radius:16px!important;background:linear-gradient(145deg,#ffe56b,#ffd43b)!important;
+ color:#10233f!important;display:flex!important;flex-direction:column!important;align-items:center!important;
+ justify-content:center!important;gap:3px!important;font-size:9px!important;font-weight:950!important;cursor:pointer!important;padding:2px!important;
+}
+#np7BottomNav .np7-scan-item .ico{font-size:22px!important;line-height:1!important}
+#np7BottomNav .np7-scan-item.active:after{display:none!important}
+body{padding-bottom:104px!important}
 /* Bottom navigation */
 #np7BottomNav{
  position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;
