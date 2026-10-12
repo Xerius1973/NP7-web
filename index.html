@@ -749,4 +749,22 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
   };
   window.addEventListener('load',loadAccountProfile);
 })();
-</script></body></html>
+</script>
+<script id="np7-clean-home-dashboard-emojis">
+(function(){
+  function cleanHome(){
+    const home=document.getElementById("home");
+    if(!home)return;
+    const re=/(?:\p{Extended_Pictographic}(?:\uFE0F|\uFE0E)?(?:\u200D\p{Extended_Pictographic}(?:\uFE0F|\uFE0E)?)*)|(?:\p{Regional_Indicator}{2})|[\u{1F3FB}-\u{1F3FF}\uFE0F\uFE0E\u20E3]/gu;
+    const walk=node=>{
+      if(node.nodeType===Node.TEXT_NODE){node.nodeValue=node.nodeValue.replace(re,"");return;}
+      if(node.nodeType!==Node.ELEMENT_NODE || /^(SCRIPT|STYLE)$/i.test(node.tagName))return;
+      [...node.childNodes].forEach(walk);
+    };
+    walk(home);
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",cleanHome,{once:true});else cleanHome();
+  new MutationObserver(cleanHome).observe(document.documentElement,{subtree:true,childList:true,characterData:true});
+})();
+</script>
+</body></html>
