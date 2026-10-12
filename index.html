@@ -568,9 +568,9 @@ function restaurantDBMatches(text){
 </script><div id="np7Splash"><div><div class="logo">NP7</div><div class="sub">Nutrition • Sport • Progression</div></div></div><div id="np7GoalFx"></div><nav id="np7BottomNav" aria-label="Navigation principale"></nav><script id="np7-v15-script">
 (function(){
  const icons={
- "accueil":"⌂","home":"⌂","repas":"","meal":"","macros":"◉","macro":"◉",
- "poids":"","weight":"",
- "sport":"","seances":"","profil":"","compte":"","account":"","parametres":""
+ "accueil":"🏠","home":"🏠","repas":"🍽️","meal":"🍽️","macros":"📊","macro":"📊",
+ "poids":"⚖️","weight":"⚖️",
+ "sport":"🏋️","seances":"🏋️","profil":"👤","compte":"👤","account":"👤","parametres":"⚙️"
  };
  function clean(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();}
  function findTabs(){
@@ -609,7 +609,7 @@ function restaurantDBMatches(text){
  const scan=document.createElement("button");
  scan.type="button"; scan.className="np7-nav-item np7-scan-item";
  scan.setAttribute("aria-label","Scanner un code-barres");
- scan.innerHTML='<span class="ico"></span><span>SCANNER</span>';
+ scan.innerHTML='<span class="ico">📷</span><span>SCANNER</span>';
  scan.addEventListener("click",()=>{
  const mealTab=tabs.find(el=>clean(el.innerText||el.textContent).includes("repas"));
  if(mealTab)mealTab.click();
@@ -703,6 +703,7 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
       return;
     }
     if(node.nodeType!==Node.ELEMENT_NODE) return;
+    if(node.id==="np7BottomNav") return;
     if(/^(SCRIPT|STYLE|TEXTAREA|INPUT)$/i.test(node.tagName)) return;
     for(const child of [...node.childNodes]) cleanText(child);
   }
