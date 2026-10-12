@@ -1078,4 +1078,42 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
  snapshot();
 })();
 </script>
+
+<style id="np7-calorie-click-fix">
+#home>.grid:first-child>.card:first-child{cursor:pointer!important;position:relative!important}
+#np7OpenCalorieChart{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;margin-top:12px!important;padding:9px 13px!important;border:0!important;border-radius:10px!important;background:#ad7bff!important;color:#171020!important;font-weight:800!important;font-size:12px!important;cursor:pointer!important;position:relative!important;z-index:5!important;pointer-events:auto!important}
+#np7OpenCalorieChart:focus-visible{outline:3px solid #fff!important;outline-offset:3px!important}
+</style>
+<script id="np7-calorie-click-fix-script">
+(function(){
+ function setup(){
+  const home=document.getElementById('home');
+  const card=home&&home.querySelector(':scope > .grid:first-child > .card:first-child');
+  if(!card)return;
+  if(!document.getElementById('np7OpenCalorieChart')){
+   const b=document.createElement('button');b.id='np7OpenCalorieChart';b.type='button';b.textContent='⌁ Voir le graphique';
+   b.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();
+    const panel=document.getElementById('np7CalorieChart');
+    if(panel){panel.hidden=false;panel.style.display='block';panel.scrollIntoView({behavior:'smooth',block:'nearest'});return;}
+    const k=document.getElementById('k'),sk=document.getElementById('sk');
+    const food=Math.round(parseFloat((k?.textContent||'0').replace(',','.'))||0);
+    const burn=Math.round(parseFloat((sk?.textContent||'0').replace(',','.'))||0);
+    const p=document.createElement('div');p.id='np7CalorieChart';p.className='card';p.style.cssText='margin:14px 0;padding:20px;border-radius:20px;background:#121320;color:#f5f3ff;border:1px solid #302b43';
+    p.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><h3>Évolution des calories</h3><button type="button" id="np7CloseFallback" class="btn ghost">Fermer</button></div><p>Consommées : <b style="color:#ad7bff">'+food+' kcal</b> · Brûlées par le sport : <b style="color:#34c58a">'+burn+' kcal</b> · Solde : <b>'+(food-burn)+' kcal</b></p><svg viewBox="0 0 600 190" style="width:100%;background:#0c0d17;border-radius:14px"><path d="M35 150 H565 M35 100 H565 M35 50 H565" stroke="#29283a" fill="none"/><path d="M35 150 Q170 145 300 95 T565 45" stroke="#ad7bff" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M35 160 Q170 158 300 145 T565 125" stroke="#34c58a" stroke-width="4" fill="none" stroke-linecap="round"/><text x="40" y="25" fill="#aaa3ba" font-size="12">Consommées</text><text x="160" y="25" fill="#ad7bff" font-size="12">—</text><text x="205" y="25" fill="#aaa3ba" font-size="12">Brûlées</text><text x="280" y="25" fill="#34c58a" font-size="12">—</text></svg><p style="color:#aaa3ba;font-size:12px">Les valeurs se mettront à jour lorsque tu ajoutes un repas ou une séance.</p>';
+    card.parentElement.insertAdjacentElement('afterend',p);
+    document.getElementById('np7CloseFallback').addEventListener('click',()=>p.remove());
+    p.scrollIntoView({behavior:'smooth',block:'nearest'});
+   });
+   const progress=card.querySelector('.progress');
+   if(progress)progress.insertAdjacentElement('afterend',b);else card.appendChild(b);
+  }
+  card.setAttribute('aria-label','Calories — cliquer sur Voir le graphique');
+  card.style.cursor='pointer';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+ window.addEventListener('load',setup);
+ setTimeout(setup,500);setTimeout(setup,1500);
+})();
+</script>
 </body></html>
