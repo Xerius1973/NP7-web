@@ -997,4 +997,85 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
   };
   window.addEventListener('load',loadAccountProfile);
 })();
-</script></body></html>
+</script>
+<script id="np7-live-calorie-chart">
+(function(){
+ const home=document.getElementById('home');
+ if(!home || document.getElementById('np7CalorieChart')) return;
+ const grid=home.querySelector(':scope > .grid');
+ const calorieCard=grid&&grid.querySelector('.card');
+ if(!grid||!calorieCard)return;
+ calorieCard.classList.add('np7-calorie-clickable');
+ calorieCard.setAttribute('role','button');
+ calorieCard.setAttribute('tabindex','0');
+ calorieCard.setAttribute('aria-label','Afficher le graphique des calories consommées et brûlées');
+ calorieCard.title='Cliquer pour afficher le suivi des calories en temps réel';
+ const panel=document.createElement('div');
+ panel.id='np7CalorieChart';
+ panel.className='card np7-calorie-chart';
+ panel.hidden=true;
+ panel.innerHTML='<div class="np7-chart-head"><div><h3>Évolution des calories</h3><p class="small">Suivi en temps réel de ta journée</p></div><button type="button" class="btn ghost" id="np7CloseCalChart">Fermer</button></div><div class="np7-chart-stats"><div><span class="np7-dot purple"></span><span>Consommées</span><b id="np7ChartIn">0 kcal</b></div><div><span class="np7-dot green"></span><span>Brûlées par le sport</span><b id="np7ChartOut">0 kcal</b></div><div><span class="np7-dot white"></span><span>Solde alimentaire</span><b id="np7ChartNet">0 kcal</b></div></div><div class="np7-chart-wrap"><svg id="np7CalChartSvg" viewBox="0 0 720 260" role="img" aria-label="Courbes des calories consommées et brûlées"><g id="np7CalChartGrid"></g><path id="np7CalInPath" d="" fill="none" stroke="#ad7bff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path id="np7CalOutPath" d="" fill="none" stroke="#34c58a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><g id="np7CalDots"></g></svg></div><div class="np7-chart-legend"><span>Début de journée</span><span>Maintenant</span></div><p class="small" id="np7ChartHint">Ajoute un repas ou une séance : les courbes se mettront à jour automatiquement.</p>';
+ grid.insertAdjacentElement('afterend',panel);
+ const style=document.createElement('style');
+ style.textContent=`
+ .np7-calorie-clickable{cursor:pointer!important;transition:transform .18s ease,box-shadow .18s ease!important}
+ .np7-calorie-clickable:hover{transform:translateY(-2px)!important;box-shadow:0 0 0 2px #ad7bff66,0 14px 35px #0004!important}
+ .np7-chart-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+ .np7-chart-head h3{margin:0 0 5px}
+ .np7-chart-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+ .np7-chart-stats>div{display:grid;grid-template-columns:12px 1fr;gap:4px 8px;align-items:center;background:#191827;border:1px solid #302b43;border-radius:14px;padding:12px}
+ .np7-chart-stats>div b{grid-column:2;color:#fff;font-size:20px}
+ .np7-chart-stats>div span:nth-child(2){font-size:12px;color:#aaa3ba}
+ .np7-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+ .np7-dot.purple{background:#ad7bff}.np7-dot.green{background:#34c58a}.np7-dot.white{background:#f5f3ff}
+ .np7-chart-wrap{width:100%;overflow:hidden;border-radius:15px;background:#0c0d17;border:1px solid #272438}
+ #np7CalChartSvg{display:block;width:100%;height:auto;min-height:180px}
+ .np7-chart-legend{display:flex;justify-content:space-between;color:#aaa3ba;font-size:11px;margin-top:8px}
+ .np7-calorie-chart[hidden]{display:none!important}
+ @media(max-width:600px){.np7-chart-stats{grid-template-columns:1fr}.np7-chart-stats>div{grid-template-columns:12px 1fr auto}.np7-chart-stats>div b{grid-column:3;grid-row:1}.np7-chart-stats>div span:nth-child(2){font-size:12px}}
+ `;
+ document.head.appendChild(style);
+ let history=[{t:Date.now(),food:readNum('k'),burn:readNum('sk')}];
+ let lastFood=-1,lastBurn=-1;
+ function readNum(id){const el=document.getElementById(id);return el?Math.max(0,parseFloat((el.textContent||'0').replace(',','.').replace(/[^0-9.\-]/g,''))||0):0}
+ function snapshot(){
+  const food=readNum('k'),burn=readNum('sk');
+  if(food!==lastFood||burn!==lastBurn){
+   const now=Date.now(); history.push({t:now,food,burn}); lastFood=food;lastBurn=burn;
+   if(history.length>120)history=history.slice(-120);
+   if(!history.length||history[0].t>now-86400000){} 
+   draw();
+  } else if(!panel.hidden){draw();}
+ }
+ function draw(){
+  const food=readNum('k'),burn=readNum('sk');
+  document.getElementById('np7ChartIn').textContent=Math.round(food)+' kcal';
+  document.getElementById('np7ChartOut').textContent=Math.round(burn)+' kcal';
+  document.getElementById('np7ChartNet').textContent=Math.round(food-burn)+' kcal';
+  const W=720,H=260,L=52,R=18,T=18,B=30,iw=W-L-R,ih=H-T-B;
+  const max=Math.max(500,Math.ceil(Math.max(food,burn,readNum('tk'))/500)*500);
+  const points=history.slice();
+  if(points.length===1)points.push({t:Date.now()+1,food,burn});
+  const minT=points[0].t,maxT=Math.max(minT+1,points[points.length-1].t);
+  const x=t=>L+(t-minT)/(maxT-minT)*iw;
+  const y=v=>T+ih-(v/max)*ih;
+  const path=k=>points.map((p,i)=>(i?'L':'M')+x(p.t).toFixed(1)+' '+y(p[k]).toFixed(1)).join(' ');
+  document.getElementById('np7CalInPath').setAttribute('d',path('food'));
+  document.getElementById('np7CalOutPath').setAttribute('d',path('burn'));
+  const g=document.getElementById('np7CalChartGrid');g.innerHTML='';
+  for(let i=0;i<=4;i++){const val=max*i/4,yy=y(val);const line=document.createElementNS('http://www.w3.org/2000/svg','line');line.setAttribute('x1',L);line.setAttribute('x2',W-R);line.setAttribute('y1',yy);line.setAttribute('y2',yy);line.setAttribute('stroke','#29283a');line.setAttribute('stroke-width','1');g.appendChild(line);const txt=document.createElementNS('http://www.w3.org/2000/svg','text');txt.setAttribute('x',L-9);txt.setAttribute('y',yy+4);txt.setAttribute('text-anchor','end');txt.setAttribute('fill','#aaa3ba');txt.setAttribute('font-size','11');txt.textContent=Math.round(val);g.appendChild(txt)}
+  const dots=document.getElementById('np7CalDots');dots.innerHTML='';
+  [['food','#ad7bff'],['burn','#34c58a']].forEach(([key,color])=>{const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',x(points[points.length-1].t));c.setAttribute('cy',y(points[points.length-1][key]));c.setAttribute('r','5');c.setAttribute('fill',color);c.setAttribute('stroke','#0c0d17');c.setAttribute('stroke-width','2');dots.appendChild(c)});
+  document.getElementById('np7ChartHint').textContent=history.length<2?'Le graphique démarre maintenant. Ajoute un repas ou une séance pour voir les courbes évoluer.':'Mis à jour automatiquement · '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+ }
+ function open(){panel.hidden=false;snapshot();panel.scrollIntoView({behavior:'smooth',block:'nearest'});}
+ calorieCard.addEventListener('click',open);
+ calorieCard.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+ document.getElementById('np7CloseCalChart').addEventListener('click',()=>{panel.hidden=true;});
+ const observer=new MutationObserver(snapshot);
+ ['k','sk','tk'].forEach(id=>{const el=document.getElementById(id);if(el)observer.observe(el,{childList:true,subtree:true,characterData:true});});
+ setInterval(snapshot,1000);
+ snapshot();
+})();
+</script>
+</body></html>
