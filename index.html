@@ -1253,7 +1253,7 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
      try{firstName=(JSON.parse(localStorage.getItem('NP7_ACCOUNT_PROFILE')||'{}').firstName||'').trim();}catch(e){}
      if(!firstName&&user&&user.email)firstName=user.email.split('@')[0].split(/[._-]/)[0];
      if(firstName)firstName=firstName.charAt(0).toLocaleUpperCase('fr-FR')+firstName.slice(1);
-     greeting.textContent=firstName?'Bonjour '+firstName:'Bonjour';
+     greeting.textContent='Bienvenue dans une vie en bonne santé';
    }
    const out=document.getElementById('np7SignOut'),who=document.getElementById('np7AccountEmail');
    if(out)out.style.display=user?'inline-flex':'none';
@@ -1555,12 +1555,12 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
  function apply(){
   const el=document.getElementById('np7Greeting');if(!el)return;
   const n=firstName();
-  el.textContent=n?'Bonjour '+n.charAt(0).toLocaleUpperCase('fr-FR')+n.slice(1):'Bonjour';
+  el.textContent='Bienvenue dans une vie en bonne santé';
  }
  function init(){
   apply();
   const el=document.getElementById('np7Greeting');
-  if(el)new MutationObserver(()=>{const expected=firstName();const value=expected?'Bonjour '+expected.charAt(0).toLocaleUpperCase('fr-FR')+expected.slice(1):'Bonjour';if(el.textContent!==value)el.textContent=value;}).observe(el,{childList:true,characterData:true,subtree:true});
+  if(el)new MutationObserver(()=>{const value='Bienvenue dans une vie en bonne santé';if(el.textContent!==value)el.textContent=value;}).observe(el,{childList:true,characterData:true,subtree:true});
   window.addEventListener('storage',apply);
   document.addEventListener('visibilitychange',apply);
   setInterval(apply,1000);
