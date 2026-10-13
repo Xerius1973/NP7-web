@@ -897,7 +897,7 @@ function restaurantDBMatches(text){
     const tabs=findTabs();
     const used=[];
     tabs.forEach(el=>{
-      const label=(el.innerText||el.textContent||"").trim().split(/\n/)[0].trim();
+      const label=(el.innerText||el.textContent||"").trim().split(/\n/)[0].trim().replace(/^👤\s*/u,"");
       const key=Object.keys(icons).find(k=>clean(label).includes(k));
       if(!key || used.includes(key))return;
       used.push(key);
