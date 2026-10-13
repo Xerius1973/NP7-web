@@ -1447,4 +1447,74 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
 }
 </style>
+
+<script id="np7-unified-macro-donut">
+(function(){
+ const css=`
+ #home>.grid:first-child{display:block!important}
+ #home>.grid:first-child>.card.np7-unified-donut{grid-column:1/-1!important;min-height:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;padding:26px 20px!important;cursor:default!important}
+ #home>.grid:first-child>.card.np7-hidden-macro{display:none!important}
+ .np7-donut-title{align-self:flex-start;font-size:12px;letter-spacing:1.5px;font-weight:800;color:#aaa3ba;text-transform:uppercase;margin-bottom:8px}
+ .np7-donut-layout{width:100%;display:flex;align-items:center;justify-content:center;gap:34px;flex-wrap:wrap}
+ .np7-donut-svg{width:min(330px,72vw);height:auto;overflow:visible;flex:none}
+ .np7-donut-track{fill:none;stroke:#262536;stroke-width:12}
+ .np7-donut-ring{fill:none;stroke-width:12;stroke-linecap:round;transform:rotate(-90deg);transform-origin:120px 120px;transition:stroke-dasharray .35s ease}
+ .np7-donut-center{font-size:27px;font-weight:900;fill:#fff;text-anchor:middle}
+ .np7-donut-sub{font-size:10px;fill:#aaa3ba;text-anchor:middle}
+ .np7-donut-legend{display:grid;grid-template-columns:repeat(2,minmax(150px,1fr));gap:10px;width:min(520px,100%)}
+ .np7-donut-item{display:grid;grid-template-columns:10px 1fr;gap:3px 9px;align-items:center;background:#141321;border:1px solid #302b43;border-radius:13px;padding:12px}
+ .np7-donut-dot{width:9px;height:9px;border-radius:50%}
+ .np7-donut-name{font-size:12px;color:#aaa3ba;font-weight:700}
+ .np7-donut-value{grid-column:2;font-size:20px;font-weight:850;color:#fff}
+ .np7-donut-remaining{grid-column:2;font-size:11px;color:#aaa3ba}
+ @media(max-width:600px){#home>.grid:first-child>.card.np7-unified-donut{padding:20px 13px!important}.np7-donut-layout{gap:18px}.np7-donut-legend{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.np7-donut-item{padding:9px 8px}.np7-donut-value{font-size:17px}}
+ `;
+ const style=document.createElement('style');style.textContent=css;document.head.appendChild(style);
+ function num(id){const e=document.getElementById(id);return e?Math.max(0,parseFloat((e.textContent||'0').replace(',','.').replace(/[^0-9.\-]/g,''))||0):0}
+ function remaining(id){const e=document.getElementById(id);return e?parseFloat((e.textContent||'').replace(',','.').replace(/[^0-9.\-]/g,''))||0:0}
+ function setup(){
+  const grid=document.querySelector('#home>.grid:first-child');if(!grid)return;
+  const cards=[...grid.querySelectorAll(':scope>.card')];if(cards.length<4)return;
+  const main=cards[0];main.classList.add('np7-unified-donut');
+  cards.slice(1,4).forEach(c=>c.classList.add('np7-hidden-macro'));
+  if(!document.getElementById('np7UnifiedDonut')){
+   const label=main.querySelector('.label');if(label)label.textContent='OBJECTIFS NUTRITIONNELS';
+   main.querySelectorAll('.big,.small,.progress').forEach(e=>e.remove());
+   const content=document.createElement('div');
+   content.id='np7UnifiedDonut';
+   content.innerHTML='<div class="np7-donut-layout"><svg class="np7-donut-svg" viewBox="0 0 240 240" role="img" aria-label="Graphique circulaire des calories et macronutriments consommés"><circle class="np7-donut-track" cx="120" cy="120" r="96"/><circle class="np7-donut-track" cx="120" cy="120" r="79"/><circle class="np7-donut-track" cx="120" cy="120" r="62"/><circle class="np7-donut-track" cx="120" cy="120" r="45"/><circle id="np7RingK" class="np7-donut-ring" cx="120" cy="120" r="96" stroke="#ad7bff"/><circle id="np7RingP" class="np7-donut-ring" cx="120" cy="120" r="79" stroke="#34c58a"/><circle id="np7RingC" class="np7-donut-ring" cx="120" cy="120" r="62" stroke="#3b9bff"/><circle id="np7RingF" class="np7-donut-ring" cx="120" cy="120" r="45" stroke="#ffd43b"/><text id="np7DonutCalories" class="np7-donut-center" x="120" y="116">0 kcal</text><text class="np7-donut-sub" x="120" y="135">CONSOMMÉES</text></svg><div class="np7-donut-legend"><div class="np7-donut-item"><i class="np7-donut-dot" style="background:#ad7bff"></i><span class="np7-donut-name">Calories</span><b id="np7DonutK" class="np7-donut-value">0 / 2400 kcal</b><span id="np7DonutKR" class="np7-donut-remaining">2400 kcal restantes</span></div><div class="np7-donut-item"><i class="np7-donut-dot" style="background:#34c58a"></i><span class="np7-donut-name">Protéines</span><b id="np7DonutP" class="np7-donut-value">0 / 160 g</b><span id="np7DonutPR" class="np7-donut-remaining">160 g restantes</span></div><div class="np7-donut-item"><i class="np7-donut-dot" style="background:#3b9bff"></i><span class="np7-donut-name">Glucides</span><b id="np7DonutC" class="np7-donut-value">0 / 275 g</b><span id="np7DonutCR" class="np7-donut-remaining">275 g restantes</span></div><div class="np7-donut-item"><i class="np7-donut-dot" style="background:#ffd43b"></i><span class="np7-donut-name">Lipides</span><b id="np7DonutF" class="np7-donut-value">0 / 80 g</b><span id="np7DonutFR" class="np7-donut-remaining">80 g restantes</span></div></div></div>';
+   main.appendChild(content);
+  }
+  draw();
+ }
+ function setRing(id,value,target,radius){
+  const e=document.getElementById(id);if(!e)return;
+  const circ=2*Math.PI*radius,ratio=target>0?Math.min(1,Math.max(0,value/target)):0;
+  e.setAttribute('stroke-dasharray',(circ*ratio)+' '+circ);
+ }
+ function fmt(n){return Number(n).toLocaleString('fr-FR',{maximumFractionDigits:1})}
+ function draw(){
+  if(!document.getElementById('np7UnifiedDonut'))return;
+  const k=num('k'),p=num('p'),c=num('c'),f=num('f');
+  const tk=num('tk')||2400,tp=Math.max(1,p+remaining('pl')),tc=Math.max(1,c+remaining('cl')),tf=Math.max(1,f+remaining('fl'));
+  setRing('np7RingK',k,tk,96);setRing('np7RingP',p,tp,79);setRing('np7RingC',c,tc,62);setRing('np7RingF',f,tf,45);
+  document.getElementById('np7DonutCalories').textContent=Math.round(k)+' kcal';
+  document.getElementById('np7DonutK').textContent=fmt(k)+' / '+fmt(tk)+' kcal';
+  document.getElementById('np7DonutP').textContent=fmt(p)+' / '+fmt(tp)+' g';
+  document.getElementById('np7DonutC').textContent=fmt(c)+' / '+fmt(tc)+' g';
+  document.getElementById('np7DonutF').textContent=fmt(f)+' / '+fmt(tf)+' g';
+  document.getElementById('np7DonutKR').textContent=fmt(Math.max(0,tk-k))+' kcal restantes';
+  document.getElementById('np7DonutPR').textContent=fmt(Math.max(0,tp-p))+' g restantes';
+  document.getElementById('np7DonutCR').textContent=fmt(Math.max(0,tc-c))+' g restants';
+  document.getElementById('np7DonutFR').textContent=fmt(Math.max(0,tf-f))+' g restants';
+ }
+ let queued=false;
+ function refresh(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;draw()})}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+ window.addEventListener('load',setup);
+ const mo=new MutationObserver(refresh);
+ ['k','p','c','f','kl','pl','cl','fl','tk'].forEach(id=>{const e=document.getElementById(id);if(e)mo.observe(e,{subtree:true,childList:true,characterData:true})});
+ setInterval(()=>{if(!document.getElementById('np7UnifiedDonut'))setup();else draw()},1200);
+})();
+</script>
 </body></html>
