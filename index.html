@@ -920,7 +920,7 @@ function restaurantDBMatches(text){
   function buildNav(){
     const nav=document.getElementById("np7BottomNav"); if(!nav)return;
     nav.innerHTML="";
-    const tabs=findTabs();
+    const tabs=findTabs().filter(el=>{const label=clean(el.innerText||el.textContent||"");return !label.includes("eau")&&!label.includes("water")&&!label.includes("ajouter de l'eau")&&!label.includes("ajouter de l’eau");});
     const used=[];
     tabs.forEach(el=>{
       const label=(el.innerText||el.textContent||"").trim().split(/\n/)[0].trim().replace(/^👤\s*/u,"");
@@ -1707,6 +1707,33 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
   if(amount)amount.value='250';
   if(typeof original==='function')original();
  };
+})();
+</script>
+
+
+<script id="np7-force-minimal-water-cleanup">
+(function(){
+ function cleanWater(){
+  const card=document.querySelector('#home .np7-home-water .np7-water-minimal');
+  if(!card)return;
+  card.querySelectorAll('p,.form,#np7WaterHistory,#np7WaterCustomGoal,#np7WaterAmount,button.btn.yellow,button[onclick="np7UndoWater()"]').forEach(el=>el.remove());
+  const add=card.querySelector('.np7-water-add');
+  if(add){add.textContent='＋ 250 ml';add.setAttribute('onclick','np7AddWaterFixed250()');}
+  document.querySelectorAll('#np7BottomNav .np7-nav-item').forEach(el=>{
+   const label=(el.innerText||'').toLowerCase();
+   if(label.includes('eau')||label.includes('water'))el.remove();
+  });
+  document.querySelectorAll('.tabs .tab[data-v="water"],nav.tabs button[data-v="water"]').forEach(el=>el.remove());
+ }
+ window.np7AddWaterFixed250=function(){
+  const amount=document.getElementById('np7WaterAmount');
+  if(amount)amount.value='250';
+  if(typeof window.np7AddWater==='function')window.np7AddWater();
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',cleanWater);
+ else cleanWater();
+ window.addEventListener('load',cleanWater);
+ setTimeout(cleanWater,500);setTimeout(cleanWater,1500);setTimeout(cleanWater,3000);
 })();
 </script>
 
