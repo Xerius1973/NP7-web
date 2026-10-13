@@ -360,14 +360,22 @@ header .tag{background:#b184ff!important;color:#171021!important}
 }
 </style>
 <style id="np7-water-animation-style">
-.np7BottleWrap{display:flex;align-items:center;justify-content:center;gap:22px;padding:16px;margin:12px 0 18px;border:1px solid var(--line,#25415d);border-radius:18px;background:rgba(4,20,39,.22)}
-.np7Bottle{width:100px;height:216px;overflow:visible;filter:drop-shadow(0 8px 12px rgba(0,120,238,.15))}
-#np7BottleLiquid{transition:y .9s cubic-bezier(.2,.8,.2,1),height .9s cubic-bezier(.2,.8,.2,1)}
-#np7BottleWave{transition:transform .9s cubic-bezier(.2,.8,.2,1)}
-.np7BottleText{display:flex;flex-direction:column;gap:6px}.np7BottleText #np7BottlePercent{font-size:28px;font-weight:900;color:#70dfff}.np7BottleText span{font-size:12px;color:var(--m,#8ba0b8)}
-@keyframes np7BottlePop{0%{transform:scale(1)}45%{transform:scale(1.045)}100%{transform:scale(1)}}
-.np7Bottle.pop{animation:np7BottlePop .45s ease}
-@media(max-width:520px){.np7BottleWrap{gap:14px}.np7Bottle{width:78px;height:175px}.np7BottleText #np7BottlePercent{font-size:24px}}
+.np7BottleWrap{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;gap:22px;padding:18px;margin:12px 0 18px;border:1px solid rgba(112,228,255,.2);border-radius:20px;background:radial-gradient(ellipse at 25% 20%,rgba(16,126,231,.13),transparent 58%),linear-gradient(145deg,rgba(8,28,50,.8),rgba(5,14,29,.6));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 30px rgba(0,0,0,.12);overflow:hidden}
+.np7BottleWrap:before{content:"";position:absolute;inset:-60% auto -60% -35%;width:35%;z-index:-1;background:linear-gradient(90deg,transparent,rgba(112,228,255,.06),transparent);transform:rotate(22deg);animation:np7BottleShine 7s ease-in-out infinite}
+.np7Bottle{width:100px;height:216px;overflow:visible;filter:drop-shadow(0 10px 14px rgba(0,120,238,.22));transform-origin:50% 90%;will-change:transform,filter}
+.np7Bottle path:first-of-type{transition:stroke .35s ease}
+#np7BottleLiquid{transition:y 1.15s cubic-bezier(.22,.8,.22,1),height 1.15s cubic-bezier(.22,.8,.22,1);filter:drop-shadow(0 0 5px rgba(58,190,255,.25))}
+#np7BottleWave{transform-box:fill-box;transform-origin:center;animation:np7WaterWave 2.8s ease-in-out infinite;transition:transform 1s ease}
+.np7BottleText{display:flex;flex-direction:column;gap:7px;position:relative}
+.np7BottleText #np7BottlePercent{font-size:29px;font-weight:900;letter-spacing:-.8px;color:#70e4ff;text-shadow:0 0 18px rgba(55,199,255,.25);transition:color .3s ease,text-shadow .3s ease}
+.np7BottleText span{font-size:12px;color:var(--m,#8ba0b8)}
+.np7BottleText #np7BottleLitres{color:#eafaff;font-size:15px}
+.np7Bottle.pop{animation:np7BottlePop .62s cubic-bezier(.2,.9,.25,1)}
+@keyframes np7BottlePop{0%{transform:scale(1) rotate(0)}24%{transform:scale(1.055,.97) rotate(-2deg)}48%{transform:scale(.98,1.035) rotate(1.5deg)}72%{transform:scale(1.015,.99) rotate(-.5deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes np7WaterWave{0%,100%{translate:-1.5px 0;scale:1 1}50%{translate:1.5px -1px;scale:1.03 1}}
+@keyframes np7BottleShine{0%,65%,100%{left:-40%;opacity:0}75%{opacity:1}92%{left:120%;opacity:0}}
+@media(prefers-reduced-motion:reduce){.np7BottleWrap:before,#np7BottleWave,.np7Bottle.pop{animation:none!important}#np7BottleLiquid{transition:none!important}}
+@media(max-width:520px){.np7BottleWrap{gap:14px;padding:14px}.np7Bottle{width:78px;height:175px}.np7BottleText #np7BottlePercent{font-size:25px}}
 </style></head>
 
 
