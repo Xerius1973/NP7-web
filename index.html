@@ -1596,8 +1596,24 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
   set('np7WaterGoal',goal);set('np7WaterTaken',taken);set('np7WaterPercent',pct+' %');set('np7BottlePercent',pct+' %');set('np7BottleLitres',(taken/1000).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' L');
   const bar=document.getElementById('np7WaterBar');if(bar)bar.style.width=pct+'%';
   const liquid=document.getElementById('np7BottleLiquid'), wave=document.getElementById('np7BottleWave');
-  if(liquid){const h=Math.min(210,Math.max(0,210*pct/100));liquid.setAttribute('y',String(248-h));liquid.setAttribute('height',String(h));}
-  if(wave){const y=248-Math.min(210,210*pct/100);wave.setAttribute('transform','translate(0 '+(y-248)+')');}
+  // Animate the liquid level frame-by-frame so it rises smoothly whenever water is added.
+  const targetH=Math.min(210,Math.max(0,210*pct/100));
+  if(liquid){
+   if(!window.np7BottleLevel)window.np7BottleLevel={height:Math.max(0,Math.min(210,parseFloat(liquid.getAttribute('height'))||0)),frame:0};
+   const state=window.np7BottleLevel;
+   if(state.frame)cancelAnimationFrame(state.frame);
+   const startH=state.height,delta=targetH-startH,startTime=performance.now(),duration=Math.min(1250,Math.max(650,Math.abs(delta)*7));
+   const animate=(now)=>{
+    const t=Math.min(1,(now-startTime)/duration);
+    const eased=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+    const h=startH+(targetH-startH)*eased;
+    state.height=h;
+    liquid.setAttribute('y',String(248-h));liquid.setAttribute('height',String(h));
+    if(wave){const y=248-h;wave.setAttribute('transform','translate(0 '+(y-248)+')');}
+    if(t<1)state.frame=requestAnimationFrame(animate);else state.frame=0;
+   };
+   state.frame=requestAnimationFrame(animate);
+  }
   const inp=document.getElementById('np7WaterCustomGoal');if(inp&&document.activeElement!==inp)inp.value=entry.goal||'';
   const hist=document.getElementById('np7WaterHistory');
   if(hist){const days=Object.keys(data).filter(k=>(data[k].taken||0)>0).sort().reverse().slice(0,7);hist.innerHTML='<b>Historique des 7 derniers jours</b><br>'+(days.length?days.map(k=>k+' : '+data[k].taken+' ml').join('<br>'):'Aucune consommation enregistrée pour le moment.');}
