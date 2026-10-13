@@ -1525,4 +1525,47 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
  setInterval(()=>{if(!document.getElementById('np7UnifiedDonut'))setup();else draw()},1200);
 })();
 </script>
+
+<script id="np7-greeting-force-fix">
+(function(){
+ function firstName(){
+  try{
+   const p=JSON.parse(localStorage.getItem('NP7_ACCOUNT_PROFILE')||'{}');
+   if(p.firstName&&String(p.firstName).trim())return String(p.firstName).trim();
+  }catch(e){}
+  const email=document.getElementById('accountEmail')?.value||'';
+  if(email.includes('@'))return email.split('@')[0].split(/[._-]/)[0];
+  try{
+   const keys=Object.keys(localStorage);
+   for(const key of keys){
+    if(key.startsWith('sb-')&&key.endsWith('-auth-token')){
+     const raw=JSON.parse(localStorage.getItem(key)||'{}');
+     const u=raw.user||raw.currentSession?.user;
+     if(u){
+      const meta=u.user_metadata||{};
+      const n=meta.first_name||meta.firstName||meta.name;
+      if(n)return String(n).trim().split(/\s+/)[0];
+      if(u.email)return u.email.split('@')[0].split(/[._-]/)[0];
+     }
+    }
+   }
+  }catch(e){}
+  return '';
+ }
+ function apply(){
+  const el=document.getElementById('np7Greeting');if(!el)return;
+  const n=firstName();
+  el.textContent=n?'Bonjour '+n.charAt(0).toLocaleUpperCase('fr-FR')+n.slice(1):'Bonjour';
+ }
+ function init(){
+  apply();
+  const el=document.getElementById('np7Greeting');
+  if(el)new MutationObserver(()=>{const expected=firstName();const value=expected?'Bonjour '+expected.charAt(0).toLocaleUpperCase('fr-FR')+expected.slice(1):'Bonjour';if(el.textContent!==value)el.textContent=value;}).observe(el,{childList:true,characterData:true,subtree:true});
+  window.addEventListener('storage',apply);
+  document.addEventListener('visibilitychange',apply);
+  setInterval(apply,1000);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
