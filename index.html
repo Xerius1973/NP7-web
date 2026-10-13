@@ -366,6 +366,12 @@ header .tag{background:#b184ff!important;color:#171021!important}
 .np7Bottle path:first-of-type{transition:stroke .35s ease}
 #np7BottleLiquid{transition:y 1.15s cubic-bezier(.22,.8,.22,1),height 1.15s cubic-bezier(.22,.8,.22,1);filter:drop-shadow(0 0 5px rgba(58,190,255,.25))}
 #np7BottleWave{transform-box:fill-box;transform-origin:center;animation:np7WaterWave 2.8s ease-in-out infinite;transition:transform 1s ease}
+.np7BottleBubbles{pointer-events:none}
+.np7BottleBubbles circle{fill:#d8f8ff;opacity:0;animation:np7BubbleRise 3.6s ease-in infinite}
+.np7BottleBubbles circle:nth-child(2){animation-delay:1.2s}
+.np7BottleBubbles circle:nth-child(3){animation-delay:2.2s}
+.np7BottleBubbles circle:nth-child(4){animation-delay:.6s}
+@keyframes np7BubbleRise{0%{opacity:0;transform:translateY(0) scale(.65)}18%{opacity:.7}75%{opacity:.45}100%{opacity:0;transform:translateY(-92px) scale(1.1)}}
 .np7BottleText{display:flex;flex-direction:column;gap:7px;position:relative}
 .np7BottleText #np7BottlePercent{font-size:29px;font-weight:900;letter-spacing:-.8px;color:#70e4ff;text-shadow:0 0 18px rgba(55,199,255,.25);transition:color .3s ease,text-shadow .3s ease}
 .np7BottleText span{font-size:12px;color:var(--m,#8ba0b8)}
@@ -392,7 +398,7 @@ header .tag{background:#b184ff!important;color:#171021!important}
 <svg class="np7Bottle" viewBox="0 0 120 260" role="img" aria-label="Bouteille d’eau qui se remplit selon la consommation">
 <defs><clipPath id="np7BottleClip"><path d="M43 27 L43 12 Q43 7 49 7 L71 7 Q77 7 77 12 L77 27 L88 43 Q96 52 96 67 L96 231 Q96 246 81 246 L39 246 Q24 246 24 231 L24 67 Q24 52 32 43 Z"/></clipPath><linearGradient id="np7WaterGradient" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#70e4ff"/><stop offset="100%" stop-color="#0878ee"/></linearGradient></defs>
 <path d="M43 27 L43 12 Q43 7 49 7 L71 7 Q77 7 77 12 L77 27 L88 43 Q96 52 96 67 L96 231 Q96 246 81 246 L39 246 Q24 246 24 231 L24 67 Q24 52 32 43 Z" fill="#dff7ff" fill-opacity=".10" stroke="#9bdcff" stroke-width="3"/>
-<g clip-path="url(#np7BottleClip)"><rect x="20" y="38" width="80" height="210" fill="#0c2037" fill-opacity=".5"/><rect id="np7BottleLiquid" x="20" y="248" width="80" height="0" fill="url(#np7WaterGradient)"/><path id="np7BottleWave" d="M20 248 Q30 242 40 248 T60 248 T80 248 T100 248 L100 260 L20 260 Z" fill="#8cecff" opacity=".75"/></g>
+<g clip-path="url(#np7BottleClip)"><rect x="20" y="38" width="80" height="210" fill="#0c2037" fill-opacity=".5"/><rect id="np7BottleLiquid" x="20" y="248" width="80" height="0" fill="url(#np7WaterGradient)"/><g class="np7BottleBubbles"><circle cx="43" cy="225" r="2.5"/><circle cx="68" cy="218" r="1.8"/><circle cx="54" cy="238" r="2"/><circle cx="78" cy="232" r="2.3"/></g><path id="np7BottleWave" d="M20 248 Q30 242 40 248 T60 248 T80 248 T100 248 L100 260 L20 260 Z" fill="#8cecff" opacity=".75"/></g>
 <path d="M43 27 L43 12 Q43 7 49 7 L71 7 Q77 7 77 12 L77 27" fill="none" stroke="#b8eaff" stroke-width="2"/>
 <path d="M37 76 L37 205" stroke="#fff" stroke-opacity=".5" stroke-width="4" stroke-linecap="round"/><path d="M37 88 L37 132" stroke="#fff" stroke-opacity=".8" stroke-width="4" stroke-linecap="round"/>
 </svg>
