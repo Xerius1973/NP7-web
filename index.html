@@ -82,19 +82,6 @@ body.np7-ready #np7BottomNav{animation:np7NavIn .55s cubic-bezier(.2,.8,.2,1) bo
 /* Tab/content transition */
 .np7-tab-anim{animation:np7Tab .34s cubic-bezier(.2,.8,.2,1)}
 @keyframes np7Tab{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:none}}
-/* Goal celebration */
-#np7GoalFx{position:fixed;inset:0;pointer-events:none;z-index:10001;display:none;overflow:hidden}
-#np7GoalFx.show{display:block}
-.np7-confetti{position:absolute;top:-20px;width:9px;height:14px;animation:np7Confetti 1.8s cubic-bezier(.1,.7,.2,1) forwards}
-@keyframes np7Confetti{to{transform:translate3d(var(--x),110vh,0) rotate(720deg);opacity:0}}
-#np7GoalMsg{
- position:absolute;left:50%;top:38%;transform:translate(-50%,-50%) scale(.7);
- background:#fff;padding:22px 28px;border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.2);
- text-align:center;opacity:0;animation:np7GoalPop .7s cubic-bezier(.2,1.4,.3,1) forwards;
-}
-@keyframes np7GoalPop{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-.np7-burst{font-size:46px;display:block;animation:np7Pulse .8s ease infinite alternate}
-@keyframes np7Pulse{to{transform:scale(1.12) rotate(4deg)}}
 /* Inputs/cards micro interactions */
 input,select,textarea{transition:border-color .2s,box-shadow .2s,transform .2s}
 input:focus,select:focus,textarea:focus{border-color:var(--np7-blue)!important;box-shadow:0 0 0 4px rgba(22,119,255,.10)!important;outline:none}
@@ -904,7 +891,6 @@ function restaurantDBMatches(text){
 
 
 <div id="np7Splash"><div><div class="logo">NP7</div><div class="sub">Nutrition • Sport • Progression</div></div></div>
-<div id="np7GoalFx"></div>
 <nav id="np7BottomNav" aria-label="Navigation principale"></nav>
 
 <script id="np7-v15-script">
@@ -968,27 +954,6 @@ function restaurantDBMatches(text){
     setTimeout(()=>document.getElementById("np7Splash")?.classList.add("hide"),900);
     setTimeout(()=>document.body.classList.add("np7-ready"),1050);
   }
-  window.np7CelebrateGoal=function(){
-    const fx=document.getElementById("np7GoalFx"); if(!fx)return;
-    fx.innerHTML='<div id="np7GoalMsg"><span class="np7-burst">🏆</span><b style="font-size:24px">Objectif atteint !</b><div style="margin-top:6px;color:#718096">Bravo, continue comme ça 💪</div></div>';
-    for(let i=0;i<70;i++){
-      const s=document.createElement("span"); s.className="np7-confetti";
-      s.style.left=(Math.random()*100)+"%"; s.style.setProperty("--x",(Math.random()*240-120)+"px");
-      s.style.animationDelay=(Math.random()*.35)+"s";
-      s.style.transform="rotate("+Math.random()*360+"deg)";
-      fx.appendChild(s);
-    }
-    fx.classList.add("show");
-    setTimeout(()=>fx.classList.remove("show"),2300);
-  };
-  // Observe common progress/goal text and trigger once per crossing.
-  let celebrated=false;
-  const obs=new MutationObserver(()=>{
-    const txt=(document.body.innerText||"").toLowerCase();
-    const hit=/objectif atteint|objectif.*100\\s*%|100\\s*%.*objectif/.test(txt);
-    if(hit&&!celebrated){celebrated=true;window.np7CelebrateGoal();setTimeout(()=>celebrated=false,5000);}
-  });
-  obs.observe(document.body,{subtree:true,childList:true,characterData:true});
   window.addEventListener("load",()=>{buildNav();splash();});
 })();
 </script>
