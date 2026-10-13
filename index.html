@@ -558,14 +558,15 @@ function productNutrition(p){
   };
 }
 function addLocalNutrition(k){
-  const v=DB[k], q=+document.getElementById("dbQty").value||100;
-  day().push({name:v.name,q,kcal:v.kcal*q/100,prot:v.prot*q/100,carbs:v.carbs*q/100,fat:v.fat*q/100});
+  const v=DB[k]; if(!v){toast("Aliment introuvable.");return}
+  const q=+document.getElementById("dbQty").value||100;
+  foods().push({name:v.name,q,k:v.kcal*q/100,pr:v.prot*q/100,ca:v.carbs*q/100,f:v.fat*q/100});
   save();toast("Aliment ajouté.");
 }
 function addOFFProduct(i){
   const p=window._nutritionProducts?.[i];if(!p)return;
   const n=productNutrition(p),q=+document.getElementById("dbQty").value||100;
-  day().push({name:(p.brands?p.brands+" — ":"")+p.product_name,q,kcal:n.kcal*q/100,prot:n.prot*q/100,carbs:n.carbs*q/100,fat:n.fat*q/100});
+  foods().push({name:(p.brands?p.brands+" — ":"")+p.product_name,q,k:n.kcal*q/100,pr:n.prot*q/100,ca:n.carbs*q/100,f:n.fat*q/100});
   save();toast("Produit ajouté.");
 }
 function goAIWithNutrition(){showView("ai");document.getElementById("aiInput").focus()}
@@ -711,7 +712,7 @@ function searchCiqual(q){
 function addCiqual(code){
   const x=CIQUAL.find(z=>z.c===String(code)); if(!x)return;
   const q=Math.max(1,+document.getElementById("dbQty").value||100);
-  day().push({name:x.n,q,kcal:(x.k||0)*q/100,prot:(x.p||0)*q/100,carbs:(x.gld||0)*q/100,fat:(x.l||0)*q/100});
+  foods().push({name:x.n,q,k:(x.k||0)*q/100,pr:(x.p||0)*q/100,ca:(x.gld||0)*q/100,f:(x.l||0)*q/100});
   save();toast("Aliment Ciqual ajouté.");
 }
 async function searchNutrition(){
