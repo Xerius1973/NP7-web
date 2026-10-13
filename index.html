@@ -365,7 +365,7 @@ header .tag{background:#b184ff!important;color:#171021!important}
 .np7Bottle{width:100px;height:216px;overflow:visible;filter:drop-shadow(0 10px 14px rgba(0,120,238,.22));transform-origin:50% 90%;will-change:transform,filter}
 .np7Bottle path:first-of-type{transition:stroke .35s ease}
 #np7BottleLiquid{transition:none!important;filter:drop-shadow(0 0 5px rgba(58,190,255,.25))}
-#np7BottleWave{transform-box:fill-box;transform-origin:center;animation:np7WaterWave 2.8s ease-in-out infinite;transition:none!important}
+#np7BottleWave{transform-box:fill-box;transform-origin:center;animation:np7WaterWave 2.8s ease-in-out infinite;transition:none!important;will-change:d}
 .np7BottleBubbles{pointer-events:none}
 .np7BottleBubbles circle{fill:#d8f8ff;opacity:0;animation:np7BubbleRise 3.6s ease-in infinite}
 .np7BottleBubbles circle:nth-child(2){animation-delay:1.2s}
@@ -1609,8 +1609,14 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
     const eased=1-Math.pow(1-t,3);
     const h=startH+(targetH-startH)*eased;
     state.height=h;
-    liquid.setAttribute('y',String(248-h));liquid.setAttribute('height',String(h));
-    if(wave){const y=248-h;wave.setAttribute('transform','translate(0 '+(y-248)+')');}
+    const surfaceY=248-h;
+    liquid.setAttribute('y',String(surfaceY));liquid.setAttribute('height',String(h));
+    // Move the wave's actual SVG coordinates with the liquid surface (not a competing transform).
+    if(wave){
+     const amp=Math.min(5,Math.max(1.5,h*.035));
+     wave.setAttribute('d','M20 '+surfaceY+' Q30 '+(surfaceY-amp)+' 40 '+surfaceY+' T60 '+surfaceY+' T80 '+surfaceY+' T100 '+surfaceY+' L100 260 L20 260 Z');
+     wave.removeAttribute('transform');
+    }
     if(t<1)state.frame=requestAnimationFrame(animate);else state.frame=0;
    };
    state.frame=requestAnimationFrame(animate);
