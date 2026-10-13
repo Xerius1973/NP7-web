@@ -1738,4 +1738,41 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
 })();
 </script>
 
+
+<script id="np7-water-click-does-not-open-calorie-chart">
+(function(){
+ function protect(){
+  const chartCard=document.querySelector('#home>.grid:first-child>.card:first-child');
+  if(chartCard){
+   chartCard.onclick=function(e){
+    if(e&&e.target&&e.target.closest&&e.target.closest('.np7-home-water'))return;
+    if(typeof window.np7OpenCaloriePage==='function')window.np7OpenCaloriePage(e);
+    else{
+     const target=document.getElementById('calories');
+     if(!target)return;
+     if(e){e.preventDefault();e.stopPropagation();}
+     document.querySelectorAll('.view').forEach(el=>{el.classList.remove('active');el.style.display='none';});
+     target.classList.add('active');target.style.display='block';
+     window.scrollTo({top:0,behavior:'smooth'});
+    }
+   };
+   chartCard.onkeydown=function(e){
+    if(e&&e.target&&e.target.closest&&e.target.closest('.np7-home-water'))return;
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();this.onclick(e);}
+   };
+  }
+  const water=document.querySelector('#home .np7-home-water');
+  if(water){
+   water.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();},true);
+   });
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',protect);
+ else protect();
+ window.addEventListener('load',protect);
+ setTimeout(protect,350);setTimeout(protect,1200);setTimeout(protect,2500);
+})();
+</script>
+
 </body></html>
