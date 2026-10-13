@@ -1248,7 +1248,13 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
  function paintSession(u){
    user=u||null;
    const greeting=document.getElementById('np7Greeting');
-   if(greeting)greeting.textContent=user?'Bonjour ('+(user.id||user.email||'compte')+')':'Bonjour';
+   if(greeting){
+     let firstName='';
+     try{firstName=(JSON.parse(localStorage.getItem('NP7_ACCOUNT_PROFILE')||'{}').firstName||'').trim();}catch(e){}
+     if(!firstName&&user&&user.email)firstName=user.email.split('@')[0].split(/[._-]/)[0];
+     if(firstName)firstName=firstName.charAt(0).toLocaleUpperCase('fr-FR')+firstName.slice(1);
+     greeting.textContent=firstName?'Bonjour '+firstName:'Bonjour';
+   }
    const out=document.getElementById('np7SignOut'),who=document.getElementById('np7AccountEmail');
    if(out)out.style.display=user?'inline-flex':'none';
    if(who)who.textContent=user?'Connecté : '+user.email:'';
