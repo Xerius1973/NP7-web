@@ -372,7 +372,16 @@ header .tag{background:#b184ff!important;color:#171021!important}
  #home>.grid2{grid-template-columns:1fr!important}
 }
 </style>
-</head>
+<style id="np7-water-animation-style">
+.np7BottleWrap{display:flex;align-items:center;justify-content:center;gap:22px;padding:16px;margin:12px 0 18px;border:1px solid var(--line,#25415d);border-radius:18px;background:rgba(4,20,39,.22)}
+.np7Bottle{width:100px;height:216px;overflow:visible;filter:drop-shadow(0 8px 12px rgba(0,120,238,.15))}
+#np7BottleLiquid{transition:y .9s cubic-bezier(.2,.8,.2,1),height .9s cubic-bezier(.2,.8,.2,1)}
+#np7BottleWave{transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.np7BottleText{display:flex;flex-direction:column;gap:6px}.np7BottleText #np7BottlePercent{font-size:28px;font-weight:900;color:#70dfff}.np7BottleText span{font-size:12px;color:var(--m,#8ba0b8)}
+@keyframes np7BottlePop{0%{transform:scale(1)}45%{transform:scale(1.045)}100%{transform:scale(1)}}
+.np7Bottle.pop{animation:np7BottlePop .45s ease}
+@media(max-width:520px){.np7BottleWrap{gap:14px}.np7Bottle{width:78px;height:175px}.np7BottleText #np7BottlePercent{font-size:24px}}
+</style></head>
 
 
 <body><div class="app"><header><span class="tag">PERSONAL</span><div class="brand">NP7</div><h1 id="np7Greeting">Bonjour</h1><div class="sub">Bienvenue dans une vie en bonne santé</div></header><nav class="tabs"><button class="tab active" data-v="home">Accueil</button><button class="tab" data-v="meals">Repas</button><button class="tab" data-v="sport">Sport</button><button class="tab" data-v="weight">Poids</button><button class="tab" data-v="water">💧 Eau</button><button class="tab" data-v="account">Compte</button></nav>
@@ -384,6 +393,16 @@ header .tag{background:#b184ff!important;color:#171021!important}
 <div class="card">
 <h3>💧 Mon hydratation</h3>
 <p class="small">Suis ta consommation d’eau quotidienne et ajuste ton objectif selon ton activité, la chaleur et tes besoins.</p>
+<div class="np7BottleWrap">
+<svg class="np7Bottle" viewBox="0 0 120 260" role="img" aria-label="Bouteille d’eau qui se remplit selon la consommation">
+<defs><clipPath id="np7BottleClip"><path d="M43 27 L43 12 Q43 7 49 7 L71 7 Q77 7 77 12 L77 27 L88 43 Q96 52 96 67 L96 231 Q96 246 81 246 L39 246 Q24 246 24 231 L24 67 Q24 52 32 43 Z"/></clipPath><linearGradient id="np7WaterGradient" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#70e4ff"/><stop offset="100%" stop-color="#0878ee"/></linearGradient></defs>
+<path d="M43 27 L43 12 Q43 7 49 7 L71 7 Q77 7 77 12 L77 27 L88 43 Q96 52 96 67 L96 231 Q96 246 81 246 L39 246 Q24 246 24 231 L24 67 Q24 52 32 43 Z" fill="#dff7ff" fill-opacity=".10" stroke="#9bdcff" stroke-width="3"/>
+<g clip-path="url(#np7BottleClip)"><rect x="20" y="38" width="80" height="210" fill="#0c2037" fill-opacity=".5"/><rect id="np7BottleLiquid" x="20" y="248" width="80" height="0" fill="url(#np7WaterGradient)"/><path id="np7BottleWave" d="M20 248 Q30 242 40 248 T60 248 T80 248 T100 248 L100 260 L20 260 Z" fill="#8cecff" opacity=".75"/></g>
+<path d="M43 27 L43 12 Q43 7 49 7 L71 7 Q77 7 77 12 L77 27" fill="none" stroke="#b8eaff" stroke-width="2"/>
+<path d="M37 76 L37 205" stroke="#fff" stroke-opacity=".5" stroke-width="4" stroke-linecap="round"/><path d="M37 88 L37 132" stroke="#fff" stroke-opacity=".8" stroke-width="4" stroke-linecap="round"/>
+</svg>
+<div class="np7BottleText"><b id="np7BottlePercent">0 %</b><span>de l’objectif atteint</span><span><b id="np7BottleLitres">0,00 L</b> bus</span></div>
+</div>
 <div class="macro"><span class="label">Objectif du jour</span><br><b id="np7WaterGoal">2500</b> ml</div>
 <div class="progress"><i id="np7WaterBar" style="width:0%"></i></div>
 <p><b id="np7WaterTaken">0</b> ml bus · <span id="np7WaterPercent">0 %</span></p>
@@ -1595,16 +1614,20 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
   const data=read(), d=day(), entry=data[d]||{taken:0,goal:2500,history:[]};
   const goal=Number(entry.goal)||2500, taken=Number(entry.taken)||0, pct=Math.min(100,Math.round(taken/goal*100));
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
-  set('np7WaterGoal',goal);set('np7WaterTaken',taken);set('np7WaterPercent',pct+' %');
+  set('np7WaterGoal',goal);set('np7WaterTaken',taken);set('np7WaterPercent',pct+' %');set('np7BottlePercent',pct+' %');set('np7BottleLitres',(taken/1000).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' L');
   const bar=document.getElementById('np7WaterBar');if(bar)bar.style.width=pct+'%';
+  const liquid=document.getElementById('np7BottleLiquid'), wave=document.getElementById('np7BottleWave');
+  if(liquid){const h=Math.min(210,Math.max(0,210*pct/100));liquid.setAttribute('y',String(248-h));liquid.setAttribute('height',String(h));}
+  if(wave){const y=248-Math.min(210,210*pct/100);wave.setAttribute('transform','translate(0 '+(y-248)+')');}
   const inp=document.getElementById('np7WaterCustomGoal');if(inp&&document.activeElement!==inp)inp.value=entry.goal||'';
   const hist=document.getElementById('np7WaterHistory');
   if(hist){const days=Object.keys(data).filter(k=>(data[k].taken||0)>0).sort().reverse().slice(0,7);hist.innerHTML='<b>Historique des 7 derniers jours</b><br>'+(days.length?days.map(k=>k+' : '+data[k].taken+' ml').join('<br>'):'Aucune consommation enregistrée pour le moment.');}
  }
- window.np7AddWater=function(){const amount=Number(document.getElementById('np7WaterAmount')?.value)||250;const data=read(),d=day();data[d]=data[d]||{taken:0,goal:2500,history:[]};data[d].history=data[d].history||[];data[d].history.push(amount);data[d].taken=(data[d].taken||0)+amount;write(data);render();};
+ window.np7AddWater=function(){const amount=Number(document.getElementById('np7WaterAmount')?.value)||250;const data=read(),d=day();data[d]=data[d]||{taken:0,goal:2500,history:[]};data[d].history=data[d].history||[];data[d].history.push(amount);data[d].taken=(data[d].taken||0)+amount;write(data);render();const bottle=document.querySelector('.np7Bottle');if(bottle){bottle.classList.remove('pop');void bottle.offsetWidth;bottle.classList.add('pop');}};
  window.np7SaveWaterGoal=function(){const input=Number(document.getElementById('np7WaterCustomGoal')?.value);if(input<500||input>6000){alert('Choisis un objectif entre 500 et 6000 ml.');return;}const data=read(),d=day();data[d]=data[d]||{taken:0,goal:2500,history:[]};data[d].goal=input;write(data);render();};
  window.np7UndoWater=function(){const data=read(),d=day(),e=data[d];if(!e||!e.history||!e.history.length)return;const last=e.history.pop();e.taken=Math.max(0,(e.taken||0)-last);write(data);render();};
- document.addEventListener('DOMContentLoaded',render);if(document.readyState!=='loading')render();
+ function init(){render();const foods=document.getElementById('foods');if(foods){const card=foods.closest('.card');if(card)card.style.display='none';}}
+ document.addEventListener('DOMContentLoaded',init);if(document.readyState!=='loading')init();
 })();
 </script>
 </body></html>
