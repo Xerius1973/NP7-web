@@ -1507,19 +1507,23 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
  }
  function fmt(n){return Number(n).toLocaleString('fr-FR',{maximumFractionDigits:1})}
  function draw(){
-  if(!document.getElementById('np7UnifiedDonut'))return;
-  const k=num('k'),p=num('p'),c=num('c'),f=num('f');
-  const tk=num('tk')||2400,tp=Math.max(1,p+remaining('pl')),tc=Math.max(1,c+remaining('cl')),tf=Math.max(1,f+remaining('fl'));
-  setRing('np7RingK',k,tk,96);setRing('np7RingP',p,tp,79);setRing('np7RingC',c,tc,62);setRing('np7RingF',f,tf,45);
-  document.getElementById('np7DonutCalories').textContent=Math.round(k)+' kcal';
-  document.getElementById('np7DonutK').textContent=fmt(k)+' / '+fmt(tk)+' kcal';
-  document.getElementById('np7DonutP').textContent=fmt(p)+' / '+fmt(tp)+' g';
-  document.getElementById('np7DonutC').textContent=fmt(c)+' / '+fmt(tc)+' g';
-  document.getElementById('np7DonutF').textContent=fmt(f)+' / '+fmt(tf)+' g';
-  document.getElementById('np7DonutKR').textContent=fmt(Math.max(0,tk-k))+' kcal restantes';
-  document.getElementById('np7DonutPR').textContent=fmt(Math.max(0,tp-p))+' g restantes';
-  document.getElementById('np7DonutCR').textContent=fmt(Math.max(0,tc-c))+' g restants';
-  document.getElementById('np7DonutFR').textContent=fmt(Math.max(0,tf-f))+' g restants';
+  const root=document.getElementById('np7UnifiedDonut');if(!root)return;
+  let t={k:0,pr:0,ca:0,f:0}, goals={k:2400,pr:160,ca:275,f:80};
+  try{
+   if(typeof totals==='function')t=totals();
+   if(typeof S!=='undefined'&&S&&S.p)goals=S.p;
+  }catch(e){}
+  const nums={k:Number(t.k)||0,p:Number(t.pr)||0,c:Number(t.ca)||0,f:Number(t.f)||0};
+  const targets={k:Number(goals.k)||2400,p:Number(goals.pr)||160,c:Number(goals.ca)||275,f:Number(goals.f)||80};
+  const specs=[['K',nums.k,targets.k,96,'kcal'],['P',nums.p,targets.p,79,'g'],['C',nums.c,targets.c,62,'g'],['F',nums.f,targets.f,45,'g']];
+  const center=document.getElementById('np7DonutCalories');
+  if(center)center.textContent=Math.round(nums.k)+' kcal';
+  specs.forEach(([id,value,target,radius,unit])=>{
+   setRing('np7Ring'+id,value,target,radius);
+   const val=document.getElementById('np7Donut'+id),rem=document.getElementById('np7Donut'+id+'R');
+   if(val)val.textContent=fmt(value)+' / '+fmt(target)+' '+unit;
+   if(rem)rem.textContent=fmt(Math.max(0,target-value))+' '+unit+' restantes';
+  });
  }
  let queued=false;
  function refresh(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;draw()})}
