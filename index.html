@@ -1806,4 +1806,30 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
 })();
 </script>
 
+
+<script id="np7-donut-live-data-fix">
+(function(){
+ function update(){
+  const root=document.getElementById('np7UnifiedDonut');
+  if(!root)return;
+  try{
+   const data=typeof S!=='undefined'&&S?S:null;
+   const list=data&&data.d&&data.d[today()]?data.d[today()]:[];
+   const totals=list.reduce((a,x)=>({k:a.k+(Number(x.k)||0),p:a.p+(Number(x.pr)||0),c:a.c+(Number(x.ca)||0),f:a.f+(Number(x.f)||0)}),{k:0,p:0,c:0,f:0});
+   const goals=data&&data.p?data.p:{k:2400,pr:160,ca:275,f:70};
+   const specs=[['np7RingK','np7DonutK','np7DonutKR','np7DonutCalories',totals.k,Number(goals.k)||2400,96,'kcal'],['np7RingP','np7DonutP','np7DonutPR',null,totals.p,Number(goals.pr)||160,79,'g'],['np7RingC','np7DonutC','np7DonutCR',null,totals.c,Number(goals.ca)||275,62,'g'],['np7RingF','np7DonutF','np7DonutFR',null,totals.f,Number(goals.f)||70,45,'g']];
+   const fmt=n=>Number(n).toLocaleString('fr-FR',{maximumFractionDigits:1});
+   specs.forEach(([ring,val,rem,center,amount,goal,radius,unit])=>{
+    const el=document.getElementById(ring);if(el){const circ=2*Math.PI*radius;el.setAttribute('stroke-dasharray',Math.max(0,circ*Math.min(1,amount/goal))+' '+circ);}
+    const v=document.getElementById(val);if(v)v.textContent=fmt(amount)+' / '+fmt(goal)+' '+unit;
+    const rr=document.getElementById(rem);if(rr)rr.textContent=fmt(Math.max(0,goal-amount))+' '+unit+' restantes';
+    if(center){const c=document.getElementById(center);if(c)c.textContent=Math.round(totals.k)+' kcal';}
+   });
+  }catch(e){}
+ }
+ function init(){update();setInterval(update,700);window.addEventListener('storage',update);}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+
 </body></html>
