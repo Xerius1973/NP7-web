@@ -1820,4 +1820,48 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
 
 
 
+<script id="np7-final-water-food-fix">
+(function(){
+  'use strict';
+  const WATER_KEY='np7_water_tracker_v1';
+  const waterDay=()=>new Date().toLocaleDateString('sv-SE');
+  const waterRead=()=>{try{return JSON.parse(localStorage.getItem(WATER_KEY)||'{}')}catch(e){return {}}};
+  const waterWrite=x=>localStorage.setItem(WATER_KEY,JSON.stringify(x));
+  function refreshWater(){
+    const data=waterRead(),d=waterDay(),e=data[d]||{taken:0,goal:2500,history:[]};
+    const taken=Number(e.taken)||0,goal=Number(e.goal)||2500,pct=Math.min(100,Math.round(taken/goal*100));
+    const set=(id,v)=>{const x=document.getElementById(id);if(x)x.textContent=v};
+    set('np7WaterTaken',taken);set('np7WaterGoal',goal);set('np7WaterPercent',pct+' %');set('np7BottlePercent',pct+' %');
+    set('np7BottleLitres',(taken/1000).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' L');
+    const bar=document.getElementById('np7WaterBar');if(bar)bar.style.width=pct+'%';
+    const liquid=document.getElementById('np7BottleLiquid');if(liquid){const h=210*pct/100;liquid.setAttribute('y',String(248-h));liquid.setAttribute('height',String(h));}
+    const portions=document.getElementById('np7WaterPortions');
+    if(portions){const list=Array.isArray(e.history)?e.history:[];portions.innerHTML=list.length?'<div class="np7-water-portions-title">Portions d’aujourd’hui</div>'+list.map((ml,i)=>'<div class="np7-water-portion"><span>💧 '+Number(ml||0)+' ml</span><button type="button" class="np7-water-remove" data-water-index="'+i+'">Supprimer</button></div>').join(''):'<div class="np7-water-empty">Aucune portion enregistrée aujourd’hui.</div>';}
+    if(typeof window.np7WaterUpdate==='function')try{window.np7WaterUpdate()}catch(e){}
+  }
+  window.np7AddWaterFixed250=function(){
+    const data=waterRead(),d=waterDay();
+    data[d]=data[d]||{taken:0,goal:2500,history:[]};
+    data[d].history=Array.isArray(data[d].history)?data[d].history:[];
+    data[d].history.push(250);data[d].taken=(Number(data[d].taken)||0)+250;waterWrite(data);refreshWater();
+    const bottle=document.querySelector('.np7Bottle');if(bottle){bottle.classList.remove('pop');void bottle.offsetWidth;bottle.classList.add('pop');}
+  };
+  window.np7RemoveWaterPortion=function(index){
+    const data=waterRead(),d=waterDay(),e=data[d];if(!e||!Array.isArray(e.history)||index<0||index>=e.history.length)return;
+    const removed=Number(e.history.splice(index,1)[0])||0;e.taken=Math.max(0,(Number(e.taken)||0)-removed);waterWrite(data);refreshWater();
+  };
+  document.addEventListener('click',function(ev){
+    const btn=ev.target.closest&&ev.target.closest('[data-water-index]');
+    if(btn){ev.preventDefault();ev.stopPropagation();window.np7RemoveWaterPortion(Number(btn.dataset.waterIndex));}
+  },true);
+  function setup(){
+    const add=document.querySelector('.np7-water-add');
+    if(add){add.type='button';add.onclick=function(ev){ev.preventDefault();ev.stopPropagation();window.np7AddWaterFixed250();};}
+    refreshWater();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+  window.addEventListener('pageshow',refreshWater);
+})();
+</script>
+
 </body></html>
