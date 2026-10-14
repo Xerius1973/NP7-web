@@ -13,22 +13,19 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
           p=Path('index.html')
           s=p.read_text(encoding='utf-8')
-          css='''<style id="np7-water-buttons-fix">
-          .np7-water-controls{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;width:min(100%,420px)!important;max-width:420px!important;margin:10px auto 0!important;box-sizing:border-box!important;overflow:hidden!important}
-          .np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{display:flex!important;align-items:center!important;justify-content:center!important;flex:unset!important;width:100%!important;min-width:0!important;max-width:none!important;height:48px!important;padding:8px 4px!important;margin:0!important;border-radius:12px!important;font-size:14px!important;font-weight:900!important;line-height:1!important;white-space:nowrap!important;box-sizing:border-box!important}
+          marker='</head>'
+          css='''<style id="np7-water-buttons-fix-v2">
+          .np7-water-controls{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:stretch!important;gap:8px!important;width:100%!important;box-sizing:border-box!important;margin:10px 0 0!important}
+          .np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{display:flex!important;align-items:center!important;justify-content:center!important;flex:1 1 0!important;min-width:0!important;width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;box-sizing:border-box!important;padding:0 6px!important;margin:0!important;border-radius:12px!important;font-size:13px!important;font-weight:900!important;line-height:1!important;white-space:nowrap!important;overflow:hidden!important}
           .np7-water-controls .np7-water-minus{order:1!important;background:#10223a!important;color:#edf4ff!important;border:1px solid #29415f!important}
           .np7-water-controls .np7-water-add{order:2!important;background:#a66cff!important;color:#fff!important}
-          @media(max-width:500px){.np7-water-controls{width:100%!important;max-width:320px!important;gap:6px!important}.np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{height:44px!important;padding:7px 3px!important;font-size:12px!important}}
+          @media(max-width:500px){.np7-water-controls{gap:7px!important}.np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{height:42px!important;min-height:42px!important;max-height:42px!important;font-size:12px!important;padding:0 4px!important}}
           </style>
           '''
-          pattern=r'<style id="np7-water-buttons-fix">.*?</style>'
-          if re.search(pattern,s,re.S):
-              s=re.sub(pattern,css.strip(),s,count=1,flags=re.S)
-          else:
-              s=s.replace('</head>',css+'</head>',1)
+          if 'id="np7-water-buttons-fix-v2"' not in s:
+              s=s.replace(marker,css+marker,1)
           p.write_text(s,encoding='utf-8')
           PY
       - name: Commit fix
@@ -36,5 +33,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git diff --cached --quiet || git commit -m 'Make hydration buttons equal size on mobile'
+          git diff --cached --quiet || git commit -m 'Make hydration buttons exactly same height'
           git push
