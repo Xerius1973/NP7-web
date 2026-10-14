@@ -382,7 +382,14 @@ header .tag{background:#b184ff!important;color:#171021!important}
 @keyframes np7BottleShine{0%,65%,100%{left:-40%;opacity:0}75%{opacity:1}92%{left:120%;opacity:0}}
 @media(prefers-reduced-motion:reduce){.np7BottleWrap:before,#np7BottleWave,.np7Bottle.pop{animation:none!important}#np7BottleLiquid{transition:none!important}}
 @media(max-width:520px){.np7BottleWrap{gap:14px;padding:14px}.np7Bottle{width:78px;height:175px}.np7BottleText #np7BottlePercent{font-size:25px}}
-</style></head>
+</style><style id="np7-water-buttons-fix">
+.np7-water-controls{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:8px!important;width:100%!important;box-sizing:border-box!important;margin-top:10px!important}
+.np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{flex:1 1 0!important;min-width:0!important;width:auto!important;max-width:none!important;padding:10px 8px!important;margin:0!important;border-radius:12px!important;font-size:14px!important;font-weight:900!important;line-height:1.1!important;white-space:nowrap!important;box-sizing:border-box!important}
+.np7-water-controls .np7-water-minus{order:1!important;background:#10223a!important;color:#edf4ff!important;border:1px solid #29415f!important}
+.np7-water-controls .np7-water-add{order:2!important;background:#a66cff!important;color:#fff!important}
+@media(max-width:500px){.np7-water-controls{gap:7px!important}.np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{padding:9px 5px!important;font-size:13px!important}}
+</style>
+</head>
 
 
 <body><div class="app"><header><span class="tag">PERSONAL</span><div class="brand">NP7</div><h1 id="np7Greeting">Bonjour</h1><div class="sub">Bienvenue dans une vie en bonne santé</div></header><nav class="tabs"><button class="tab active" data-v="home">Accueil</button><button class="tab" data-v="meals">Repas</button><button class="tab" data-v="sport">Sport</button><button class="tab" data-v="weight">Poids</button><button class="tab" data-v="account">Compte</button></nav>
