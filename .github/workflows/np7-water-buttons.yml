@@ -1,0 +1,30 @@
+name: NP7 UI fix
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  fix-water-buttons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fix hydration controls
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          marker='</head>'
+          css='''<style id="np7-water-buttons-fix">\n.np7-water-controls{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:8px!important;width:100%!important;box-sizing:border-box!important;margin-top:10px!important}\n.np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{flex:1 1 0!important;min-width:0!important;width:auto!important;max-width:none!important;padding:10px 8px!important;margin:0!important;border-radius:12px!important;font-size:14px!important;font-weight:900!important;line-height:1.1!important;white-space:nowrap!important;box-sizing:border-box!important}\n.np7-water-controls .np7-water-minus{order:1!important;background:#10223a!important;color:#edf4ff!important;border:1px solid #29415f!important}\n.np7-water-controls .np7-water-add{order:2!important;background:#a66cff!important;color:#fff!important}\n@media(max-width:500px){.np7-water-controls{gap:7px!important}.np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{padding:9px 5px!important;font-size:13px!important}}\n</style>\n'''
+          if 'id="np7-water-buttons-fix"' not in s:
+              s=s.replace(marker,css+marker,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit fix
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Fix hydration button layout on mobile'
+          git push
