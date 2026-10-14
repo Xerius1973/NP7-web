@@ -1864,4 +1864,36 @@ input:focus,select:focus,textarea:focus{border-color:#1687ff!important;box-shado
 })();
 </script>
 
+<script id="np7-water-button-hard-fix">
+(function(){
+  'use strict';
+  const KEY='np7_water_tracker_v1';
+  const day=()=>new Date().toLocaleDateString('sv-SE');
+  const read=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}};
+  const write=x=>localStorage.setItem(KEY,JSON.stringify(x));
+  function add250(){
+    const data=read(),d=day();
+    data[d]=data[d]||{taken:0,goal:2500,history:[]};
+    data[d].history=Array.isArray(data[d].history)?data[d].history:[];
+    data[d].history.push(250);
+    data[d].taken=(Number(data[d].taken)||0)+250;
+    write(data);
+    if(typeof window.np7AddWaterFixed250==='function'){
+      try{window.np7AddWaterFixed250=function(){};}catch(e){}
+    }
+    location.hash='#np7-water';
+    location.reload();
+  }
+  document.addEventListener('click',function(ev){
+    const el=ev.target.closest&&ev.target.closest('button');
+    if(!el)return;
+    const txt=(el.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+    if(txt.includes('+ 250 ml')||txt.includes('+250 ml')){
+      ev.preventDefault();ev.stopImmediatePropagation();
+      add250();
+    }
+  },true);
+})();
+</script>
+
 </body></html>
