@@ -438,6 +438,109 @@ input:focus,select:focus,textarea:focus{outline:3px solid #1687e822!important;bo
 #homeFoods>*{border-radius:17px!important}
 @media(max-width:600px){.app{padding:9px 9px 92px!important}header{padding:19px!important;border-radius:23px!important}header h1{margin-top:13px!important}.tabs{top:4px!important;gap:4px!important;padding:5px!important;border-radius:17px!important}.tab{padding:10px 12px!important;font-size:13px!important}.grid{gap:10px!important}.card,.section{border-radius:20px!important;padding:15px!important}.big{font-size:32px!important}}
 @media(prefers-reduced-motion:reduce){.view,button,.btn{animation:none!important;transition:none!important}}
+</style><style id="np7-full-redesign-v1">
+/* NP7 — refonte visuelle globale, sans toucher aux identifiants métier ni aux fonctions */
+:root{color-scheme:light;--np7-blue:#0878ef;--np7-blue-dark:#073765;--np7-navy:#08294a;--np7-yellow:#ffd42a;--np7-ink:#102d50;--np7-muted:#6c819b;--np7-bg:#f1f7ff;--np7-line:#dce9f8;--np7-card:#fff}
+html,body{min-height:100%;background:var(--np7-bg)!important;color:var(--np7-ink)!important}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif!important;background:radial-gradient(ellipse at 50% -20%,#d6eaff 0,transparent 48%),linear-gradient(180deg,#f6faff,#edf5ff)!important}
+.app{width:min(100%,980px)!important;margin:0 auto!important;padding:14px 16px 110px!important}
+.app>header{position:relative;isolation:isolate;overflow:hidden;padding:24px 24px 26px!important;margin:0 0 15px!important;border:1px solid #ffffff24!important;border-radius:28px!important;background:linear-gradient(125deg,#062342 0%,#0754a0 56%,#1388ed 100%)!important;box-shadow:0 16px 34px #0a4e8b24!important}
+.app>header:before{content:"";position:absolute;z-index:-1;width:250px;height:250px;right:-100px;top:-135px;border-radius:50%;border:1px solid #ffffff24;box-shadow:0 0 0 24px #ffffff09,0 0 0 52px #ffffff07,0 0 0 82px #ffffff05}
+.app>header .brand{font-size:35px!important;font-weight:950!important;letter-spacing:-1.8px!important;line-height:1}
+.app>header h1{margin:16px 0 5px!important;color:#fff!important;font-size:clamp(23px,4vw,31px)!important;line-height:1.15!important;letter-spacing:-.7px!important;font-weight:850!important}
+.app>header .sub{color:#d9eaff!important;font-size:14px!important}
+.app>header .tag{border-radius:99px!important;background:var(--np7-yellow)!important;color:#09294a!important;padding:7px 11px!important;font-weight:900!important}
+.tabs{position:sticky!important;top:6px!important;z-index:40!important;display:flex!important;align-items:center!important;gap:6px!important;margin:12px 0 20px!important;padding:7px!important;overflow-x:auto!important;scrollbar-width:none!important;border:1px solid #dbe8f7!important;border-radius:20px!important;background:#ffffffdf!important;backdrop-filter:blur(18px)!important;box-shadow:0 8px 25px #153d6410!important}
+.tabs::-webkit-scrollbar{display:none!important}
+.tabs .tab{flex:1 0 auto!important;min-height:42px!important;padding:10px 15px!important;border:0!important;border-radius:14px!important;background:transparent!important;color:#627b98!important;font-size:13px!important;font-weight:800!important;white-space:nowrap!important;transition:background .18s ease,color .18s ease,transform .18s ease!important}
+.tabs .tab.active{background:linear-gradient(135deg,#08294a,#0b4e8d)!important;color:white!important;box-shadow:0 5px 14px #08294a28!important}
+.view{display:none;animation:np7PageIn .2s ease both}.view.active{display:block!important}
+@keyframes np7PageIn{from{opacity:.45;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.view>.card:first-child,.view>.section:first-child{margin-top:0!important}
+.view>.card,.view>.section,.view .card,.view .section{border:1px solid var(--np7-line)!important;border-radius:23px!important;background:var(--np7-card)!important;color:var(--np7-ink)!important;box-shadow:0 8px 25px #123f6b0a!important;padding:20px!important;margin-bottom:14px!important}
+.view h2,.view h3,.view h4{color:var(--np7-ink)!important;letter-spacing:-.45px!important;font-weight:850!important}
+.view h2{font-size:23px!important}.view h3{font-size:19px!important}
+.view p{line-height:1.55}
+.view .small,.view .label{color:var(--np7-muted)!important}
+.view .label{font-size:13px!important;font-weight:800!important;letter-spacing:.1px}
+.view .big{color:#092f59!important;font-size:clamp(29px,5vw,40px)!important;font-weight:950!important;letter-spacing:-1.4px!important;line-height:1.12!important}
+.view .grid,.view .grid2{gap:12px!important}
+.view .macro{border:1px solid #dfebfa!important;border-radius:18px!important;background:linear-gradient(145deg,#fff,#f1f7ff)!important;color:var(--np7-ink)!important;padding:15px!important}
+.view .progress{height:8px!important;border-radius:99px!important;background:#e7f0fc!important;overflow:hidden!important}
+.view .progress i{border-radius:99px!important;background:linear-gradient(90deg,#0878ef,#52bdff)!important}
+.view button,.view .btn{min-height:42px!important;border-radius:14px!important;font-weight:800!important;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease!important}
+.view button:active,.view .btn:active{transform:scale(.985)!important}
+.view .btn.yellow,.view button.yellow{border:0!important;background:linear-gradient(135deg,#ffe45e,#ffcb17)!important;color:#09294a!important;box-shadow:0 6px 15px #edbd1a26!important}
+.view .btn.primary,.view button.primary{border:0!important;background:linear-gradient(135deg,#0878ef,#0754a0)!important;color:#fff!important;box-shadow:0 6px 15px #0878ef24!important}
+.view .btn.ghost,.view button.ghost{border:1px solid #d9e7f8!important;background:#f4f8ff!important;color:#17436f!important}
+.view input,.view select,.view textarea{width:100%;min-height:46px!important;padding:12px 14px!important;border:1px solid #d7e5f6!important;border-radius:14px!important;background:#fbfdff!important;color:#102d50!important;box-shadow:inset 0 1px 2px #163b6205!important}
+.view textarea{min-height:100px!important;resize:vertical!important}
+.view input:focus,.view select:focus,.view textarea:focus{outline:3px solid #0878ef1e!important;border-color:#5aa9f7!important}
+.view label{display:block!important;margin:0 0 7px!important;color:#405d7e!important;font-size:13px!important;font-weight:800!important}
+.view .form{gap:12px!important}
+.view .field{min-width:0!important}
+.view .row{gap:9px!important;align-items:center!important}
+.view .row.wrap{flex-wrap:wrap!important}
+.view [id*="Result"],.view [id*="Status"],.view [id*="Hint"]{overflow-wrap:anywhere}
+#home .grid:first-child>.card{position:relative;overflow:hidden}
+#home .grid:first-child>.card:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0878ef,#4abaff);border-radius:99px}
+#home .grid:first-child>.card:nth-child(2):before{background:linear-gradient(90deg,#22b983,#8ae4b9)}
+#home .grid:first-child>.card:nth-child(3):before{background:linear-gradient(90deg,#3995ff,#8bc7ff)}
+#home .grid:first-child>.card:nth-child(4):before{background:linear-gradient(90deg,#ffcb20,#ffe68a)}
+.np7-home-water .np7-water-minimal{background:linear-gradient(150deg,#fff,#eff8ff)!important;border-color:#cfe5fa!important}
+.np7BottleWrap{border-radius:22px!important;background:radial-gradient(ellipse at 50% 25%,#d9f2ff,#f7fbff 75%)!important}
+#meals .card:first-child{border-top:4px solid #1688ee!important}
+#sport .card:first-child{border-top:4px solid #1cbd8a!important}
+#weight .card:first-child{border-top:4px solid #ffce28!important}
+#account .card:first-child{border-top:4px solid #8a6cf6!important}
+#np7MoreView .grid2 button{min-height:64px!important;text-align:left!important;padding:14px!important;background:#f5f9ff!important;color:#16416b!important;border:1px solid #deebfa!important;box-shadow:none!important}
+.toast{border-radius:14px!important;box-shadow:0 10px 28px #08294a2a!important}
+@media(max-width:650px){
+ .app{padding:9px 9px 100px!important}
+ .app>header{padding:20px!important;border-radius:24px!important}
+ .app>header .brand{font-size:32px!important}
+ .tabs{top:4px!important;margin:9px 0 14px!important;padding:5px!important;gap:4px!important;border-radius:17px!important}
+ .tabs .tab{padding:10px 12px!important;min-height:40px!important;font-size:12px!important}
+ .view>.card,.view>.section,.view .card,.view .section{padding:16px!important;border-radius:20px!important;margin-bottom:11px!important}
+ .view h2{font-size:21px!important}.view h3{font-size:18px!important}
+ .view .grid,.view .grid2{gap:9px!important}
+ .view .macro{padding:12px!important}
+ .view .big{font-size:30px!important}
+ .view .form{grid-template-columns:minmax(0,1fr)!important}
+ .view .field,.view .field.wide{grid-column:1/-1!important}
+}
+@media(prefers-reduced-motion:reduce){.view{animation:none!important}.view button,.view .btn{transition:none!important}}
+</style>
+<script id="np7-page-headings-v1">
+document.addEventListener('DOMContentLoaded',function(){
+ const pageMeta={
+ home:['Aujourd’hui','Ton suivi nutritionnel en un coup d’œil','☀️'],
+ calories:['Évolution','Visualise tes apports et ton activité','📈'],
+ meals:['Repas','Ajoute un aliment, scanne un produit ou décris ton assiette','🥗'],
+ sport:['Activité physique','Suis tes séances et estime ta dépense énergétique','🏃'],
+ weight:['Profil & objectifs','Adapte tes objectifs à ta progression','⚖️'],
+ account:['Compte & Premium','Tes préférences et les options NP7','👤'],
+ history:['Historique','Retrouve les repas et activités enregistrés','🗓️'],
+ restaurants:['Repas au restaurant','Une estimation utile même sans fiche nutritionnelle','🍽️'],
+ database:['Base nutritionnelle','Recherche des aliments et vérifie leurs valeurs','🔎'],
+ ai:['Décrire mon repas','Écris ou dicte ton repas pour obtenir une estimation','✨'],
+ np7MoreView:['Explorer NP7','Les outils complémentaires réunis au même endroit','🧭']
+ };
+ Object.keys(pageMeta).forEach(function(id){
+  const section=document.getElementById(id);if(!section||section.querySelector(':scope > .np7-page-intro'))return;
+  const m=pageMeta[id],intro=document.createElement('div');intro.className='np7-page-intro';
+  intro.innerHTML='<div class="np7-page-icon" aria-hidden="true">'+m[2]+'</div><div><div class="np7-page-kicker">NP7 · ESPACE PERSONNEL</div><h2>'+m[0]+'</h2><p>'+m[1]+'</p></div>';
+  section.insertBefore(intro,section.firstChild);
+ });
+});
+</script>
+<style id="np7-page-intro-style">
+.np7-page-intro{display:flex;align-items:center;gap:14px;margin:4px 2px 16px;padding:5px 2px 10px}
+.np7-page-icon{display:grid;place-items:center;flex:0 0 52px;width:52px;height:52px;border-radius:17px;background:linear-gradient(145deg,#dceeff,#f4f9ff);border:1px solid #d7e9fb;font-size:25px}
+.np7-page-kicker{color:#0878ef;font-size:10px;font-weight:900;letter-spacing:1.2px;margin-bottom:3px}
+.np7-page-intro h2{margin:0 0 3px!important;font-size:25px!important;line-height:1.15!important;letter-spacing:-.8px!important}
+.np7-page-intro p{margin:0!important;color:#6c819b!important;font-size:13px!important;line-height:1.4!important}
+@media(max-width:600px){.np7-page-intro{gap:11px;margin-bottom:12px}.np7-page-icon{width:46px;height:46px;flex-basis:46px;border-radius:15px;font-size:22px}.np7-page-intro h2{font-size:22px!important}}
 </style></head>
 
 
