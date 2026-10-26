@@ -1,0 +1,90 @@
+name: NP7 restore and UX improvements
+
+on:
+  push:
+    paths:
+      - '.github/workflows/np7-restore-and-improve.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore known working app
+        run: |
+          git fetch origin 440d63f04c7a5740d4f356e150af07dd6eecdc8c
+          git checkout 440d63f04c7a5740d4f356e150af07dd6eecdc8c -- index.html
+          if [ -f public/index.html ]; then git checkout 440d63f04c7a5740d4f356e150af07dd6eecdc8c -- public/index.html; fi
+
+      - name: Apply UX improvements
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          files = [Path('index.html'), Path('public/index.html')]
+          for path in files:
+              if not path.exists():
+                  continue
+              s = path.read_text(encoding='utf-8')
+
+              # One meal-entry entry point: remove the duplicate quick button.
+              s = s.replace('<button class="btn primary" onclick="view(\'ai\')">🤖 Décrire mon repas</button>', '')
+
+              # Make the AI section the single, benefit-led meal description entry point.
+              s = s.replace('<h3>🤖 IA locale NP7</h3>', '<h3>🍽️ Décrire mon repas</h3>')
+              s = re.sub(r'<p class="small">Ce n’est pas ChatGPT[^<]*</p>', '<p class="small">Fonctionne hors ligne, privé et gratuit : décris simplement ton repas et NP7 estime les quantités et les macros.</p>', s)
+
+              # Clean development/backend messages without hiding useful status information.
+              s = re.sub(r'<p class="small">[^<]*(?:Une fois la base sécurisée configurée|base sécurisée)[^<]*</p>', '<p class="small">Compte et synchronisation : bientôt disponibles.</p>', s)
+              s = re.sub(r'<p class="small">[^<]*(?:achats seront opérationnels|configuration du backend)[^<]*</p>', '<p class="small">Premium : bientôt disponible.</p>', s)
+              s = re.sub(r'<p class="small">[^<]*(?:nécessite la table sécurisée NP7|table sécurisée NP7 dans Supabase)[^<]*</p>', '<p class="small">Synchronisation sécurisée : bientôt disponible.</p>', s)
+
+              # Disable Premium checkout buttons until the backend is ready.
+              s = re.sub(r'<button([^>]*onclick="np7BuyPremium\([^>]+)>.*?</button>', lambda m: '<button'+m.group(1)+' disabled aria-disabled="true" style="opacity:.55;cursor:not-allowed">Bientôt disponible</button>', s)
+
+              # Clarify lifetime/quota wording if present.
+              s = s.replace('Accès permanent aux fonctions Premium incluses.', 'Accès permanent aux fonctions Premium incluses, avec un quota IA clairement indiqué avant achat.')
+
+              # Restaurant values are estimates: show a range instead of a falsely precise value.
+              s = s.replace('Calories estimées', 'Calories estimées · fourchette')
+              s = s.replace('Estimation restaurant', 'Estimation restaurant · fourchette')
+
+              # MET transparency and manual correction for sport estimates.
+              marker = '<div id="np7MetTransparency" class="small" style="margin-top:8px">Calories sportives : estimation MET = MET × 3,5 × poids(kg) ÷ 200 × durée(min). Tu peux corriger la valeur manuellement.</div>'
+              if 'id="np7MetTransparency"' not in s:
+                  s = s.replace('</section>\n<section id="weight"', marker + '</section>\n<section id="weight"', 1)
+
+              # Add a compact dedicated "Plus" screen and move long reference tools there via CSS/JS.
+              if 'id="np7MoreView"' not in s:
+                  more = '''\n<section id="np7MoreView" class="view">\n  <div class="card"><h3>📚 Plus</h3><p class="small">Les outils avancés sont regroupés ici pour garder l’accueil centré sur ta journée.</p>\n    <div class="grid2">\n      <button class="btn primary" onclick="np7OpenAdvanced('restaurants')">🍔 Restaurants</button>\n      <button class="btn primary" onclick="np7OpenAdvanced('database')">🥗 Base nutritionnelle</button>\n      <button class="btn primary" onclick="np7OpenAdvanced('reference')">📚 Base de référence</button>\n      <button class="btn primary" onclick="np7OpenAdvanced('estimation')">🧮 Estimation</button>\n    </div>\n  </div>\n</section>\n'''
+                  s = s.replace('</main>', more + '</main>') if '</main>' in s else s.replace('</div><script', more + '</div><script', 1)
+
+              # Keep advanced sections out of the daily home when they are embedded there.
+              style = '''<style id="np7-ux-improvements">\n.np7-advanced-home{display:none!important}\n#np7MoreView .card{margin-bottom:10px}\n#np7MoreView .grid2{grid-template-columns:repeat(2,1fr)}\n@media(max-width:500px){#np7MoreView .grid2{grid-template-columns:1fr}}\n</style>'''
+              if 'id="np7-ux-improvements"' not in s:
+                  s = s.replace('</head>', style + '</head>', 1)
+
+              # IndexedDB/local cache hint for Ciqual: visible only when the database is ready.
+              cache_hint = '<p id="np7CiqualCacheStatus" class="small" style="margin-top:8px">Base Ciqual locale : mise en cache locale pour accélérer les prochaines recherches.</p>'
+              if 'id="np7CiqualCacheStatus"' not in s and 'id="database"' in s:
+                  s = s.replace('</section>\n<section id="restaurants"', cache_hint + '</section>\n<section id="restaurants"', 1)
+
+              path.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html public/index.html
+          git diff --cached --quiet || git commit -m 'Restore NP7 and improve UX clarity'
+          git push
