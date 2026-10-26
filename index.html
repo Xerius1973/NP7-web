@@ -541,43 +541,6 @@ document.addEventListener('DOMContentLoaded',function(){
 .np7-page-intro h2{margin:0 0 3px!important;font-size:25px!important;line-height:1.15!important;letter-spacing:-.8px!important}
 .np7-page-intro p{margin:0!important;color:#6c819b!important;font-size:13px!important;line-height:1.4!important}
 @media(max-width:600px){.np7-page-intro{gap:11px;margin-bottom:12px}.np7-page-icon{width:46px;height:46px;flex-basis:46px;border-radius:15px;font-size:22px}.np7-page-intro h2{font-size:22px!important}}
-</style><style id="np7-reference-design-correction">
-/* Correct the previous dark styling: reference uses a bright, clean nutrition UI */
-:root{color-scheme:light!important;--b:#0878ef;--y:#ffd42a;--ink:#102d50;--m:#6c819b;--bg:#f1f7ff;--line:#dce9f8}
-html,body{background:#f1f7ff!important;color:#102d50!important}
-body{background:radial-gradient(ellipse at 50% -15%,#d9ebff 0,transparent 50%),#f1f7ff!important}
-.app{max-width:1240px!important;padding:14px 20px 110px!important;background:transparent!important}
-.app>header{background:linear-gradient(115deg,#08294a 0%,#0755a5 58%,#1688ed 100%)!important;border:1px solid #9acbff55!important;border-radius:28px!important;padding:26px 30px!important;min-height:185px!important;box-shadow:0 12px 30px #0c4b8320!important}
-.app>header .brand{color:#fff!important;font-size:42px!important;letter-spacing:-2px!important}
-.app>header h1{color:#fff!important;font-size:clamp(26px,3.2vw,38px)!important;margin:18px 0 6px!important}
-.app>header .sub{color:#d7eaff!important;font-size:16px!important}
-.app>header .tag{background:#ffd42a!important;color:#08294a!important;padding:9px 14px!important}
-.tabs{background:#ffffffd9!important;border:1px solid #dce9f8!important;border-radius:20px!important;padding:7px!important;gap:7px!important;box-shadow:0 8px 24px #153d640d!important}
-.tabs .tab{background:transparent!important;color:#587391!important;border:0!important;border-radius:14px!important;font-size:14px!important;padding:12px 17px!important}
-.tabs .tab.active{background:#08294a!important;color:#fff!important}
-.view .card,.view .section,.card,.section{background:#fff!important;color:#102d50!important;border-color:#dce9f8!important;box-shadow:0 8px 25px #123f6b0b!important}
-.view h2,.view h3,.view h4,.view .big,.view strong{color:#102d50!important}
-.view .small,.view .label,.view .meta,.view .field label{color:#6c819b!important}
-.view .macro{background:linear-gradient(145deg,#fff,#f1f7ff)!important;color:#102d50!important;border-color:#dfebfa!important}
-.view .progress{background:#e6effb!important}
-.view .progress i{background:linear-gradient(90deg,#0878ef,#50bdff)!important}
-.view input,.view select,.view textarea,input,select,textarea{background:#fbfdff!important;color:#102d50!important;border-color:#d7e5f6!important}
-.view .ghost,.view button.ghost,.view .btn.ghost{background:#f0f6ff!important;color:#16416b!important;border:1px solid #d9e7f8!important}
-.view .primary,.view button.primary,.view .btn.primary{background:linear-gradient(135deg,#0878ef,#0754a0)!important;color:#fff!important}
-.view .yellow,.view button.yellow,.view .btn.yellow{background:linear-gradient(135deg,#ffe45e,#ffcb17)!important;color:#09294a!important}
-#np7BottomNav{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min( min(980px, calc(100% - 24px)), 100%)!important;bottom:12px!important;height:76px!important;background:#ffffffed!important;border:1px solid #d7e5f6!important;border-radius:25px!important;box-shadow:0 10px 30px #08294a1c!important;backdrop-filter:blur(20px)!important}
-#np7BottomNav .np7-nav-item{color:#7186a0!important;border-radius:17px!important}
-#np7BottomNav .np7-nav-item.active{background:#edf5ff!important;color:#0878ef!important}
-#np7BottomNav .np7-nav-item.active:after{background:#ffd42a!important}
-.np7-page-intro{margin:4px 2px 18px!important}
-.np7-page-intro h2{color:#102d50!important}
-.np7-page-icon{background:linear-gradient(145deg,#dceeff,#f4f9ff)!important;border-color:#d7e9fb!important}
-.np7-page-kicker{color:#0878ef!important}
-.np7-water-controls{display:flex!important;gap:10px!important;align-items:stretch!important;justify-content:center!important}
-.np7-water-controls button{flex:1 1 0!important;min-width:0!important;max-width:220px!important;min-height:48px!important;border-radius:15px!important}
-.np7-water-add{background:linear-gradient(135deg,#ffe45e,#ffcb17)!important;color:#09294a!important}
-.np7-water-minus{background:#edf5ff!important;color:#16416b!important;border:1px solid #d5e5f7!important}
-@media(max-width:650px){.app{padding:9px 10px 104px!important}.app>header{padding:20px!important;min-height:155px!important;border-radius:23px!important}.app>header .brand{font-size:35px!important}.app>header h1{font-size:27px!important}.tabs .tab{padding:10px 12px!important;font-size:12px!important}#np7BottomNav{width:calc(100% - 20px)!important;bottom:8px!important;height:70px!important}.view .card,.view .section,.card,.section{border-radius:20px!important}}
 </style></head>
 
 
@@ -2067,4 +2030,42 @@ function np7OpenAdvanced(id){
   const status=document.getElementById('np7CiqualCacheStatus');
   if(status) status.textContent='Base Ciqual locale : disponible et mise en cache pour accélérer les prochaines recherches.';
 })();
-</script></body></html>
+</script><style id="np7-reference-design-correction">
+/* Correct the previous dark styling: reference uses a bright, clean nutrition UI */
+:root{color-scheme:light!important;--b:#0878ef;--y:#ffd42a;--ink:#102d50;--m:#6c819b;--bg:#f1f7ff;--line:#dce9f8}
+html,body{background:#f1f7ff!important;color:#102d50!important}
+body{background:radial-gradient(ellipse at 50% -15%,#d9ebff 0,transparent 50%),#f1f7ff!important}
+.app{max-width:1240px!important;padding:14px 20px 110px!important;background:transparent!important}
+.app>header{background:linear-gradient(115deg,#08294a 0%,#0755a5 58%,#1688ed 100%)!important;border:1px solid #9acbff55!important;border-radius:28px!important;padding:26px 30px!important;min-height:185px!important;box-shadow:0 12px 30px #0c4b8320!important}
+.app>header .brand{color:#fff!important;font-size:42px!important;letter-spacing:-2px!important}
+.app>header h1{color:#fff!important;font-size:clamp(26px,3.2vw,38px)!important;margin:18px 0 6px!important}
+.app>header .sub{color:#d7eaff!important;font-size:16px!important}
+.app>header .tag{background:#ffd42a!important;color:#08294a!important;padding:9px 14px!important}
+.tabs{background:#ffffffd9!important;border:1px solid #dce9f8!important;border-radius:20px!important;padding:7px!important;gap:7px!important;box-shadow:0 8px 24px #153d640d!important}
+.tabs .tab{background:transparent!important;color:#587391!important;border:0!important;border-radius:14px!important;font-size:14px!important;padding:12px 17px!important}
+.tabs .tab.active{background:#08294a!important;color:#fff!important}
+.view .card,.view .section,.card,.section{background:#fff!important;color:#102d50!important;border-color:#dce9f8!important;box-shadow:0 8px 25px #123f6b0b!important}
+.view h2,.view h3,.view h4,.view .big,.view strong{color:#102d50!important}
+.view .small,.view .label,.view .meta,.view .field label{color:#6c819b!important}
+.view .macro{background:linear-gradient(145deg,#fff,#f1f7ff)!important;color:#102d50!important;border-color:#dfebfa!important}
+.view .progress{background:#e6effb!important}
+.view .progress i{background:linear-gradient(90deg,#0878ef,#50bdff)!important}
+.view input,.view select,.view textarea,input,select,textarea{background:#fbfdff!important;color:#102d50!important;border-color:#d7e5f6!important}
+.view .ghost,.view button.ghost,.view .btn.ghost{background:#f0f6ff!important;color:#16416b!important;border:1px solid #d9e7f8!important}
+.view .primary,.view button.primary,.view .btn.primary{background:linear-gradient(135deg,#0878ef,#0754a0)!important;color:#fff!important}
+.view .yellow,.view button.yellow,.view .btn.yellow{background:linear-gradient(135deg,#ffe45e,#ffcb17)!important;color:#09294a!important}
+#np7BottomNav{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min( min(980px, calc(100% - 24px)), 100%)!important;bottom:12px!important;height:76px!important;background:#ffffffed!important;border:1px solid #d7e5f6!important;border-radius:25px!important;box-shadow:0 10px 30px #08294a1c!important;backdrop-filter:blur(20px)!important}
+#np7BottomNav .np7-nav-item{color:#7186a0!important;border-radius:17px!important}
+#np7BottomNav .np7-nav-item.active{background:#edf5ff!important;color:#0878ef!important}
+#np7BottomNav .np7-nav-item.active:after{background:#ffd42a!important}
+.np7-page-intro{margin:4px 2px 18px!important}
+.np7-page-intro h2{color:#102d50!important}
+.np7-page-icon{background:linear-gradient(145deg,#dceeff,#f4f9ff)!important;border-color:#d7e9fb!important}
+.np7-page-kicker{color:#0878ef!important}
+.np7-water-controls{display:flex!important;gap:10px!important;align-items:stretch!important;justify-content:center!important}
+.np7-water-controls button{flex:1 1 0!important;min-width:0!important;max-width:220px!important;min-height:48px!important;border-radius:15px!important}
+.np7-water-add{background:linear-gradient(135deg,#ffe45e,#ffcb17)!important;color:#09294a!important}
+.np7-water-minus{background:#edf5ff!important;color:#16416b!important;border:1px solid #d5e5f7!important}
+@media(max-width:650px){.app{padding:9px 10px 104px!important}.app>header{padding:20px!important;min-height:155px!important;border-radius:23px!important}.app>header .brand{font-size:35px!important}.app>header h1{font-size:27px!important}.tabs .tab{padding:10px 12px!important;font-size:12px!important}#np7BottomNav{width:calc(100% - 20px)!important;bottom:8px!important;height:70px!important}.view .card,.view .section,.card,.section{border-radius:20px!important}}
+</style>
+</body></html>
