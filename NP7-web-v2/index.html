@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NP7 — Ton coach nutrition & sport</title>
+<meta name="description" content="Suivi des repas, du sport et de l’hydratation. Fonctionne hors ligne.">
+<meta name="theme-color" content="#0a2457">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NP7">
+<link rel="stylesheet" href="np7.css">
+<script>try{var s=JSON.parse(localStorage.getItem('np7SettingsV16')||'{}'),t=s.theme||'system';if(t==='system')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){}</script>
+<script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<linearGradient id="np7grad" gradientUnits="userSpaceOnUse" x1="110" y1="60" x2="10" y2="60"><stop offset="0" stop-color="#1666e8"/><stop offset=".6" stop-color="#3b8cff"/><stop offset="1" stop-color="#ffc72c"/></linearGradient>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-meal" viewBox="0 0 24 24"><path d="M6 3v7a2 2 0 0 0 4 0V3M8 3v18M17 21V3c-2.5 1.5-3.5 4.5-3.5 8H17"/></symbol>
+<symbol id="i-run" viewBox="0 0 24 24"><circle cx="15.5" cy="4.5" r="2"/><path d="m4 21 3.5-6.5L12 17l2.5-5.5-4-3-3.5 2.5M12 17l1.5 4.5M14.5 11.5 18 13l2.5-2.5"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11.5" rx="3"/><path d="M5 11.5a7 7 0 0 0 14 0M12 18.5V22"/></symbol>
+<symbol id="i-text" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9h10M7 13h6"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8h3l1.8-2.5h6.4L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.8"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+<symbol id="i-next" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.8 13.6 5l2.7-.6.7 2.7 2.4 1.4-1 2.5 1 2.5-2.4 1.4-.7 2.7-2.7-.6L12 21.2 10.4 19l-2.7.6-.7-2.7-2.4-1.4 1-2.5-1-2.5L7 8.1l.7-2.7L10.4 6z"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.6-4 4-6 8-6s7.4 2 8 6"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5zM4 21.5A2.5 2.5 0 0 0 6.5 24H20"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+<symbol id="i-crown" viewBox="0 0 24 24"><path d="m3 8 4.5 4L12 5l4.5 7L21 8l-2 11H5z"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></symbol>
+<symbol id="i-dumb" viewBox="0 0 24 24"><path d="M6 7v10M3 9.5v5M18 7v10M21 9.5v5M6 12h12"/></symbol>
+<symbol id="i-bike" viewBox="0 0 24 24"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9 8h5l4.5 8.5M9 8 12 16.5M14 8l-1-2.5h-2"/></symbol>
+<symbol id="i-swim" viewBox="0 0 24 24"><circle cx="16" cy="6" r="2"/><path d="m5 13 5-4 4 2.5 2 1.5M2 18c2 0 2-1.5 4-1.5S8 18 10 18s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/></symbol>
+<symbol id="i-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m12 7.5 4 3-1.5 4.7h-5L8 10.5zM12 3v4.5M20.5 9.5 16 10.5M17.5 19l-3-3.8M6.5 19l3-3.8M3.5 9.5 8 10.5"/></symbol>
+<symbol id="i-hoop" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.5 5.5c3.5 3 3.5 10 0 13M18.5 5.5c-3.5 3-3.5 10 0 13"/></symbol>
+<symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="2"/><path d="m9 21 2.5-6-2-3 1.5-4.5 3 1.5 2.5 3M11.5 15l3 2 1 4"/></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6.5 6.5 6.5 11a6.5 6.5 0 0 1-13 0C5.5 9.5 12 3 12 3z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.5 3.2 8 7.5 9.5 4.3-1.5 7.5-5 7.5-9.5V6zM9 12l2.2 2.2L15.5 10"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 9.5 4 4 0 0 1 17.5 18z"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="m4 18 5-5 4 4 3-3 4 4"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+</defs>
+</svg>
+
+<!-- Écran d'accueil (première ouverture) -->
+<div id="welcome" class="welcome" hidden>
+  <svg class="mt" viewBox="0 0 400 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 250 120 150l70 70 80-110 130 150v160H0z" fill="#10335f" opacity=".85"/><path d="M0 310 90 240l80 70 110-90 120 110v90H0z" fill="#0b2447"/><path d="M0 370c60-20 120-10 190 0s140 10 210-10v60H0z" fill="#081a33"/></svg>
+  <div class="big-logo">NP<b>7</b></div>
+  <p class="tag">Ton objectif. Notre priorité.</p>
+  <ul>
+    <li><svg class="i"><use href="#i-meal"/></svg>Manger mieux</li>
+    <li><svg class="i"><use href="#i-run"/></svg>Bouger plus</li>
+    <li><svg class="i"><use href="#i-bolt"/></svg>Te sentir bien</li>
+  </ul>
+  <div class="namefield"><input id="welcomeName" autocomplete="given-name" placeholder="Ton prénom (facultatif)" aria-label="Ton prénom"></div>
+  <button class="btn yellow" id="startBtn" type="button">Commencer</button>
+</div>
+
+<!-- Saisie vocale -->
+<div id="voice" class="voice" hidden role="dialog" aria-label="Saisie vocale">
+  <button class="x" type="button" id="voiceClose" aria-label="Fermer"><svg class="i"><use href="#i-x"/></svg></button>
+  <div class="mid">
+    <h2 id="voiceTitle" style="margin:0">Écoute en cours…</h2>
+    <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p id="voiceText" class="small" style="color:#9db1d1;min-height:20px"></p>
+  </div>
+  <div>
+    <button class="micbtn" type="button" id="voiceMic" aria-label="Démarrer ou arrêter la dictée"><svg class="i"><use href="#i-mic"/></svg></button>
+    <p class="small" style="color:#9db1d1">Dites par exemple :<br><b style="color:#fff">« 150 g de poulet et 150 g de riz »</b></p>
+  </div>
+</div>
+
+<div class="shell">
+
+<!-- champs historiques lus par la logique de calcul (non affichés) -->
+<div hidden aria-hidden="true">
+  <span id="k"></span><span id="kl"></span><i id="kb"></i><span id="p"></span><span id="pl"></span><i id="pb"></i>
+  <span id="c"></span><span id="cl"></span><i id="cb"></i><span id="f"></span><span id="fl"></span><i id="fb"></i>
+  <span id="tk"></span><span id="sk"></span><span id="nk"></span><span id="count"></span>
+</div>
+
+<!-- ============ ACCUEIL ============ -->
+<section id="home" class="view active">
+  <div class="top">
+    <div class="logo">NP<b>7</b></div>
+    <div class="tools">
+      <button class="ghost-ico" type="button" data-go="settings" aria-label="Paramètres"><svg class="i"><use href="#i-gear"/></svg></button>
+      <button class="avatar" type="button" data-go="weight" id="avatar" aria-label="Mon profil">N</button>
+    </div>
+  </div>
+  <div class="hello"><h1 id="np7Greeting">Bonjour</h1><p>Prêt à atteindre tes objectifs ?</p></div>
+  <div class="body">
+    <button class="card ringcard" type="button" data-go="calories" aria-label="Voir l’évolution des calories">
+      <div class="ring" id="ring">
+        <svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="50"/><circle class="arc" id="ringArc" cx="60" cy="60" r="50" stroke-dasharray="0 314"/></svg>
+        <div class="mid"><b id="ringMain">0</b><span id="ringLabel">kcal restantes</span><small id="ringGoal">/ 2 400 kcal</small></div>
+      </div>
+      <div class="ringsum"><span>Mangé <b id="sumIn">0</b></span><span>Sport <b id="sumOut">0</b></span><span>Net <b id="sumNet">0</b></span></div>
+    </button>
+
+    <div class="macros">
+      <div class="mtile p"><div class="n">Protéines</div><div class="v" id="mpV">0 g</div><div class="t" id="mpT">/ 0 g</div><div class="bar"><i id="mpB"></i></div></div>
+      <div class="mtile c"><div class="n">Glucides</div><div class="v" id="mcV">0 g</div><div class="t" id="mcT">/ 0 g</div><div class="bar"><i id="mcB"></i></div></div>
+      <div class="mtile l"><div class="n">Lipides</div><div class="v" id="mlV">0 g</div><div class="t" id="mlT">/ 0 g</div><div class="bar"><i id="mlB"></i></div></div>
+    </div>
+
+    <div class="quick">
+      <button class="qtile" type="button" data-act="describe"><span class="dot b"><svg class="i"><use href="#i-mic"/></svg></span>Décrire<br>mon repas</button>
+      <button class="qtile" type="button" data-act="photo"><span class="dot g"><svg class="i"><use href="#i-cam"/></svg></span>Photo<br>du repas</button>
+      <button class="qtile" type="button" data-go="sport"><span class="dot y"><svg class="i"><use href="#i-run"/></svg></span>Ajouter<br>un sport</button>
+    </div>
+
+    <div>
+      <div class="section-title"><span>Aujourd’hui</span><button type="button" data-go="meals" aria-label="Voir tous les repas"><svg class="i"><use href="#i-next"/></svg></button></div>
+      <div class="card" style="margin-top:10px;padding-top:6px;padding-bottom:6px"><div id="homeFoods"></div></div>
+    </div>
+
+    <div class="card water" id="waterCard">
+      <svg class="bottle" viewBox="0 0 60 104" aria-hidden="true"><defs><clipPath id="bclip"><path d="M22 8h16v10c0 4 12 8 12 20v52a8 8 0 0 1-8 8H18a8 8 0 0 1-8-8V38c0-12 12-16 12-20z"/></clipPath></defs><rect class="liq" id="np7BottleLiquid" x="0" y="98" width="60" height="0" clip-path="url(#bclip)"/><path class="shell-b" d="M22 8h16v10c0 4 12 8 12 20v52a8 8 0 0 1-8 8H18a8 8 0 0 1-8-8V38c0-12 12-16 12-20z"/></svg>
+      <div class="info">
+        <div class="label">Mon hydratation</div>
+        <div><b id="np7BottleLitres">0,00 L</b> <span class="small">sur <span id="np7WaterGoal">2500 ml</span></span></div>
+        <div class="progress" style="margin-top:6px"><i id="np7WaterBar"></i></div>
+        <div class="small" style="margin-top:4px"><span id="np7WaterPercent">0 %</span> de l’objectif</div>
+        <div class="ctl"><button class="btn" type="button" id="waterMinus">− 250 ml</button><button class="btn primary" type="button" id="waterPlus">+ 250 ml</button></div>
+      </div>
+      <span hidden><span id="np7WaterTaken"></span><span id="np7BottlePercent"></span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REPAS ============ -->
+<section id="meals" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="home" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Décrire mon repas</h2></div>
+  <div class="body tall">
+    <div class="modes" role="tablist">
+      <button type="button" class="on" data-mode="text"><svg class="i"><use href="#i-text"/></svg>Texte</button>
+      <button type="button" data-mode="voice"><svg class="i"><use href="#i-mic"/></svg>Voix</button>
+      <button type="button" data-mode="photo"><svg class="i"><use href="#i-cam"/></svg>Photo</button>
+    </div>
+
+    <div id="paneText">
+      <div class="mealinput"><textarea id="aii" placeholder="Ex : 150 g de poulet, 150 g de riz et 2 œufs" aria-label="Décris ton repas"></textarea><button class="mic" type="button" id="micInline" aria-label="Dicter"><svg class="i"><use href="#i-mic"/></svg></button></div>
+      <div id="chat" role="status" aria-live="polite" style="margin-top:10px"></div>
+      <div class="label" style="margin:14px 0 8px">Suggestions rapides</div>
+      <div class="chips" id="chips"></div>
+      <button class="btn yellow block" type="button" id="analyzeBtn" style="margin-top:16px">Analyser avec l’IA</button>
+    </div>
+
+    <div id="panePhoto" hidden>
+      <div class="card">
+        <div class="row"><b>Reconnaissance de plat</b><span class="pill est">Premium</span></div>
+        <p class="small">Photographie ton assiette pour identifier les aliments. Cette fonction arrive avec NP7 Premium : l’analyse d’image demande un service en ligne qui n’est pas encore ouvert.</p>
+        <div class="drop" id="photoDrop"><svg class="i" style="width:34px;height:34px"><use href="#i-image"/></svg><p class="small" style="margin:8px 0 0">Aucune photo choisie</p></div>
+        <div class="row" style="margin-top:12px;gap:10px"><label class="btn block" style="margin:0;cursor:pointer"><svg class="i"><use href="#i-image"/></svg>Galerie<input type="file" accept="image/*" id="photoFile" hidden></label><label class="btn primary block" style="margin:0;cursor:pointer"><svg class="i"><use href="#i-cam"/></svg>Photo<input type="file" accept="image/*" capture="environment" id="photoCam" hidden></label></div>
+      </div>
+    </div>
+
+    <div id="mealResult" class="card res" hidden></div>
+
+    <div class="card localai">
+      <div class="sh"><svg class="i" style="width:28px;height:28px"><use href="#i-shield"/></svg></div>
+      <div><b>IA locale NP7</b><ul><li>Fonctionne hors ligne</li><li>100 % privée</li><li>100 % gratuite</li></ul></div>
+    </div>
+
+    <div class="card">
+      <div class="row"><h3>Scanner un produit</h3><button class="btn primary" type="button" id="scanBtn" style="min-height:40px"><svg class="i"><use href="#i-scan"/></svg>Ouvrir</button></div>
+      <p class="small">Scanne un code-barres pour récupérer les valeurs nutritionnelles (Open Food Facts).</p>
+      <div id="np7Scanner">
+        <div class="np7-scan-frame"><video id="np7ScanVideo" playsinline muted></video></div>
+        <div id="np7ScanStatus" class="np7-scan-status">Autorise l’accès à la caméra puis place le code-barres dans le cadre.</div>
+        <div class="form" style="margin-top:12px"><div class="field wide"><label for="np7BarcodeManual">Code-barres</label><input id="np7BarcodeManual" inputmode="numeric" placeholder="Ex. 3017620422003"></div></div>
+        <div class="row wrap" style="margin-top:10px"><button class="btn yellow" type="button" onclick="lookupBarcodeManual()">Rechercher ce code</button><button class="btn ghost" type="button" onclick="stopBarcodeScanner()">Fermer la caméra</button></div>
+        <div id="np7BarcodeResult"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Ajouter sans peser</h3>
+      <p class="small">Choisis un aliment et une portion habituelle : NP7 estime le poids et les nutriments.</p>
+      <div class="form">
+        <div class="field wide"><label for="np7FoodSearch">Aliment</label><input id="np7FoodSearch" list="np7FoodSuggestions" placeholder="Ex. avocat, pâtes, tomate, poulet…" autocomplete="off" oninput="updateFoodSearch()" onchange="updateFoodSearch()"><datalist id="np7FoodSuggestions"></datalist><select id="np7PortionFood" onchange="updatePortionOptions()" aria-label="Aliment correspondant" style="margin-top:8px"></select><p class="small" id="np7FoodSearchHint" style="margin:6px 0 0"></p></div>
+        <div class="field wide"><label for="np7PortionSize">Portion</label><select id="np7PortionSize"></select></div>
+      </div>
+      <button class="btn primary block" type="button" onclick="addPortionFood()" style="margin-top:12px"><svg class="i"><use href="#i-plus"/></svg>Ajouter la portion</button>
+    </div>
+
+    <details class="card">
+      <summary>Mes aliments personnalisés</summary>
+      <p class="small">Valeurs pour 100 g. Ils sont ensuite reconnus dans la saisie de repas.</p>
+      <div class="form">
+        <div class="field wide"><label for="cn">Nom</label><input id="cn"></div>
+        <div class="field"><label for="ck">Kcal</label><input id="ck" type="number" inputmode="decimal"></div>
+        <div class="field"><label for="cp">Protéines</label><input id="cp" type="number" inputmode="decimal"></div>
+        <div class="field"><label for="cc">Glucides</label><input id="cc" type="number" inputmode="decimal"></div>
+        <div class="field"><label for="cf">Lipides</label><input id="cf" type="number" inputmode="decimal"></div>
+      </div>
+      <button class="btn yellow block" type="button" onclick="customFood()" style="margin-top:12px">Enregistrer</button>
+    </details>
+
+    <div class="card">
+      <div class="row"><h3>Journée</h3><button class="btn danger" type="button" onclick="if(confirm('Effacer tous les aliments d’aujourd’hui ?'))clearDay()" style="min-height:36px;padding:0 10px">Réinitialiser</button></div>
+      <div id="foods"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPORT ============ -->
+<section id="sport" class="view">
+  <div class="pagehead hero">
+    <span class="sun" aria-hidden="true"></span>
+    <svg class="runner" viewBox="0 0 120 130" aria-hidden="true"><g fill="none" stroke="#0a1b3d" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="78" cy="22" r="9" fill="#0a1b3d"/><path d="M70 40 52 62 30 56M52 62l14 18-8 32M66 80l26 6M70 40l22 10 14-8"/></g></svg>
+    <button class="back" type="button" data-go="home" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Activité physique</h2>
+  </div>
+  <div class="body tall">
+    <div class="seg" id="sportSeg"><button type="button" class="on" data-sp="pick">Sport</button><button type="button" data-sp="manual">Manuel</button></div>
+
+    <div id="sportPick" class="card">
+      <div style="position:relative"><svg class="i" style="position:absolute;left:12px;top:12px;color:var(--muted)"><use href="#i-search"/></svg><input id="actSearch" placeholder="Rechercher une activité…" style="padding-left:42px" aria-label="Rechercher une activité"></div>
+      <div class="acts" id="acts" style="margin-top:14px"></div>
+      <select id="st" aria-label="Sport">
+        <option value="muscu">Musculation</option><option value="running">Course</option><option value="walking">Marche</option><option value="cycling">Vélo</option><option value="football">Football</option><option value="combat">JJB / combat</option><option value="swimming">Natation</option><option value="basketball">Basketball</option><option value="tennis">Tennis</option><option value="badminton">Badminton</option><option value="rugby">Rugby</option><option value="boxing">Boxe</option><option value="kickboxing">Kick-boxing</option><option value="judo">Judo</option><option value="mma">MMA</option><option value="crossfit">CrossFit</option><option value="hiit">HIIT</option><option value="hiking">Randonnée</option><option value="dance">Danse</option><option value="yoga">Yoga</option><option value="jump_rope">Corde à sauter</option>
+      </select>
+      <h3 style="margin-top:16px">Détails de l’activité</h3>
+      <div class="row" style="margin:8px 0"><label for="sm" style="margin:0">Durée</label><div class="stepper"><input id="sm" type="number" inputmode="numeric" value="45" min="1"><span class="small">min</span><button type="button" id="smMinus" aria-label="Moins 5 minutes">−</button><button type="button" id="smPlus" aria-label="Plus 5 minutes">+</button></div></div>
+      <div class="row" style="margin:8px 0"><label for="si" style="margin:0">Intensité</label><select id="si" style="width:auto;min-width:150px"><option value=".85">Légère</option><option value="1" selected>Modérée</option><option value="1.15">Intense</option></select></div>
+      <div class="note"><svg class="i"><use href="#i-info"/></svg><div>Calcul basé sur la méthode MET (équivalent métabolique) : MET × 3,5 × poids ÷ 200 × durée.<br><b class="est-line" id="metEst">≈ 0 kcal</b> · <a href="#" id="toManual">Modifier manuellement</a></div></div>
+      <button class="btn yellow block" type="button" onclick="workout()" style="margin-top:14px">Ajouter</button>
+    </div>
+
+    <div id="sportManual" class="card" hidden>
+      <h3>Saisie manuelle</h3>
+      <p class="small">Utile si tu as la valeur de ta montre ou d’une application.</p>
+      <div class="form">
+        <div class="field wide"><label for="mName">Activité</label><input id="mName" placeholder="Ex. Séance de pilates"></div>
+        <div class="field"><label for="mMin">Durée (min)</label><input id="mMin" type="number" inputmode="numeric"></div>
+        <div class="field"><label for="mKcal">Calories brûlées</label><input id="mKcal" type="number" inputmode="numeric"></div>
+      </div>
+      <button class="btn yellow block" type="button" id="mAdd" style="margin-top:12px">Ajouter</button>
+    </div>
+
+    <div class="card">
+      <h3>Décrire ma séance</h3>
+      <p class="small">Ex. « j’ai nagé 45 minutes », « 1 h de muscu intense ».</p>
+      <textarea id="sportAi" placeholder="Ex : j’ai couru 30 minutes…" style="min-height:64px"></textarea>
+      <button class="btn primary block" type="button" onclick="analyzeSportAI()" style="margin-top:10px">Analyser ma séance</button>
+      <div id="sportAiResult" style="margin-top:10px"></div>
+    </div>
+
+    <div class="card"><h3>Historique sport</h3><div id="works"></div></div>
+  </div>
+</section>
+
+<!-- ============ ÉVOLUTION DES CALORIES ============ -->
+<section id="calories" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="home" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Évolution des calories</h2></div>
+  <div class="body tall">
+    <div class="card">
+      <svg id="calChart" class="chart" viewBox="0 0 340 190" role="img" aria-label="Calories mangées et brûlées sur les 7 derniers jours"></svg>
+      <div class="legend"><span><i style="background:var(--blue)"></i>Repas</span><span><i style="background:var(--yellow)"></i>Sport</span><span><i style="background:var(--muted);height:2px;border-radius:0;vertical-align:middle"></i>Objectif</span></div>
+      <p class="small" id="calAvg" style="margin:10px 0 0"></p>
+    </div>
+    <div class="card"><h3>Historique</h3><div id="hist"></div></div>
+  </div>
+</section>
+
+<!-- ============ PLUS ============ -->
+<section id="np7MoreView" class="view">
+  <div class="pagehead"><h2 style="font-size:24px">Plus</h2><button class="pill-premium" type="button" data-go="premium"><svg class="i" style="width:18px;height:18px"><use href="#i-crown"/></svg>Premium</button></div>
+  <div class="body tall">
+    <div class="card list">
+      <button class="item" type="button" data-go="weight"><span class="ic" style="background:var(--navy);color:#fff;font-weight:900;font-size:13px">NP7</span><span class="tx"><b>Mon profil</b><span>Objectifs · Poids · Préférences</span></span><svg class="i"><use href="#i-next"/></svg></button>
+      <button class="item" type="button" data-go="database"><span class="ic g"><svg class="i"><use href="#i-db"/></svg></span><span class="tx"><b>Base nutritionnelle</b><span>Ciqual · Locale et en cache</span> <span class="pill ok" id="dbPill">Disponible</span></span><svg class="i"><use href="#i-next"/></svg></button>
+      <button class="item" type="button" data-go="restaurants"><span class="ic y"><svg class="i"><use href="#i-meal"/></svg></span><span class="tx"><b>Restaurants</b><span>Estimation · Fourchette de calories</span></span><svg class="i"><use href="#i-next"/></svg></button>
+      <button class="item" type="button" data-go="reference"><span class="ic"><svg class="i"><use href="#i-book"/></svg></span><span class="tx"><b>Base de référence</b><span>Apports recommandés</span></span><svg class="i"><use href="#i-next"/></svg></button>
+      <button class="item" type="button" data-go="settings"><span class="ic v"><svg class="i"><use href="#i-sliders"/></svg></span><span class="tx"><b>Paramètres</b><span>Thème · Langue · Unités</span></span><svg class="i"><use href="#i-next"/></svg></button>
+      <button class="item" type="button" data-go="premium"><span class="ic y"><svg class="i"><use href="#i-crown"/></svg></span><span class="tx"><b>Premium</b><span>Bientôt disponible</span></span><svg class="i"><use href="#i-next"/></svg></button>
+      <button class="item" type="button" data-go="help"><span class="ic"><svg class="i"><use href="#i-help"/></svg></span><span class="tx"><b>Aide &amp; FAQ</b></span><svg class="i"><use href="#i-next"/></svg></button>
+      <button class="item" type="button" data-go="about"><span class="ic"><svg class="i"><use href="#i-info"/></svg></span><span class="tx"><b>À propos</b></span><svg class="i"><use href="#i-next"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROFIL ============ -->
+<section id="weight" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="np7MoreView" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Mon profil</h2></div>
+  <div class="body tall">
+    <div class="card profilecard">
+      <div class="row" style="justify-content:flex-start;gap:14px"><div class="av" id="avatar2">N</div><div style="flex:1"><label for="firstName" style="margin:0">Prénom</label><input id="firstName" autocomplete="given-name" placeholder="Ton prénom"></div></div>
+      <button class="item" type="button" data-go="account" style="margin-top:8px"><span class="ic"><svg class="i"><use href="#i-cloud"/></svg></span><span class="tx"><b>Compte &amp; synchronisation</b><span id="syncShort">Sauvegarde en ligne</span></span><svg class="i"><use href="#i-next"/></svg></button>
+    </div>
+    <div class="card">
+      <h3>Objectifs</h3>
+      <div class="form">
+        <div class="field"><label for="w">Poids (kg)</label><input id="w" type="number" step=".1" inputmode="decimal"></div>
+        <div class="field"><label for="h">Taille (cm)</label><input id="h" type="number" inputmode="numeric"></div>
+        <div class="field"><label for="a">Âge</label><input id="a" type="number" inputmode="numeric"></div>
+        <div class="field"><label for="sex">Sexe</label><select id="sex"><option value="male">Homme</option><option value="female">Femme</option></select></div>
+        <div class="field wide"><label for="act">Activité</label><select id="act"><option value="1.35">1–2 séances / semaine</option><option value="1.55" selected>3–4 séances / semaine</option><option value="1.725">5–6 séances / semaine</option><option value="1.9">Très actif</option></select></div>
+        <div class="field wide"><label for="goal">Objectif</label><select id="goal"><option value="cut">Sécher / recomposition</option><option value="maintain">Maintenir</option><option value="bulk">Prise de masse</option></select></div>
+      </div>
+      <button class="btn yellow block" type="button" onclick="targets()" style="margin-top:12px">Recalculer mes objectifs</button>
+    </div>
+    <div class="card">
+      <h3>Suivi du poids</h3>
+      <svg id="wChart" class="chart" viewBox="0 0 340 120" role="img" aria-label="Courbe de poids" style="margin:6px 0"></svg>
+      <div class="row" style="gap:10px"><input id="we" type="number" step=".1" inputmode="decimal" placeholder="Ex. 75,4" aria-label="Nouvelle pesée"><button class="btn primary" type="button" onclick="addWeight()" style="white-space:nowrap">Ajouter</button></div>
+      <div id="wh" style="margin-top:8px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPTE ============ -->
+<section id="account" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="weight" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Compte &amp; synchronisation</h2></div>
+  <div class="body tall">
+    <div class="card">
+      <h3>Mon compte NP7</h3>
+      <p class="small">Tu peux utiliser NP7 sans compte. Connecte-toi pour sauvegarder tes données en ligne et les retrouver sur tous tes appareils.</p>
+      <div class="form">
+        <div class="field wide"><label for="accountEmail">E-mail</label><input id="accountEmail" type="email" autocomplete="email" placeholder="ton@email.com"></div>
+        <div class="field wide"><label for="accountPassword">Mot de passe</label><input id="accountPassword" type="password" autocomplete="current-password" minlength="8" placeholder="8 caractères minimum"></div>
+      </div>
+      <div class="row wrap" style="margin-top:12px"><button class="btn primary" type="button" onclick="np7SignUp()">Créer mon compte</button><button class="btn" type="button" onclick="np7SignIn()">Se connecter</button><button class="btn ghost" type="button" onclick="np7ResetPassword()">Mot de passe oublié</button><button class="btn ghost" id="np7SignOut" type="button" onclick="np7SignOut()" style="display:none">Se déconnecter</button></div>
+      <div id="accountStatus" class="small" style="margin-top:12px" role="status" aria-live="polite"></div>
+      <div id="np7AccountEmail" class="small" style="margin-top:6px"></div>
+    </div>
+    <div class="card"><h3>Synchronisation</h3><p id="np7SyncStatus" class="small">En attente de connexion. Tes données restent sur cet appareil.</p></div>
+  </div>
+</section>
+
+<!-- ============ PREMIUM ============ -->
+<section id="premium" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="np7MoreView" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>NP7 Premium</h2></div>
+  <div class="body tall">
+    <div class="note"><svg class="i"><use href="#i-info"/></svg><div>Les achats ne sont pas encore ouverts. Paiement unique, sans renouvellement automatique, quand ils le seront.</div></div>
+    <div id="np7PremiumStatus" class="small" role="status" aria-live="polite"></div>
+    <div class="card"><div class="row"><h3>30 jours</h3><b class="big" style="margin:0">3,99 €</b></div><p class="small">IA nutritionnelle, statistiques avancées, sans publicité et programmes personnalisés.</p><button class="btn primary block" type="button" disabled>Bientôt disponible</button></div>
+    <div class="card"><div class="row"><h3>1 an</h3><b class="big" style="margin:0">24,99 €</b></div><p class="small">365 jours d’accès Premium, sans reconduction.</p><button class="btn primary block" type="button" disabled>Bientôt disponible</button></div>
+    <div class="card"><div class="row"><h3>À vie</h3><b class="big" style="margin:0">59,99 €</b></div><p class="small">Accès permanent aux fonctions Premium incluses. Le quota de l’IA sera affiché clairement avant l’ouverture des achats.</p><button class="btn yellow block" type="button" disabled>Bientôt disponible</button></div>
+    <p id="np7CheckoutStatus" class="small" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- ============ RESTAURANTS / BASE / RÉFÉRENCE ============ -->
+<section id="restaurants" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="np7MoreView" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Restaurants</h2></div>
+  <div class="body tall"><div class="card"><h2>🍔 Restaurants de France</h2><p class="small">Recherche un restaurant en France via OpenStreetMap. Les petits établissements peuvent être trouvés s’ils sont référencés. Les données peuvent être incomplètes.</p><div class="form"><div class="field wide"><label>Restaurant / ville</label><input id="restQuery" placeholder="ex : GOMU Amiens, O'Tacos Lille..."></div><div class="field wide"><label>Ce que tu as mangé</label><input id="restFood" placeholder="ex : burger + frites, tacos 3 viandes, pizza 4 fromages"></div></div><div class="row wrap" style="margin-top:10px"><button class="btn primary" onclick="searchRestaurants()">🔎 Rechercher</button><button class="btn ghost" onclick="useRestaurantFood()">➕ Ajouter le repas estimé</button></div><div id="restaurantResults" style="margin-top:12px"></div><div id="restaurantEstimate" style="margin-top:12px"></div></div><div class="section card"><h2>ℹ️ Estimation</h2><p class="small">Pour les restaurants indépendants, NP7 estime les plats selon leur type et une portion standard. Ce n’est pas une valeur nutritionnelle officielle.</p></div></div>
+</section>
+<section id="database" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="np7MoreView" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Base nutritionnelle</h2></div>
+  <div class="body tall"><div class="card">
+    <h2>🥗 Grande base nutritionnelle</h2>
+    <p class="small">Recherche des produits alimentaires par nom ou marque. NP7 peut utiliser une base locale enrichie et Open Food Facts pour les produits référencés.</p>
+    <div class="form">
+      <div class="field wide"><label>Aliment / produit / marque</label><input id="dbQuery" placeholder="ex : fromage blanc, Nutella, Coca-Cola, céréales..."></div>
+      <div class="field"><label>Quantité (g)</label><input id="dbQty" type="number" value="100"></div>
+    </div>
+    <div class="row wrap" style="margin-top:10px">
+      <button class="btn primary" onclick="searchNutrition()">🔎 Rechercher</button>
+      <button class="btn yellow" onclick="goAIWithNutrition()">🤖 Décrire mon repas</button>
+    </div>
+    <div id="dbResults" style="margin-top:12px"></div>
+  </div></div>
+</section>
+<section id="reference" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="np7MoreView" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Base de référence</h2></div>
+  <div class="body tall">
+    <div class="card"><h3>Tes apports recommandés</h3><p class="small">Calculés avec la formule de Mifflin-St Jeor à partir de ton profil, puis ajustés selon ton objectif.</p>
+      <div class="cards" style="grid-template-columns:repeat(2,1fr);margin-top:10px"><div class="macro"><b id="rfK">–</b><br><span class="small">kcal / jour</span></div><div class="macro"><b id="rfP">–</b><br><span class="small">protéines (g)</span></div><div class="macro"><b id="rfC">–</b><br><span class="small">glucides (g)</span></div><div class="macro"><b id="rfF">–</b><br><span class="small">lipides (g)</span></div></div>
+      <button class="btn block" type="button" data-go="weight" style="margin-top:12px">Modifier mon profil</button></div>
+    <div class="card"><h3>Sources des données</h3>
+      <div class="cards"><div class="macro"><b>3 484</b><br><span class="small">aliments Ciqual 2025</span></div><div class="macro"><b>74</b><br><span class="small">constituants</span></div><div class="macro"><b>∞</b><br><span class="small">produits Open Food Facts</span></div></div>
+      <p class="small" style="margin-top:10px">Ciqual donne des valeurs moyennes françaises. Open Food Facts est collaboratif : certaines fiches peuvent être incomplètes.</p></div>
+    <div class="card"><h3>Estimations</h3><p class="small">Pour les restaurants indépendants, NP7 estime les plats selon leur type et une portion standard, avec une fourchette. Ce ne sont pas des valeurs nutritionnelles officielles. Les calories du sport sont estimées avec la méthode MET et ne remplacent pas une montre connectée.</p></div>
+  </div>
+</section>
+
+<!-- ============ PARAMÈTRES ============ -->
+<section id="settings" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="np7MoreView" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Paramètres</h2></div>
+  <div class="body tall">
+    <div class="card"><h3>Apparence</h3><div class="opts" id="themeOpts"><button class="opt" type="button" data-theme="light">Clair</button><button class="opt" type="button" data-theme="dark">Sombre</button><button class="opt" type="button" data-theme="system">Système</button></div></div>
+    <div class="card"><h3>Langue</h3><div class="opts"><button class="opt on" type="button">Français</button><button class="opt" type="button" disabled>English</button><button class="opt" type="button" disabled>Español</button></div><p class="small" style="margin:8px 0 0">Autres langues : bientôt disponibles.</p></div>
+    <div class="card"><h3>Unités</h3><div class="opts"><button class="opt on" type="button">kg (métrique)</button><button class="opt" type="button" disabled>lb (impérial)</button></div><p class="small" style="margin:8px 0 0">Unités impériales : bientôt disponibles.</p></div>
+    <div class="card"><h3>Hors ligne</h3><div class="row" style="justify-content:flex-start;gap:12px"><span class="ic" id="offIc" style="width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2)"><svg class="i"><use href="#i-check"/></svg></span><div><b id="offTitle">Vérification…</b><div class="small" id="np7CiqualCacheStatus"></div></div></div></div>
+    <div class="card"><h3>Mes données</h3><p class="small">Sans compte, tes données vivent dans ce navigateur. Exporte une sauvegarde pour ne rien perdre.</p>
+      <div class="row wrap"><button class="btn" type="button" id="exportBtn">Exporter</button><label class="btn" style="margin:0;cursor:pointer">Importer<input type="file" accept="application/json" id="importFile" hidden></label></div></div>
+  </div>
+</section>
+
+<section id="help" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="np7MoreView" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>Aide &amp; FAQ</h2></div>
+  <div class="body tall"><div class="card">
+    <details><summary>Comment ajouter un repas ?</summary><p>Dans l’onglet Repas, écris ou dicte ce que tu as mangé avec les quantités (« 150 g de riz et 2 œufs »), puis touche « Analyser avec l’IA ».</p></details>
+    <details><summary>L’« IA » envoie-t-elle mes repas quelque part ?</summary><p>Non. L’analyse se fait dans ton appareil, à partir d’une base d’aliments embarquée. Elle fonctionne hors ligne.</p></details>
+    <details><summary>Les calories sont-elles exactes ?</summary><p>Ce sont des estimations basées sur des valeurs moyennes (Ciqual 2025) et, pour les restaurants, sur des fourchettes. Vérifie l’étiquette pour un produit précis.</p></details>
+    <details><summary>Comment sont calculées les calories du sport ?</summary><p>Avec la méthode MET : MET × 3,5 × poids (kg) ÷ 200 × durée (min), ajustée selon l’intensité choisie.</p></details>
+    <details><summary>Comment retrouver mes données sur un autre appareil ?</summary><p>Crée un compte (Plus › Mon profil › Compte) ou exporte une sauvegarde depuis Paramètres.</p></details>
+  </div></div>
+</section>
+
+<section id="about" class="view">
+  <div class="pagehead"><button class="back" type="button" data-go="np7MoreView" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button><h2>À propos</h2></div>
+  <div class="body tall"><div class="card"><div class="logo" style="font-size:34px">NP<b>7</b></div><p>Nutrition · Sport · Progression.</p><p class="small">Données nutritionnelles : Ciqual 2025 (Anses), Open Food Facts, OpenStreetMap pour la recherche de restaurants.</p><p class="small">NP7 est un outil de suivi personnel. Il ne remplace pas l’avis d’un professionnel de santé.</p></div></div>
+</section>
+
+<nav id="tabbar" aria-label="Navigation principale">
+  <button type="button" data-tab="home" class="on"><svg class="i"><use href="#i-home"/></svg>Accueil</button>
+  <button type="button" data-tab="meals"><svg class="i"><use href="#i-meal"/></svg>Repas</button>
+  <button type="button" data-tab="sport"><svg class="i"><use href="#i-run"/></svg>Sport</button>
+  <button type="button" data-tab="np7MoreView"><svg class="i"><use href="#i-dots"/></svg>Plus</button>
+</nav>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+window.np7Fetch=async function(name){
+  for(const base of ['./public/data/','./data/','/data/']){
+    try{const r=await fetch(base+name,{cache:'force-cache'});if(r.ok)return r}catch(e){}
+  }
+  throw new Error('Données introuvables : '+name);
+};
+</script>
+<script>
+const DB={riz:['Riz cuit',130,2.7,28.2,.3],poulet:['Poulet cuit',165,31,0,3.6],'blanc de poulet':['Poulet cuit',165,31,0,3.6],dinde:['Blanc de dinde',110,24,1.5,1],'jambon de dinde':['Jambon de dinde',110,20,2,2],oeuf:['Œuf',143,12.6,.7,9.5],'œuf':['Œuf',143,12.6,.7,9.5],pain:['Pain',265,9,49,3.2],'pain au chocolat':['Pain au chocolat',420,7.5,45,23],lait:['Lait demi-écrémé',46,3.2,4.8,1.5],fromage:['Fromage',350,25,2,27],banane:['Banane',89,1.1,20.2,.3],pomme:['Pomme',52,.3,13.8,.2],avoine:['Flocons d’avoine',389,16.9,66.3,6.9],whey:['Whey',400,80,8,6],pates:['Pâtes cuites',158,5.8,30.9,.9],pâtes:['Pâtes cuites',158,5.8,30.9,.9],saumon:['Saumon',208,20.5,0,13.4],steak:['Steak haché',250,26,0,17],yaourt:['Yaourt nature',61,4.5,4.7,3.3],huile:['Huile',884,0,0,100]};
+Object.assign(DB,{
+avocat:['Avocat',160,2,8.5,14.7],poire:['Poire',57,.4,15.2,.1],orange:['Orange',47,.9,11.8,.1],mandarine:['Mandarine',53,.8,13.3,.3],clementine:['Clémentine',47,.9,12,.2],fraise:['Fraises',32,.7,7.7,.3],framboise:['Framboises',52,1.2,11.9,.7],myrtille:['Myrtilles',57,.7,14.5,.3],raisin:['Raisin',69,.7,18.1,.2],kiwi:['Kiwi',61,1.1,14.7,.5],ananas:['Ananas',50,.5,13.1,.1],mangue:['Mangue',60,.8,15,.4],peche:['Pêche',39,.9,9.5,.3],abricot:['Abricot',48,1.4,11.1,.4],melon:['Melon',34,.8,8.2,.2],pasteque:['Pastèque',30,.6,7.6,.2],cerise:['Cerises',63,1.1,16,.2],prune:['Prune',46,.7,11.4,.3],citron:['Citron',29,1.1,9.3,.3],
+tomate:['Tomate',18,.9,3.9,.2],concombre:['Concombre',15,.7,3.6,.1],salade:['Laitue',15,1.4,2.9,.2],laitue:['Laitue',15,1.4,2.9,.2],carotte:['Carotte',41,.9,9.6,.2],brocoli:['Brocoli',34,2.8,6.6,.4],courgette:['Courgette',17,1.2,3.1,.3],aubergine:['Aubergine',25,1,5.9,.2],poivron:['Poivron',31,1,6,.3],oignon:['Oignon',40,1.1,9.3,.1],ail:['Ail',149,6.4,33.1,.5],champignon:['Champignons',22,3.1,3.3,.3],epinard:['Épinards',23,2.9,3.6,.4],épinards:['Épinards',23,2.9,3.6,.4],chou:['Chou',25,1.3,5.8,.1],choufleur:['Chou-fleur',25,1.9,5,.3],haricot:['Haricots verts',31,1.8,7,.2],petitpois:['Petits pois',81,5.4,14.5,.4],mais:['Maïs cuit',96,3.4,21,.8],betterave:['Betterave cuite',44,1.7,10,.2],radis:['Radis',16,.7,3.4,.1],asperge:['Asperges',20,2.2,3.9,.1],potiron:['Potiron',26,1,6.5,.1],
+pomme_de_terre:['Pomme de terre cuite',87,1.9,20.1,.1],patate_douce:['Patate douce cuite',90,2,20.7,.2],lentille:['Lentilles cuites',116,9,20.1,.4],pois_chiche:['Pois chiches cuits',164,8.9,27.4,2.6],haricot_rouge:['Haricots rouges cuits',127,8.7,22.8,.5],quinoa:['Quinoa cuit',120,4.4,21.3,1.9],semoule:['Semoule cuite',112,3.8,23.2,.2],boulgour:['Boulgour cuit',83,3.1,18.6,.2],pain_complet:['Pain complet',247,13,41,4.2],baguette:['Baguette',289,9,56,1.5],
+creme:['Crème fraîche',300,2.5,3,30],beurre:['Beurre',717,.9,.1,81],huile_olive:['Huile d’olive',884,0,0,100],amande:['Amandes',579,21.2,21.6,49.9],noix:['Noix',654,15.2,13.7,65.2],cacahuete:['Cacahuètes',567,25.8,16.1,49.2],beurre_cacahuete:['Beurre de cacahuète',588,25,20,50],chocolat_noir:['Chocolat noir',598,7.8,45.9,42.6],miel:['Miel',304,.3,82.4,0],confiture:['Confiture',250,.4,62,0],
+fromage_blanc:['Fromage blanc nature',70,8,4,3],skyr:['Skyr nature',63,11,4,.2],yaourt_grec:['Yaourt grec nature',120,6,4,8],mozzarella:['Mozzarella',280,18,2,22],emmental:['Emmental',380,28,0,29],parmesan:['Parmesan',431,38,4.1,29],feta:['Feta',264,14,4,21],jambon:['Jambon blanc',116,20,1.5,3.5],thon:['Thon au naturel égoutté',116,26,0,1],sardine:['Sardines',208,25,0,11],cabillaud:['Cabillaud',82,18,0,.7],crevette:['Crevettes cuites',99,24,0,.3],boeuf:['Bœuf maigre cuit',200,29,0,9],porc:['Porc cuit',242,27,0,14],tofu:['Tofu nature',144,17,2,9],tempeh:['Tempeh',192,20,8,11],falafel:['Falafels',333,13,32,18],
+pizza:['Pizza margherita',266,11,33,10],frites:['Frites',312,3.4,41,15],burger:['Burger classique',250,13,30,9],croissant:['Croissant',406,8.2,45,21],biscotte:['Biscottes',410,11,74,7],cereales:['Céréales nature',370,7,84,2],granola:['Granola',450,10,64,16],riz_cru:['Riz cru',360,7,80,.7],pates_crues:['Pâtes crues',371,13,75,1.5],lait_amande:['Lait d’amande non sucré',15,.5,.3,1.2],jus_orange:['Jus d’orange',45,.7,10.4,.2],compote:['Compote de pommes sans sucre ajouté',50,.2,12,.1],eau:['Eau',0,0,0,0]
+});
+const PORTIONS={
+pomme:[['Petite pomme',120],['Pomme moyenne',150],['Grosse pomme',200]],avocat:[['¼ avocat',40],['½ avocat',75],['1 avocat moyen (chair)',150]],banane:[['Petite banane épluchée',90],['Banane moyenne épluchée',120],['Grosse banane épluchée',150]],orange:[['Petite orange épluchée',100],['Orange moyenne épluchée',130],['Grosse orange épluchée',180]],poire:[['Petite poire',130],['Poire moyenne',170],['Grosse poire',220]],tomate:[['Petite tomate',80],['Tomate moyenne',120],['Grosse tomate',180]],carotte:[['Petite carotte',50],['Carotte moyenne',70],['Grosse carotte',100]],concombre:[['¼ concombre',75],['½ concombre',150],['1 concombre',300]],pomme_de_terre:[['Petite pomme de terre cuite',100],['Moyenne pomme de terre cuite',170],['Grosse pomme de terre cuite',250]],oeuf:[['1 petit œuf (sans coquille)',50],['1 œuf moyen (sans coquille)',60],['2 œufs moyens',120]],pain:[['1 petite tranche',25],['1 tranche moyenne',30],['2 tranches',60],['1/4 baguette',60]],riz:[['3 cuillères à soupe',60],['Petit bol de riz cuit',150],['Bol moyen de riz cuit',200],['Grand bol de riz cuit',300]],pates:[['Petite assiette de pâtes cuites',180],['Assiette moyenne de pâtes cuites',250],['Grande assiette de pâtes cuites',350]],poulet:[['Petit filet de poulet cuit',100],['Filet moyen de poulet cuit',150],['Gros filet de poulet cuit',200]],saumon:[['Petit pavé',100],['Pavé moyen',140],['Gros pavé',180]],yaourt:[['1 pot de yaourt',125],['Grand pot',150]],skyr:[['1 pot de skyr',140],['Grand pot de skyr',170]],fromage_blanc:[['Petit bol',100],['Bol moyen',200],['Grand bol',300]],amande:[['Petite poignée',15],['Poignée moyenne',25],['Grande poignée',35]],fraise:[['5 fraises',60],['10 fraises',120],['Bol de fraises',200]],brocoli:[['Petite portion cuite',100],['Portion moyenne cuite',180],['Grande portion cuite',250]],quinoa:[['Petit bol cuit',120],['Bol moyen cuit',185],['Grand bol cuit',250]],lentille:[['Petite portion cuite',120],['Portion moyenne cuite',180],['Grande portion cuite',250]],thon:[['½ petite boîte égouttée',60],['1 petite boîte égouttée',112],['1 grande boîte égouttée',160]],fromage:['Petite portion',20],emmental:[['1 tranche',25],['2 tranches',50],['Petite portion râpée',30]],huile_olive:[['1 cuillère à café',5],['1 cuillère à soupe',10],['2 cuillères à soupe',20]],beurre:[['1 noisette',5],['1 cuillère à soupe',15]],compote:[['1 gourde',90],['1 pot',100]],pizza:[['1 part',120],['2 parts',240]],frites:[['Petite portion',100],['Portion moyenne',150],['Grande portion',200]]
+};
+function normFoodName(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();}
+function updateFoodSearch(){
+ const input=document.getElementById('np7FoodSearch'),sel=document.getElementById('np7PortionFood'),dl=document.getElementById('np7FoodSuggestions'),hint=document.getElementById('np7FoodSearchHint');if(!input||!sel||!dl)return;
+ const q=normFoodName(input.value),items=Object.entries(DB).map(([key,v])=>({key,name:v[0]}));
+ const ranked=items.map(x=>({...x,n:normFoodName(x.name),k:normFoodName(x.key)})).filter(x=>!q||x.n.includes(q)||x.k.replace(/ /g,' ').includes(q)).sort((a,b)=>{const as=a.n.startsWith(q)?0:a.k.startsWith(q)?1:2,bs=b.n.startsWith(q)?0:b.k.startsWith(q)?1:2;return as-bs||a.name.localeCompare(b.name,'fr')});
+ const seen=new Set(),unique=ranked.filter(x=>{const n=normFoodName(x.name);if(seen.has(n))return false;seen.add(n);return true}).slice(0,30);
+ const previous=sel.value;sel.innerHTML=unique.map(x=>'<option value="'+x.key.replace(/"/g,'&quot;')+'">'+x.name.replace(/</g,'&lt;')+'</option>').join('');
+ if(unique.some(x=>x.key===previous))sel.value=previous;
+ dl.innerHTML=unique.map(x=>'<option value="'+x.name.replace(/"/g,'&quot;')+'"></option>').join('');
+ if(!unique.length){hint.textContent='Aucun aliment trouvé dans la base. Essaie un autre nom ou choisis un aliment proche dans les résultats.';document.getElementById('np7PortionSize').innerHTML='';return}
+ hint.textContent=unique.length+' résultat(s) disponible(s). Choisis l’aliment exact si plusieurs se ressemblent.';
+ updatePortionOptions();
+}
+function updatePortionOptions(){
+ const f=document.getElementById('np7PortionFood'),q=document.getElementById('np7PortionSize');if(!f||!q)return;
+ const key=f.value,entry=DB[key],name=normFoodName(entry?entry[0]:key);
+ let list=PORTIONS[key]||null;
+ if(!list){
+  if(/fruit|pomme|poire|orange|banane|mangue|peche|abricot|kiwi|raisin|fraise|framboise|myrtille|cerise|prune|melon|pasteque|ananas|citron/.test(key)||/fruit|pomme|poire|orange|banane|mangue|peche|abricot|kiwi|raisin|fraise|framboise|myrtille|cerise|prune|melon|pasteque|ananas|citron/.test(name))list=[['Petite portion',80],['Portion moyenne',150],['Grande portion',220]];
+  else if(/huile|beurre|miel|confiture|creme/.test(key)||/huile|beurre|miel|confiture|creme/.test(name))list=[['1 cuillère à café',5],['1 cuillère à soupe',15],['2 cuillères à soupe',30]];
+  else if(/yaourt|skyr|lait|fromage_blanc|compote/.test(key)||/yaourt|skyr|lait|fromage blanc|compote/.test(name))list=[['Petit pot',100],['Pot standard',150],['Grand pot / bol',250]];
+  else if(/oeuf|œuf/.test(key)||/oeuf/.test(name))list=[['1 œuf',60],['2 œufs',120],['3 œufs',180]];
+  else if(/pain|baguette|biscotte|croissant/.test(key)||/pain|baguette|biscotte|croissant/.test(name))list=[['Petite portion',30],['Portion moyenne',60],['Grande portion',100]];
+  else if(/riz|pate|pâtes|quinoa|semoule|boulgour|lentille|pois_chiche|haricot|pomme_de_terre|patate_douce/.test(key)||/riz|pate|quinoa|semoule|boulgour|lentille|pois chiche|haricot|pomme de terre|patate douce/.test(name))list=[['Petite portion cuite',120],['Portion moyenne cuite',200],['Grande portion cuite',300]];
+  else if(/poulet|dinde|boeuf|bœuf|porc|saumon|thon|sardine|cabillaud|crevette|tofu|tempeh|steak/.test(key)||/poulet|dinde|boeuf|bœuf|porc|saumon|thon|sardine|cabillaud|crevette|tofu|tempeh|steak/.test(name))list=[['Petite portion',100],['Portion moyenne',150],['Grande portion',200]];
+  else list=[['Petite portion',80],['Portion moyenne',150],['Grande portion',250]];
+ }
+ q.innerHTML=list.map(p=>'<option value="'+p[1]+'">'+p[0]+' (~'+p[1]+' g)</option>').join('');
+}
+function addPortionFood(){
+ const key=document.getElementById('np7PortionFood').value,grams=Number(document.getElementById('np7PortionSize').value)||100,entry=DB[key],size=document.getElementById('np7PortionSize').selectedOptions[0];
+ if(!entry){toast('Choisis un aliment de la liste');return}
+ foods().push({name:entry[0]+' — '+size.textContent.split(' (~')[0],q:grams,k:entry[1]*grams/100,pr:entry[2]*grams/100,ca:entry[3]*grams/100,f:entry[4]*grams/100});save();toast('Portion estimée ajoutée');
+}
+const MET={muscu:5,running:9.8,walking:3.5,cycling:7.5,football:8,combat:8.5,swimming:8,basketball:7.5,tennis:7,badminton:6,rugby:9,boxing:9,kickboxing:10,judo:10,mma:11,crossfit:8.5,hiit:9,hiking:6,dance:5,yoga:2.5,jump_rope:11};
+const SPORT_AI_DB=[
+ {key:'swimming',name:'Natation',met:8,aliases:['natation','nage','nager','nageais','nagé','piscine']},
+ {key:'muscu',name:'Musculation',met:5,aliases:['musculation','muscu','salle','poids']},
+ {key:'running',name:'Course',met:9.8,aliases:['course','courir','cours','jogging','running']},
+ {key:'walking',name:'Marche',met:3.5,aliases:['marche','marcher','marche rapide']},
+ {key:'cycling',name:'Vélo',met:7.5,aliases:['vélo','velo','cyclisme','cycling','vtt']},
+ {key:'football',name:'Football',met:8,aliases:['football','foot']},
+ {key:'combat',name:'Jiu-jitsu brésilien / combat',met:8.5,aliases:['jiu jitsu','jiu-jitsu','jjb','bjj','combat']},
+ {key:'basketball',name:'Basketball',met:7.5,aliases:['basket','basketball']},
+ {key:'tennis',name:'Tennis',met:7,aliases:['tennis']},
+ {key:'badminton',name:'Badminton',met:6,aliases:['badminton']},
+ {key:'rugby',name:'Rugby',met:9,aliases:['rugby']},
+ {key:'boxing',name:'Boxe',met:9,aliases:['boxe','boxing']},
+ {key:'kickboxing',name:'Kick-boxing',met:10,aliases:['kick boxing','kick-boxing','kickboxing']},
+ {key:'judo',name:'Judo',met:10,aliases:['judo']},
+ {key:'mma',name:'MMA',met:11,aliases:['mma']},
+ {key:'crossfit',name:'CrossFit',met:8.5,aliases:['crossfit','cross fit']},
+ {key:'hiit',name:'HIIT',met:9,aliases:['hiit']},
+ {key:'hiking',name:'Randonnée',met:6,aliases:['randonnée','randonnee','rando']},
+ {key:'dance',name:'Danse',met:5,aliases:['danse']},
+ {key:'yoga',name:'Yoga',met:2.5,aliases:['yoga']},
+ {key:'jump_rope',name:'Corde à sauter',met:11,aliases:['corde à sauter','corde a sauter','saut à la corde','jump rope']}
+];let S=JSON.parse(localStorage.getItem('NP7V4')||'null')||{p:{w:75,h:175,a:22,sex:'male',act:1.55,goal:'cut',k:2400,pr:160,ca:275,f:80},d:{},wo:[],wh:[],custom:{}};const today=()=>new Date().toISOString().slice(0,10);const foods=()=>S.d[today()]||(S.d[today()]=[]);const save=()=>{localStorage.setItem('NP7V4',JSON.stringify(S));render();if(window.np7CloudSave)window.np7CloudSave(S)};const n=x=>Number(document.getElementById(x).value)||0;const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’']/g,"'");function view(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelector(`[data-v="${id}"]`)?.classList.add('active')}document.querySelectorAll('.tab').forEach(x=>x.onclick=()=>view(x.dataset.v));
+function totals(){return foods().reduce((a,x)=>({k:a.k+(Number(x.k??x.kcal)||0),pr:a.pr+(Number(x.pr??x.prot??x.protein)||0),ca:a.ca+(Number(x.ca??x.carbs??x.carbohydrates)||0),f:a.f+(Number(x.f??x.fat)||0)}),{k:0,pr:0,ca:0,f:0})}function sport(){return S.wo.filter(x=>x.date===today()).reduce((a,x)=>a+x.k,0)}function pct(v,t){return Math.min(100,v/t*100)}function esc(s){return String(s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))}
+updateFoodSearch();function render(){let t=totals(),p=S.p,sk=sport();[['k',t.k+' kcal'],['p',t.pr.toFixed(1)+' g'],['c',t.ca.toFixed(1)+' g'],['f',t.f.toFixed(1)+' g']].forEach(([i,v])=>document.getElementById(i).textContent=v);[['kl',Math.max(0,p.k-t.k)+' kcal restantes'],['pl',Math.max(0,p.pr-t.pr).toFixed(1)+' g restantes'],['cl',Math.max(0,p.ca-t.ca).toFixed(1)+' g restantes'],['fl',Math.max(0,p.f-t.f).toFixed(1)+' g restantes']].forEach(([i,v])=>document.getElementById(i).textContent=v);[['kb',t.k,p.k],['pb',t.pr,p.pr],['cb',t.ca,p.ca],['fb',t.f,p.f]].forEach(([i,v,z])=>document.getElementById(i).style.width=pct(v,z)+'%');tk.textContent=p.k;sk.textContent=Math.round(sk);nk.textContent=Math.round(t.k-sk);count.textContent=foods().length+' aliment(s)';renderFoods('homeFoods');renderFoods('foods');renderWorks();renderWeights();renderHist();w.value=p.w;h.value=p.h;a.value=p.a;sex.value=p.sex;act.value=p.act;goal.value=p.goal}
+function renderFoods(id){let e=document.getElementById(id),a=foods();e.innerHTML=a.length?a.map((x,i)=>`<div class="food"><div><b>${esc(x.name)}</b><div class="meta">${x.q} g • ${Math.round(x.k)} kcal • P ${x.pr.toFixed(1)} g • G ${x.ca.toFixed(1)} g • L ${x.f.toFixed(1)} g</div></div><button class="icon" onclick="del(${i})">✕</button></div>`).join(''):'<div class="empty">Aucun aliment aujourd’hui.</div>'}function del(i){foods().splice(i,1);save()}function clearDay(){S.d[today()]=[];save()}function manual(){let q=n('fq');if(q<=0)return toast('Indique une quantité');foods().push({name:fn.value||'Aliment',q,k:n('fk')*q/100,pr:n('fp')*q/100,ca:n('fc')*q/100,f:n('ff')*q/100});save();toast('Aliment ajouté')}
+function parse(text){let s=norm(text),out=[];let all={...DB,...Object.fromEntries(Object.entries(S.custom).map(([k,v])=>[k,[v.name,v.k,v.pr,v.ca,v.f]]))};for(let key of Object.keys(all).sort((a,b)=>b.length-a.length)){if(!s.includes(key))continue;let v=all[key],q=null,m=s.match(new RegExp('(\\d+(?:[.,]\\d+)?)\\s*(kg|g|ml|cl)\\b'));if(m){q=+m[1].replace(',','.');if(m[2]=='kg')q*=1000;if(m[2]=='cl')q*=10}else if(key==='oeuf'||key==='œuf'){let z=s.match(/(\\d+|un|une|deux|trois|quatre|cinq)\\s*(oeuf|œuf)/);let map={un:1,une:1,deux:2,trois:3,quatre:4,cinq:5};q=(z?(+z[1]||map[z[1]]||1):1)*60}else if(key==='pain au chocolat')q=70;else{let z=s.match(new RegExp('(\\d+)\\s+(?:' + key.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')'));if(z)q=+z[1]}if(q&&!out.some(x=>x.v[0]===v[0]))out.push({v,q});}return out}
+function analyze(){let text=aii.value.trim();if(!text)return;chat.insertAdjacentHTML('beforeend',`<div class="bubble me">${esc(text)}</div>`);let arr=parse(text);if(!arr.length){chat.insertAdjacentHTML('beforeend','<div class="bubble bot">Je ne reconnais pas l’aliment. Ajoute-le dans « Aliments personnalisés » avec ses valeurs pour 100 g.</div>');return}let miss=arr.filter(x=>!x.q);if(miss.length){chat.insertAdjacentHTML('beforeend',`<div class="bubble bot">J’ai trouvé ${miss.map(x=>x.v[0]).join(', ')}. Indique la quantité en g.</div>`);return}let T={k:0,pr:0,ca:0,f:0};arr.forEach(x=>{let v=x.v,q=x.q,z={name:v[0],q,k:v[1]*q/100,pr:v[2]*q/100,ca:v[3]*q/100,f:v[4]*q/100};foods().push(z);T.k+=z.k;T.pr+=z.pr;T.ca+=z.ca;T.f+=z.f});save();chat.insertAdjacentHTML('beforeend',`<div class="bubble bot">✅ Ajouté : <b>${Math.round(T.k)} kcal</b><br>Protéines ${T.pr.toFixed(1)} g • Glucides ${T.ca.toFixed(1)} g • Lipides ${T.f.toFixed(1)} g</div>`);aii.value=''}
+function customFood(){let name=cn.value.trim();if(!name)return;S.custom[norm(name)]={name,k:n('ck'),pr:n('cp'),ca:n('cc'),f:n('cf')};save();toast('Aliment personnalisé enregistré')}
+function sportCalories(met,min,intensity=1){return met*intensity*3.5*S.p.w/200*min}
+function findSportAI(text){const s=norm(text);return SPORT_AI_DB.slice().sort((a,b)=>b.aliases.reduce((n,x)=>n+(s.includes(norm(x))?x.length:0),0)-a.aliases.reduce((n,x)=>n+(s.includes(norm(x))?x.length:0),0)).find(x=>x.aliases.some(a=>s.includes(norm(a))))}
+function parseSportDuration(text){const s=norm(text);let m=s.match(/(\d+(?:[.,]\d+)?)\s*(?:h|heure|heures|hr)/);if(m)return Math.round(parseFloat(m[1].replace(',','.'))*60);m=s.match(/(\d+)\s*(?:min|minute|minutes)/);if(m)return parseInt(m[1]);m=s.match(/\b(\d+)\b/);return m?parseInt(m[1]):0}
+function parseSportIntensity(text){const s=norm(text);if(/intense|intensif|intensivement|difficile|fort/.test(s))return 1.15;if(/leger|legere|tranquille|facile|doucement/.test(s))return .85;return 1}
+function analyzeSportAI(){const input=document.getElementById('sportAi'),result=document.getElementById('sportAiResult');const text=input.value.trim();if(!text)return;const sp=findSportAI(text),min=parseSportDuration(text),intensity=parseSportIntensity(text);if(!sp){result.innerHTML='<div class="bubble bot">❓ Je ne reconnais pas encore ce sport. Essaie par exemple : natation, musculation, course, vélo, football, JJB, tennis, boxe, CrossFit…</div>';return}if(!min){result.innerHTML='<div class="bubble bot">⏱️ J’ai reconnu <b>'+sp.name+'</b>, mais il me manque la durée. Exemple : « 45 minutes » ou « 1 heure ».</div>';return}const k=Math.round(sportCalories(sp.met,min,intensity));S.wo.unshift({date:today(),type:sp.key,min,k,source:'IA sport NP7',intensity});save();result.innerHTML='<div class="bubble bot">✅ <b>'+sp.name+'</b> reconnu<br>⏱️ '+min+' min • 🔥 <b>'+k+' kcal estimées</b><br><span class="small">Poids utilisé : '+S.p.w+' kg • Intensité : '+(intensity===1.15?'intense':intensity===.85?'légère':'modérée')+'</span></div>';input.value=''}
+function workout(){let min=n('sm');if(min<=0)return;let met=(MET[st.value]||5)*n('si'),k=met*3.5*S.p.w/200*min;S.wo.unshift({date:today(),type:st.value,min,k:Math.round(k)});save();toast('Séance ajoutée')}
+function renderWorks(){const names={muscu:'Musculation',running:'Course',walking:'Marche',cycling:'Vélo',football:'Football',combat:'JJB / combat',swimming:'Natation',basketball:'Basketball',tennis:'Tennis',badminton:'Badminton',rugby:'Rugby',boxing:'Boxe',kickboxing:'Kick-boxing',judo:'Judo',mma:'MMA',crossfit:'CrossFit',hiit:'HIIT',hiking:'Randonnée',dance:'Danse',yoga:'Yoga',jump_rope:'Corde à sauter'};works.innerHTML=S.wo.length?S.wo.slice(0,20).map((x,i)=>`<div class="food"><div><b>${names[x.type]||x.type}</b><div class="meta">${x.date} • ${x.min} min • ${x.k} kcal estimées${x.source?' • IA NP7':''}</div></div><button class="icon" onclick="S.wo.splice(${i},1);save()">✕</button></div>`).join(''):'<div class="empty">Aucune séance.</div>'}
+function targets(){let p=S.p;p.w=n('w');p.h=n('h');p.a=n('a');p.sex=sex.value;p.act=n('act');p.goal=goal.value;let b=p.sex==='male'?10*p.w+6.25*p.h-5*p.a+5:10*p.w+6.25*p.h-5*p.a-161,t=b*p.act;p.k=Math.round(p.goal==='cut'?t-300:p.goal==='bulk'?t+250:t);p.pr=Math.round(p.w*2);p.f=Math.round(p.w*.9);p.ca=Math.round(Math.max(0,(p.k-p.pr*4-p.f*9)/4));save();toast('Objectifs recalculés')}
+function addWeight(){let x=n('we');if(x<=0)return;S.wh.unshift({date:today(),w:x});S.p.w=x;save();toast('Poids enregistré')}function renderWeights(){wh.innerHTML=S.wh.length?S.wh.slice(0,15).map(x=>`<div class="food"><div><b>${x.w} kg</b><div class="meta">${x.date}</div></div></div>`).join(''):'<div class="empty">Aucune pesée.</div>'}function renderHist(){let ds=[...new Set([...Object.keys(S.d),...S.wo.map(x=>x.date),...S.wh.map(x=>x.date)])].sort().reverse().slice(0,14);hist.innerHTML=ds.length?ds.map(d=>{let k=(S.d[d]||[]).reduce((a,x)=>a+x.k,0),s=S.wo.filter(x=>x.date===d).reduce((a,x)=>a+x.k,0),w=S.wh.find(x=>x.date===d);return `<div class="food"><div><b>${d}</b><div class="meta">${Math.round(k)} kcal mangées • ${Math.round(s)} kcal sport${w?' • '+w.w+' kg':''}</div></div></div>`}).join(''):'<div class="empty">Ton historique apparaîtra ici.</div>'}function toast(s){let e=document.getElementById('toast');e.textContent=s;e.style.display='block';setTimeout(()=>e.style.display='none',1800)}
+let selectedRestaurant=null, selectedRestaurantFood=null;
+async function searchRestaurants(){
+ const q=document.getElementById('restQuery').value.trim(), box=document.getElementById('restaurantResults');
+ if(!q){toast('Indique un restaurant ou une ville.');return}
+ box.innerHTML='<div class="empty">Recherche en cours…</div>';
+ try{
+  const u='https://nominatim.openstreetmap.org/search?format=jsonv2&countrycodes=fr&limit=8&q='+encodeURIComponent(q);
+  const r=await fetch(u,{headers:{'Accept-Language':'fr'}}); if(!r.ok) throw Error(); const data=await r.json();
+  const places=data.filter(x=>/restaurant|fast_food|cafe|food_court|bar|pub|ice_cream/i.test((x.type||'')+' '+(x.class||'')+' '+(x.display_name||'')));
+  if(!places.length){box.innerHTML='<div class="empty">Aucun restaurant trouvé. Essaie avec le nom + la ville.</div>';return}
+  window._restaurantResults=places;
+  box.innerHTML=places.map((x,i)=>`<div class="food"><div><b>${esc(x.name||x.display_name.split(',')[0])}</b><div class="meta">${esc(x.display_name)}</div></div><button class="btn ghost" onclick="selectRestaurant(${i})">Choisir</button></div>`).join('');
+ }catch(e){box.innerHTML='<div class="empty">La recherche est momentanément indisponible. Tu peux quand même utiliser l’IA locale.</div>'}
+}
+function selectRestaurant(i){selectedRestaurant=window._restaurantResults?.[i]||null;if(selectedRestaurant){document.getElementById('restQuery').value=selectedRestaurant.name||selectedRestaurant.display_name.split(',')[0];toast('Restaurant sélectionné.');estimateRestaurantMeal()}}
+function estimateRestaurantMeal(){
+ const text=normalize(document.getElementById('restFood').value), rules=[[/tacos/,{name:'Tacos garni',kcal:850,prot:35,carbs:80,fat:42}],[/kebab|doner/,{name:'Kebab',kcal:700,prot:30,carbs:75,fat:30}],[/burger|hamburger/,{name:'Burger',kcal:650,prot:30,carbs:55,fat:32}],[/pizza/,{name:'Pizza',kcal:900,prot:35,carbs:100,fat:38}],[/frites?|fries/,{name:'Frites',kcal:330,prot:4,carbs:43,fat:15}],[/nugget/,{name:'Nuggets (6)',kcal:270,prot:15,carbs:16,fat:16}],[/wrap|sandwich/,{name:'Wrap / sandwich',kcal:550,prot:25,carbs:55,fat:25}],[/salade/,{name:'Salade composée',kcal:450,prot:20,carbs:30,fat:25}]];
+ if(!text)return; let total={kcal:0,prot:0,carbs:0,fat:0},labels=[]; for(const [rx,v] of rules)if(rx.test(text)){Object.keys(total).forEach(k=>total[k]+=v[k]);labels.push(v.name)}
+ if(!labels.length){document.getElementById('restaurantEstimate').innerHTML='<div class="empty">Plat non reconnu. Essaie « burger + frites », « tacos 3 viandes » ou « pizza ».</div>';selectedRestaurantFood=null;return}
+ const rn=selectedRestaurant?.name||document.getElementById('restQuery').value||'Restaurant'; selectedRestaurantFood={name:`${rn} — ${labels.join(' + ')}`,q:1,...total};
+ document.getElementById('restaurantEstimate').innerHTML=`<div class="card" style="background:#f8fbff"><b>Estimation</b><div class="small">${esc(rn)} — ${esc(labels.join(' + '))}</div><div class="big">${Math.round(total.kcal)} kcal</div><div class="small">P ${fmt(total.prot)} g • G ${fmt(total.carbs)} g • L ${fmt(total.fat)} g</div><div class="small">⚠️ Portion standard estimée.</div></div>`;
+}
+function useRestaurantFood(){if(!selectedRestaurantFood)estimateRestaurantMeal();if(!selectedRestaurantFood){toast('Décris ce que tu as mangé.');return}day().push(selectedRestaurantFood);save();toast('Repas restaurant ajouté.');document.getElementById('restFood').value='';selectedRestaurantFood=null}
+document.getElementById('restFood')?.addEventListener('input',estimateRestaurantMeal);
+
+
+function productNutrition(p){
+  const n=p.nutriments||{};
+  return {
+    kcal:Number(n["energy-kcal_100g"] ?? n["energy-kcal"] ?? 0)||0,
+    prot:Number(n.proteins_100g||0)||0,
+    carbs:Number(n.carbohydrates_100g||0)||0,
+    fat:Number(n.fat_100g||0)||0
+  };
+}
+function addLocalNutrition(k){
+  const v=DB[k]; if(!v){toast("Aliment introuvable.");return}
+  const q=+document.getElementById("dbQty").value||100;
+  foods().push({name:v.name,q,k:v.kcal*q/100,pr:v.prot*q/100,ca:v.carbs*q/100,f:v.fat*q/100});
+  save();toast("Aliment ajouté.");
+}
+function addOFFProduct(i){
+  const p=window._nutritionProducts?.[i];if(!p)return;
+  const n=productNutrition(p),q=+document.getElementById("dbQty").value||100;
+  foods().push({name:(p.brands?p.brands+" — ":"")+p.product_name,q,k:n.kcal*q/100,pr:n.prot*q/100,ca:n.carbs*q/100,f:n.fat*q/100});
+  save();toast("Produit ajouté.");
+}
+function goAIWithNutrition(){showView("ai");document.getElementById("aiInput").focus()}
+
+render();
+
+/* NP7 Barcode scanner + Open Food Facts */
+let np7BarcodeReader=null, np7BarcodeControls=null, np7BarcodeBusy=false;
+function np7EscAttr(v){return String(v).replace(/&/g,'&amp;').replace(/\"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function openBarcodeScanner(){
+  const box=document.getElementById('np7Scanner');
+  if(!box)return;
+  box.classList.add('show');
+  document.getElementById('np7BarcodeResult').innerHTML='';
+  document.getElementById('np7ScanStatus').textContent='Démarrage de la caméra…';
+  startBarcodeScanner();
+}
+async function startBarcodeScanner(){
+  if(!window.ZXingBrowser){document.getElementById('np7ScanStatus').textContent='Le module de scan n’est pas disponible. Utilise le champ Code-barres ci-dessous.';return}
+  try{
+    if(np7BarcodeControls) np7BarcodeControls.stop();
+    np7BarcodeReader=new ZXingBrowser.BrowserMultiFormatReader();
+    const video=document.getElementById('np7ScanVideo');
+    np7BarcodeControls=await np7BarcodeReader.decodeFromConstraints(
+      {video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}},
+      video,
+      async (result,error)=>{
+        if(!result||np7BarcodeBusy)return;
+        np7BarcodeBusy=true;
+        const code=String(result.getText?result.getText():result.text||'').replace(/\\D/g,'');
+        if(code){
+          document.getElementById('np7ScanStatus').textContent='Code détecté : '+code+' — recherche du produit…';
+          await lookupBarcode(code);
+        }
+        setTimeout(()=>{np7BarcodeBusy=false},1200);
+      }
+    );
+    document.getElementById('np7ScanStatus').textContent='📷 Scanne le code-barres avec la caméra arrière.';
+  }catch(e){
+    console.error(e);
+    document.getElementById('np7ScanStatus').textContent='Impossible d’ouvrir la caméra. Vérifie l’autorisation caméra de Safari.';
+  }
+}
+function stopBarcodeScanner(hide=true){
+  try{if(np7BarcodeControls)np7BarcodeControls.stop()}catch(e){}
+  np7BarcodeControls=null;
+  const video=document.getElementById('np7ScanVideo');
+  if(video&&video.srcObject){video.srcObject.getTracks().forEach(t=>t.stop());video.srcObject=null}
+  if(hide) document.getElementById('np7Scanner').classList.remove('show');
+}
+function lookupBarcodeManual(){
+  const code=(document.getElementById('np7BarcodeManual').value||'').replace(/\\D/g,'');
+  if(code.length<8){toast('Code-barres invalide');return}
+  lookupBarcode(code);
+}
+async function lookupBarcode(code){
+  const result=document.getElementById('np7BarcodeResult');
+  result.innerHTML='<div class="np7-scan-status">🔎 Recherche dans Open Food Facts…</div>';
+  try{
+    const url='https://world.openfoodfacts.org/api/v2/product/'+encodeURIComponent(code)+'.json?fields=code,product_name,product_name_fr,brands,quantity,nutriments,ingredients_text,allergens_tags,nutriscore_grade,nova_group,image_front_url';
+    const r=await fetch(url,{headers:{Accept:'application/json'}});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    if(data.status!==1||!data.product){
+      result.innerHTML='<div class="np7-scan-status">❌ Produit introuvable pour ce code. Tu peux vérifier le code ou saisir les valeurs manuellement.</div>';
+      return;
+    }
+    const p=data.product||{}, ntr=p.nutriments||{};
+    const kcal=Number(ntr['energy-kcal_100g']??ntr['energy-kcal_value']??0)||0;
+    const prot=Number(ntr['proteins_100g']??0)||0;
+    const carbs=Number(ntr['carbohydrates_100g']??0)||0;
+    const fat=Number(ntr['fat_100g']??0)||0;
+    const sugars=Number(ntr['sugars_100g']??0)||0;
+    const fiber=Number(ntr['fiber_100g']??0)||0;
+    const salt=Number(ntr['salt_100g']??0)||0;
+    const product={name:p.product_name_fr||p.product_name||'Produit scanné',brand:p.brands||'',barcode:String(p.code||code),quantity:p.quantity||'',kcal,prot,carbs,fat,sugars,fiber,salt,ingredients:p.ingredients_text||'',allergens:(p.allergens_tags||[]).map(x=>String(x).replace(/^.*:/,'')).join(', '),nutriscore:p.nutriscore_grade||'',nova:p.nova_group||'',image:p.image_front_url||''};
+    renderBarcodeProduct(product);
+    // Stop the camera after a successful scan, but keep the product result visible
+    // so the user can choose the quantity and tap "+ Ajouter à mon repas".
+    stopBarcodeScanner(false);
+  }catch(e){
+    console.error(e);
+    result.innerHTML='<div class="np7-scan-status">⚠️ Impossible de contacter Open Food Facts. Vérifie ta connexion internet puis réessaie.</div>';
+  }
+}
+function np7DetectQuantity(q){
+  const text=String(q||'').toLowerCase().replace(/,/g,'.').trim();
+  if(!text)return 100;
+  let total=0;
+  const multi=text.match(/(\\d+)\\s*[x×]\\s*(\\d+(?:\\.\\d+)?)\\s*(kg|g|ml|cl|l)\\b/);
+  if(multi){
+    let v=Number(multi[1])*Number(multi[2]),u=multi[3];
+    if(u==='kg')v*=1000; else if(u==='l')v*=1000; else if(u==='cl')v*=10;
+    return Math.max(1,Math.round(v));
+  }
+  const m=text.match(/(\\d+(?:\\.\\d+)?)\\s*(kg|g|ml|cl|l)\\b/);
+  if(m){
+    let v=Number(m[1]),u=m[2];
+    if(u==='kg')v*=1000; else if(u==='l')v*=1000; else if(u==='cl')v*=10;
+    return Math.max(1,Math.round(v));
+  }
+  return 100;
+}
+function renderBarcodeProduct(p){
+  const safeName=esc(p.name),safeBrand=esc(p.brand);
+  const img=p.image?'<img src="'+np7EscAttr(p.image)+'" alt="">':'';
+  const tags=[p.nutriscore?'Nutri-Score '+String(p.nutriscore).toUpperCase():'',p.nova?'NOVA '+p.nova:''].filter(Boolean).join(' • ');
+  const autoQty=np7DetectQuantity(p.quantity);
+  document.getElementById('np7BarcodeResult').innerHTML=`<div class="card" style="margin-top:12px"><div class="np7-product">${img}<div><b>${safeName}</b>${safeBrand?'<div class="small">'+safeBrand+'</div>':''}<div class="small">Code : ${esc(p.barcode)}${p.quantity?' • '+esc(p.quantity):''}</div></div></div><div class="meta" style="margin-top:12px"><b>${Math.round(p.kcal)} kcal</b> / 100 g • P ${p.prot.toFixed(1)} g • G ${p.carbs.toFixed(1)} g • L ${p.fat.toFixed(1)} g<br>Sucres ${p.sugars.toFixed(1)} g • Fibres ${p.fiber.toFixed(1)} g • Sel ${p.salt.toFixed(2)} g${tags?'<br>'+esc(tags):''}</div><div class="form" style="margin-top:12px"><div class="field"><label>Quantité g</label><input id="np7ScanQty" type="number" value="${autoQty}" min="1"><div class="small" style="margin-top:4px">📦 Quantité détectée automatiquement depuis le produit</div></div></div><button class="btn primary" onclick="addScannedProduct()">+ Ajouter à mon repas</button>${p.ingredients?'<div class="small" style="margin-top:10px"><b>Ingrédients :</b> '+esc(p.ingredients)+'</div>':''}${p.allergens?'<div class="small" style="margin-top:6px"><b>Allergènes :</b> '+esc(p.allergens)+'</div>':''}</div>`;
+  window.np7LastScanned=p;
+}
+function addScannedProduct(){
+  const p=window.np7LastScanned;if(!p)return;
+  const q=Math.max(1,Number(document.getElementById('np7ScanQty').value)||100);
+  foods().push({name:p.name+(p.brand?' — '+p.brand:''),q,k:p.kcal*q/100,pr:p.prot*q/100,ca:p.carbs*q/100,f:p.fat*q/100,barcode:p.barcode,source:'Open Food Facts',brand:p.brand,sugars:p.sugars*q/100,fiber:p.fiber*q/100,salt:p.salt*q/100,ingredients:p.ingredients,allergens:p.allergens,nutriscore:p.nutriscore,nova:p.nova,image:p.image});
+  save();toast('Produit ajouté à ton repas');
+  document.getElementById('np7BarcodeResult').innerHTML='<div class="np7-scan-status">✅ Produit ajouté à ton repas.</div>';
+}
+</script>
+<script>
+let CIQUAL=[];
+async function loadCiqual(){
+  try{
+    const r=await np7Fetch('ciqual2025.json');
+    if(!r.ok)throw new Error();
+    CIQUAL=await r.json();
+    window.CIQUAL=CIQUAL;
+  }catch(e){ console.warn("Ciqual indisponible",e); }
+}
+function searchCiqual(q){
+  const s=normalize(q);
+  if(!s||!CIQUAL.length)return [];
+  const terms=s.split(/\s+/).filter(Boolean);
+  return CIQUAL.map(x=>{
+    const t=normalize(x.n);
+    let score=0;
+    if(t===s)score+=100;
+    if(t.includes(s))score+=50;
+    for(const term of terms)if(t.includes(term))score+=10;
+    return [score,x];
+  }).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).slice(0,30).map(x=>x[1]);
+}
+function addCiqual(code){
+  const x=CIQUAL.find(z=>z.c===String(code)); if(!x)return;
+  const q=Math.max(1,+document.getElementById("dbQty").value||100);
+  foods().push({name:x.n,q,k:(x.k||0)*q/100,pr:(x.p||0)*q/100,ca:(x.gld||0)*q/100,f:(x.l||0)*q/100});
+  save();toast("Aliment Ciqual ajouté.");
+}
+async function searchNutrition(){
+  const q=document.getElementById("dbQuery").value.trim(), box=document.getElementById("dbResults");
+  if(!q){toast("Indique un aliment.");return}
+  if(!CIQUAL.length) await loadCiqual();
+  const hits=searchCiqual(q);
+  let local=Object.entries(DB).filter(([k,v])=>normalize(k).includes(normalize(q))||normalize(v.name).includes(normalize(q))).slice(0,10);
+  let out="";
+  if(hits.length){
+    out+='<h3 style="margin:10px 0">Ciqual 2025</h3>'+hits.map(x=>`<div class="food"><div><b>${esc(x.n)}</b><div class="meta">${x.k??0} kcal / 100 g • P ${fmt(x.p||0)} g • G ${fmt(x.gld||0)} g • L ${fmt(x.l||0)} g</div></div><button class="btn ghost" onclick="addCiqual('${escAttr(x.c)}')">Ajouter</button></div>`).join("");
+  }
+  if(local.length){
+    out+='<h3 style="margin:16px 0 10px">Aliments intégrés</h3>'+local.map(([k,v])=>`<div class="food"><div><b>${esc(v.name)}</b><div class="meta">${v.kcal} kcal / 100 g • P ${v.prot} g • G ${v.carbs} g • L ${v.fat} g</div></div><button class="btn ghost" onclick="addLocalNutrition('${escAttr(k)}')">Ajouter</button></div>`).join("");
+  }
+  box.innerHTML=out||'<div class="empty">Aucun aliment trouvé.</div>';
+}
+loadCiqual();
+</script>
+<script>
+let RESTAURANTS_JSON=[];
+async function loadRestaurantDB(){
+  try{
+    const r=await np7Fetch('restaurants_france.json');
+    if(!r.ok) throw new Error();
+    const d=await r.json();
+    RESTAURANTS_JSON=d.restaurants||[]; window.RESTAURANTS_JSON=RESTAURANTS_JSON;
+  }catch(e){console.warn("Base restaurants indisponible",e);}
+}
+function restaurantDBMatches(text){
+  const s=normalize(text), found=[];
+  for(const r of RESTAURANTS_JSON){
+    const rnames=[r.restaurant,...(r.aliases||[])].map(normalize);
+    for(const p of (r.products||[])){
+      const pnames=[p.name,...(p.aliases||[])].map(normalize);
+      const productHit=pnames.some(a=>a && s.includes(a));
+      const restaurantHit=rnames.some(a=>a && s.includes(a));
+      if(productHit){
+        let count=1;
+        const keys=pnames.filter(Boolean).sort((a,b)=>b.length-a.length);
+        for(const key of keys){
+          const m=s.match(new RegExp("(\\d+)\\s*(?:x\\s*)?"+key.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b"));
+          if(m){count=Math.max(1,+m[1]);break}
+        }
+        found.push({restaurant:r,product:p,count,explicitRestaurant:restaurantHit});
+        break;
+      }
+    }
+  }
+  return found;
+}
+</script>
+<script>
+loadRestaurantDB();
+</script>
+<script>
+(function(){
+  const oldNormalize = window.normalize;
+  window.normalizeRestaurantText = function(v){
+    return String(v||"")
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .replace(/['’`´]/g,"")
+      .replace(/[^a-z0-9]+/g," ")
+      .replace(/\s+/g," ").trim();
+  };
+
+  const ENS_ALIASES={
+    "mcdonalds":["mcdonalds","mcdo","macdo","mcd","mc donalds"],
+    "burger king":["burger king","burgerking","bk"],
+    "kfc":["kfc"],
+    "quick":["quick"],
+    "subway":["subway"],
+    "otacos":["otacos","o tacos","o tacos"],
+    "dominos pizza":["dominos","dominos pizza","domino pizza"],
+    "pizza hut":["pizza hut","pizzahut"],
+    "five guys":["five guys","fiveguys"],
+    "buffalo grill":["buffalo grill","buffalo"],
+    "starbucks":["starbucks"],
+    "pokawa":["pokawa"],
+    "big fernand":["big fernand"],
+    "chamas tacos":["chamas tacos","chamas"],
+    "tacos avenue":["tacos avenue"],
+    "nabab kebab":["nabab","nabab kebab"]
+  };
+
+  function aliasesForRestaurant(r){
+    const key=window.normalizeRestaurantText(r.restaurant);
+    return [key,...(r.aliases||[]).map(window.normalizeRestaurantText),...(ENS_ALIASES[key]||[])].filter(Boolean);
+  }
+  function tokenIncludes(text, phrase){
+    const t=" "+text+" ", p=" "+phrase+" ";
+    return t.includes(p);
+  }
+  function quantityFor(text, names){
+    for(const n of names.sort((a,b)=>b.length-a.length)){
+      const esc=n.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+      const m=text.match(new RegExp("(\\d+)\\s*(?:x\\s*)?"+esc+"\\b"));
+      if(m) return Math.max(1,Number(m[1]));
+    }
+    return 1;
+  }
+
+  window.restaurantDBMatchesV13=function(text){
+    const s=window.normalizeRestaurantText(text), results=[];
+    const db = (typeof RESTAURANTS_JSON !== "undefined" && Array.isArray(RESTAURANTS_JSON)) ? RESTAURANTS_JSON : (Array.isArray(window.RESTAURANTS_JSON) ? window.RESTAURANTS_JSON : []);
+    if(!s || !db.length) return results;
+
+    for(const r of db){
+      const ra=aliasesForRestaurant(r);
+      const restaurantHit=ra.some(a=>tokenIncludes(s,a));
+      for(const p of (r.products||[])){
+        const pa=[p.name,...(p.aliases||[])].map(window.normalizeRestaurantText).filter(Boolean);
+        const productHit=pa.some(a=>tokenIncludes(s,a));
+        if(productHit){
+          const q=quantityFor(s,pa);
+          results.push({restaurant:r,product:p,count:q,explicitRestaurant:restaurantHit});
+        }
+      }
+    }
+    // Prefer a result whose restaurant was explicitly mentioned.
+    return results.sort((a,b)=>Number(b.explicitRestaurant)-Number(a.explicitRestaurant));
+  };
+
+  // Make common natural-language phrases unambiguous.
+  const originalAnalyze=window.analyze;
+  window.analyze=async function(){
+    const input=document.getElementById("aii");
+    const text=input ? input.value.trim() : "";
+    const direct=window.np7DirectRestaurantLookup ? window.np7DirectRestaurantLookup(text) : []; const matches=direct.length ? direct : window.restaurantDBMatchesV13(text);
+    if(matches.length){
+      const T={k:0,pr:0,ca:0,f:0};
+      matches.forEach(x=>{
+        const p=x.product,q=x.count||1;
+        const rname=typeof x.restaurant==="string" ? x.restaurant : x.restaurant.restaurant;
+        const z={name:rname+" — "+p.name,q:p.portion,k:(Number(p.kcal)||0)*q,pr:(Number(p.protein)||0)*q,ca:(Number(p.carbs)||0)*q,f:(Number(p.fat)||0)*q,source:p.source||"estimation"};
+        if(typeof foods==="function") foods().push(z);
+        T.k+=z.k;T.pr+=z.pr;T.ca+=z.ca;T.f+=z.f;
+      });
+      if(typeof save==="function") save();
+      const chat=document.getElementById("chat");
+      if(chat) chat.insertAdjacentHTML("beforeend",
+        `<div class="bubble bot">🍔 <b>${matches.map(x=>x.restaurant.restaurant+" — "+x.product.name).join(", ")}</b> reconnu.<br>✅ Ajouté : <b>${Math.round(T.k)} kcal</b><br>Protéines ${T.pr.toFixed(1)} g • Glucides ${T.ca.toFixed(1)} g • Lipides ${T.f.toFixed(1)} g</div>`);
+      if(input) input.value="";
+      return;
+    }
+    if(typeof originalAnalyze==="function") return originalAnalyze();
+  };
+
+  // Explicit test helper available from the browser console.
+  window.testNP7Restaurant=function(s){
+    return window.restaurantDBMatchesV13(s).map(x=>({
+      restaurant:x.restaurant.restaurant, product:x.product.name,
+      kcal:x.product.kcal, protein:x.product.protein,
+      carbs:x.product.carbs, fat:x.product.fat, count:x.count
+    }));
+  };
+})();
+</script>
+<script>
+(function(){
+  const BIGMAC={
+    name:"McDonald's — Big Mac", q:"1 burger",
+    kcal:530, protein:27, carbs:42, fat:27,
+    source:"officiel McDonald's France"
+  };
+  window.np7DirectRestaurantLookup=function(text){
+    const s=window.normalizeRestaurantText ? window.normalizeRestaurantText(text) :
+      String(text||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/['’`´]/g,"").replace(/[^a-z0-9]+/g," ").replace(/\s+/g," ").trim();
+    if(/\bbig mac\b/.test(s)){
+      return [{restaurant:"McDonald's",product:BIGMAC,count:1}];
+    }
+    return [];
+  };
+})();
+</script>
+<script>
+window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
+ try{const raw=atob(base64),bytes=Uint8Array.from(raw,c=>c.charCodeAt(0)),data=JSON.parse(new TextDecoder().decode(bytes));if(!Array.isArray(data))return;let added=0;S.wo=Array.isArray(S.wo)?S.wo:[];data.forEach(w=>{const id='healthkit:'+w.id;if(S.wo.some(x=>x.id===id))return;S.wo.unshift({id,date:(w.start||'').slice(0,10)||today(),type:String(w.type||'Sport').toLowerCase(),label:w.type||'Sport',min:Math.round((Number(w.duration)||0)/60),k:Math.max(0,Math.round(Number(w.calories)||0)),source:'Apple Santé / Apple Watch',intensity:1,distance:Number(w.distance)||0,start:w.start,end:w.end,importedAt:new Date().toISOString()});added++;});if(added)save();else render();if(added)toast('⌚ '+added+' séance'+(added>1?'s':'')+' importée'+(added>1?'s':'')+' depuis Apple Santé');}catch(e){console.error('NP7 HealthKit import',e)}
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+ 'use strict';
+ const SUPABASE_URL='https://uloqquznjlvbgwqlkqsk.supabase.co';
+ const SUPABASE_PUBLISHABLE_KEY='sb_publishable_bCzD4Av7tPfz-VWVFsS69A_tkrtVUX7';
+ const statusEl=()=>document.getElementById('accountStatus');
+ const syncEl=()=>document.getElementById('np7SyncStatus');
+ let client=null,user=null,syncTimer=null,loadingCloud=false,lastCloudWrite=0;
+ function status(message,isError){const e=statusEl();if(e){e.textContent=message;e.style.color=isError?'#ff8b8b':''}}
+ function syncStatus(message,isError){const e=syncEl();if(e){e.textContent=message;e.style.color=isError?'#ff8b8b':''}}
+ function email(){return (document.getElementById('accountEmail')?.value||'').trim()}
+ function password(){return document.getElementById('accountPassword')?.value||''}
+ function mergeData(local,remote){
+   if(!remote||typeof remote!=='object')return local;
+   const out={...local,...remote,p:{...(local.p||{}),...(remote.p||{})},d:{...(local.d||{}),...(remote.d||{})},custom:{...(local.custom||{}),...(remote.custom||{})}};
+   for(const date of new Set([...Object.keys(local.d||{}),...Object.keys(remote.d||{})])){
+     const a=(local.d||{})[date]||[],b=(remote.d||{})[date]||[];
+     const seen=new Set(),combined=[];
+     [...a,...b].forEach(x=>{const key=JSON.stringify(x);if(!seen.has(key)){seen.add(key);combined.push(x)}});
+     out.d[date]=combined;
+   }
+   ['wo','wh'].forEach(k=>{const a=local[k]||[],b=remote[k]||[],seen=new Set();out[k]=[...a,...b].filter(x=>{const id=JSON.stringify(x);if(seen.has(id))return false;seen.add(id);return true})});
+   return out;
+ }
+ async function saveCloud(data){
+   if(!client||!user||loadingCloud)return;
+   try{localStorage.setItem('NP7V4_user_'+user.id,JSON.stringify(data));}catch(e){}
+   clearTimeout(syncTimer);
+   syncTimer=setTimeout(async()=>{
+     try{
+       const {error}=await client.from('np7_user_data').upsert({user_id:user.id,data:data,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+       if(error)throw error;
+       lastCloudWrite=Date.now();syncStatus('Synchronisé · '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}));
+     }catch(e){syncStatus('Sauvegarde cloud impossible : vérifie la table et les règles SQL Supabase. ('+(e.message||'erreur')+')',true)}
+   },700);
+ }
+ window.np7CloudSave=saveCloud;
+ function paintSession(u){
+   user=u||null;
+   const greeting=document.getElementById('np7Greeting');
+   if(greeting){
+     let firstName='';
+     try{firstName=(JSON.parse(localStorage.getItem('NP7_ACCOUNT_PROFILE')||'{}').firstName||'').trim();}catch(e){}
+     if(!firstName&&user&&user.email)firstName=user.email.split('@')[0].split(/[._-]/)[0];
+     if(firstName)firstName=firstName.charAt(0).toLocaleUpperCase('fr-FR')+firstName.slice(1);
+     greeting.textContent=firstName?'Bonjour '+firstName:'Bonjour';
+   }
+   const out=document.getElementById('np7SignOut'),who=document.getElementById('np7AccountEmail');
+   if(out)out.style.display=user?'inline-flex':'none';
+   if(who)who.textContent=user?'Connecté : '+user.email:'';
+   if(user){status('Compte connecté.',false);syncStatus('Chargement de tes données…')}
+   else{status('Tu peux utiliser NP7 sans compte. Connecte-toi pour synchroniser tes données.',false);syncStatus('Non connecté : données conservées sur cet appareil.')}
+ }
+ async function loadCloud(u){
+   if(!client||!u)return;
+   loadingCloud=true;
+   try{
+     const {data:row,error}=await client.from('np7_user_data').select('data,updated_at').eq('user_id',u.id).maybeSingle();
+     if(error)throw error;
+     const local=JSON.parse(localStorage.getItem('NP7V4')||'null')||{};
+     const userLocal=JSON.parse(localStorage.getItem('NP7V4_user_'+u.id)||'null');
+     const claimed=localStorage.getItem('NP7V4_claimed_user');
+     let activeData;
+     if(row&&row.data){
+       // Never merge a generic local cache into an existing account: it may belong to a different user on this device.
+       activeData=row.data;
+     }else if(userLocal){
+       activeData=userLocal;
+     }else if(!claimed||claimed===u.id){
+       // Migrate anonymous data only for the first account that claims this browser.
+       activeData=local;
+       localStorage.setItem('NP7V4_claimed_user',u.id);
+     }else{
+       activeData={p:{w:75,h:175,a:22,sex:'male',act:1.55,goal:'cut',k:2400,pr:160,ca:275,f:80},d:{},wo:[],wh:[],custom:{}};
+     }
+     localStorage.setItem('NP7V4',JSON.stringify(activeData));
+     localStorage.setItem('NP7V4_user_'+u.id,JSON.stringify(activeData));
+     localStorage.setItem('NP7V4_claimed_user',u.id);
+     if(typeof S!=='undefined'){Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,activeData);if(typeof render==='function')render();}
+     loadingCloud=false;
+     if(row&&row.data){syncStatus('Données de ton compte chargées.');}
+     await saveCloud(activeData); await refreshPremiumStatus();
+     if(!row)syncStatus('Première sauvegarde cloud effectuée.');
+   }catch(e){
+     loadingCloud=false;
+     syncStatus('Connexion active, mais sauvegarde non configurée. Exécute le SQL fourni dans le chat. ('+(e.message||'erreur')+')',true);
+   }
+ }
+ window.np7SignUp=async function(){
+   if(!client){status('Le service de connexion ne se charge pas. Recharge la page.',true);return}
+   if(!email()||!/^\S+@\S+\.\S+$/.test(email())){status('Entre une adresse e-mail valide.',true);return}
+   if(password().length<8){status('Choisis un mot de passe de 8 caractères minimum.',true);return}
+   status('Création du compte…',false);
+   try{
+     const {data,error}=await client.auth.signUp({email:email(),password:password(),options:{emailRedirectTo:location.origin+location.pathname}});
+     if(error)throw error;
+     if(data.session){paintSession(data.user);await loadCloud(data.user);status('Compte créé et connecté.',false)}
+     else status('Compte créé. Vérifie ta boîte mail et clique sur le lien de confirmation, puis connecte-toi.',false);
+   }catch(e){status(e.message||'Impossible de créer le compte.',true)}
+ };
+ window.np7SignIn=async function(){
+   if(!client){status('Le service de connexion ne se charge pas. Recharge la page.',true);return}
+   if(!email()||!password()){status('Renseigne ton e-mail et ton mot de passe.',true);return}
+   status('Connexion…',false);
+   try{const {data,error}=await client.auth.signInWithPassword({email:email(),password:password()});if(error)throw error;paintSession(data.user);await loadCloud(data.user);await refreshPremiumStatus();status('Connexion réussie.',false)}
+   catch(e){status(e.message||'Connexion impossible.',true)}
+ };
+ window.np7SignOut=async function(){
+   if(!client)return;
+   const {error}=await client.auth.signOut();
+   if(error){status(error.message,true);return}
+   localStorage.removeItem('NP7V4');localStorage.setItem('NP7V4',JSON.stringify({p:{w:75,h:175,a:22,sex:'male',act:1.55,goal:'cut',k:2400,pr:160,ca:275,f:80},d:{},wo:[],wh:[],custom:{}}));
+   if(typeof S!=='undefined'){Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,JSON.parse(localStorage.getItem('NP7V4')));if(typeof render==='function')render();}
+   paintSession(null);status('Déconnexion réussie. Les données de ce compte restent séparées sur cet appareil.',false);
+ };
+ window.np7ResetPassword=async function(){
+   if(!client){status('Le service de connexion ne se charge pas. Recharge la page.',true);return}
+   if(!email()){status('Entre ton e-mail pour recevoir le lien de réinitialisation.',true);return}
+   try{const {error}=await client.auth.resetPasswordForEmail(email(),{redirectTo:location.origin+location.pathname});if(error)throw error;status('Si un compte correspond à cette adresse, un e-mail de réinitialisation va être envoyé.',false)}
+   catch(e){status(e.message||'Envoi impossible.',true)}
+ };
+ async function refreshPremiumStatus(){
+   const el=document.getElementById('np7PremiumStatus');
+   if(!el)return;
+   if(!client||!user){el.textContent='Connecte-toi pour consulter tes droits Premium.';return}
+   el.textContent='Vérification de tes achats…';
+   try{
+     const {data,error}=await client.from('np7_entitlements').select('plan,expires_at,active').eq('user_id',user.id).maybeSingle();
+     if(error)throw error;
+     if(!data||!data.active){el.textContent='Version gratuite · aucun achat Premium actif.';return}
+     if(data.expires_at&&new Date(data.expires_at).getTime()<=Date.now()){el.textContent='Ton accès Premium a expiré. Tu peux acheter une nouvelle période.';return}
+     const labels={month:'30 jours',year:'1 an',lifetime:'à vie'};
+     el.textContent='⭐ Premium actif · offre '+(labels[data.plan]||data.plan)+(data.expires_at?' · jusqu’au '+new Date(data.expires_at).toLocaleDateString('fr-FR'):' · accès permanent');
+   }catch(e){el.textContent='Le statut Premium sera disponible après la configuration du paiement Supabase.'}
+ }
+ window.np7BuyPremium=async function(plan){
+   const out=document.getElementById('np7CheckoutStatus');
+   const labels={month:'30 jours',year:'1 an',lifetime:'à vie'};
+   if(!client||!user){if(out)out.textContent='Connecte-toi à ton compte NP7 avant d’acheter Premium.';return}
+   if(!labels[plan])return;
+   if(out)out.textContent='Préparation du paiement sécurisé…';
+   try{
+     const {data,error}=await client.functions.invoke('create-checkout-session',{body:{plan}});
+     if(error)throw error;
+     if(!data||!data.url)throw new Error('Stripe n’a pas renvoyé de lien de paiement.');
+     window.location.assign(data.url);
+   }catch(e){if(out)out.textContent='Paiement non configuré : les fonctions Stripe doivent être déployées dans Supabase. ('+(e.message||'erreur')+')'}
+ };
+ async function init(){
+   if(!window.supabase||!window.supabase.createClient){status('Impossible de charger Supabase. Vérifie ta connexion Internet.',true);return}
+   client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+   try{
+     const {data,error}=await client.auth.getSession();if(error)throw error;
+     if(data.session){paintSession(data.session.user);await loadCloud(data.session.user)}else paintSession(null);
+     client.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){paintSession(null)}else if(session&&(!user||user.id!==session.user.id)){paintSession(session.user);setTimeout(()=>loadCloud(session.user),0)}});
+   }catch(e){status('Erreur de démarrage de la connexion : '+(e.message||'inconnue'),true)}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+<script src="np7-ui.js"></script>
+</body>
+</html>
