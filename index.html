@@ -17,13 +17,6 @@
 <link rel="stylesheet" href="np7.css">
 <script>try{var s=JSON.parse(localStorage.getItem('np7SettingsV16')||'{}'),t=s.theme||'system';if(t==='system')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){}</script>
 <script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
-<style id="np7-water-buttons-fix-v2">
-.np7-water-controls{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:stretch!important;gap:8px!important;width:100%!important;box-sizing:border-box!important;margin:10px 0 0!important}
-.np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{display:flex!important;align-items:center!important;justify-content:center!important;flex:1 1 0!important;min-width:0!important;width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;box-sizing:border-box!important;padding:0 6px!important;margin:0!important;border-radius:12px!important;font-size:13px!important;font-weight:900!important;line-height:1!important;white-space:nowrap!important;overflow:hidden!important}
-.np7-water-controls .np7-water-minus{order:1!important;background:#10223a!important;color:#edf4ff!important;border:1px solid #29415f!important}
-.np7-water-controls .np7-water-add{order:2!important;background:#a66cff!important;color:#fff!important}
-@media(max-width:500px){.np7-water-controls{gap:7px!important}.np7-water-controls .np7-water-minus,.np7-water-controls .np7-water-add{height:42px!important;min-height:42px!important;max-height:42px!important;font-size:12px!important;padding:0 4px!important}}
-</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -68,6 +61,7 @@
 <!-- Écran d'accueil (première ouverture) -->
 <div id="welcome" class="welcome" hidden>
   <svg class="mt" viewBox="0 0 400 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 250 120 150l70 70 80-110 130 150v160H0z" fill="#10335f" opacity=".85"/><path d="M0 310 90 240l80 70 110-90 120 110v90H0z" fill="#0b2447"/><path d="M0 370c60-20 120-10 190 0s140 10 210-10v60H0z" fill="#081a33"/></svg>
+  <div id="obIntro">
   <div class="big-logo">NP<b>7</b></div>
   <p class="tag">Ton objectif. Notre priorité.</p>
   <ul>
@@ -77,6 +71,18 @@
   </ul>
   <div class="namefield"><input id="welcomeName" autocomplete="given-name" placeholder="Ton prénom (facultatif)" aria-label="Ton prénom"></div>
   <button class="btn yellow" id="startBtn" type="button">Commencer</button>
+  </div>
+  <div id="obLogin" hidden>
+    <div class="big-logo" style="font-size:48px">NP<b>7</b></div>
+    <h2 style="text-align:center;margin:12px 0 4px">Crée ton compte</h2>
+    <p class="tag" style="margin-bottom:16px">Sauvegarde tes repas et ton sport, et retrouve-les sur tous tes appareils.</p>
+    <div class="namefield"><input id="obEmail" type="email" autocomplete="email" placeholder="Ton e-mail" aria-label="E-mail"></div>
+    <div class="namefield"><input id="obPass" type="password" autocomplete="current-password" minlength="8" placeholder="Mot de passe (8 caractères min.)" aria-label="Mot de passe"></div>
+    <div id="obStatus" class="small" role="status" aria-live="polite" style="color:#fff;min-height:20px;text-align:center;margin-bottom:10px;text-shadow:0 1px 8px rgba(0,0,0,.5)"></div>
+    <button class="btn yellow" id="obSignUp" type="button">Créer mon compte</button>
+    <button class="btn ghost" id="obSignIn" type="button" style="color:#fff;border-color:rgba(255,255,255,.45);margin-top:10px">J’ai déjà un compte</button>
+    <p style="text-align:center;margin:14px 0 0"><a href="#" id="obSkip" style="color:#fff;font-weight:600">Continuer sans compte</a></p>
+  </div>
 </div>
 
 <!-- Saisie vocale -->
@@ -89,7 +95,7 @@
   </div>
   <div>
     <button class="micbtn" type="button" id="voiceMic" aria-label="Démarrer ou arrêter la dictée"><svg class="i"><use href="#i-mic"/></svg></button>
-    <p class="small" style="color:#9db1d1">Dites par exemple :<br><b style="color:#fff">« 150 g de poulet et 150 g de riz »</b></p>
+    <p class="small" id="voiceHint" style="color:#9db1d1">Dites par exemple :<br><b style="color:#fff">« deux œufs, cent cinquante grammes de riz et du poulet »</b></p>
   </div>
 </div>
 
@@ -118,6 +124,7 @@
         <svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="50"/><circle class="arc" id="ringArc" cx="60" cy="60" r="50" stroke-dasharray="0 314"/></svg>
         <div class="mid"><b id="ringMain">0</b><span id="ringLabel">kcal restantes</span><small id="ringGoal">/ 2 400 kcal</small></div>
       </div>
+      <div id="ringBonus" class="bonus" hidden></div>
       <div class="ringsum"><span>Mangé <b id="sumIn">0</b></span><span>Sport <b id="sumOut">0</b></span><span>Net <b id="sumNet">0</b></span></div>
     </button>
 
@@ -241,9 +248,9 @@
     <div id="sportPick" class="card">
       <div style="position:relative"><svg class="i" style="position:absolute;left:12px;top:12px;color:var(--muted)"><use href="#i-search"/></svg><input id="actSearch" placeholder="Rechercher une activité…" style="padding-left:42px" aria-label="Rechercher une activité"></div>
       <div class="acts" id="acts" style="margin-top:14px"></div>
-      <select id="st" aria-label="Sport">
-        <option value="muscu">Musculation</option><option value="running">Course</option><option value="walking">Marche</option><option value="cycling">Vélo</option><option value="football">Football</option><option value="combat">JJB / combat</option><option value="swimming">Natation</option><option value="basketball">Basketball</option><option value="tennis">Tennis</option><option value="badminton">Badminton</option><option value="rugby">Rugby</option><option value="boxing">Boxe</option><option value="kickboxing">Kick-boxing</option><option value="judo">Judo</option><option value="mma">MMA</option><option value="crossfit">CrossFit</option><option value="hiit">HIIT</option><option value="hiking">Randonnée</option><option value="dance">Danse</option><option value="yoga">Yoga</option><option value="jump_rope">Corde à sauter</option>
-      </select>
+      <select id="st" aria-label="Sport" hidden></select>
+      <div id="allActs" class="chips scroller" hidden></div>
+      <p class="small" id="selSport" style="margin:10px 0 0"></p>
       <h3 style="margin-top:16px">Détails de l’activité</h3>
       <div class="row" style="margin:8px 0"><label for="sm" style="margin:0">Durée</label><div class="stepper"><input id="sm" type="number" inputmode="numeric" value="45" min="1"><span class="small">min</span><button type="button" id="smMinus" aria-label="Moins 5 minutes">−</button><button type="button" id="smPlus" aria-label="Plus 5 minutes">+</button></div></div>
       <div class="row" style="margin:8px 0"><label for="si" style="margin:0">Intensité</label><select id="si" style="width:auto;min-width:150px"><option value=".85">Légère</option><option value="1" selected>Modérée</option><option value="1.15">Intense</option></select></div>
@@ -264,8 +271,8 @@
 
     <div class="card">
       <h3>Décrire ma séance</h3>
-      <p class="small">Ex. « j’ai nagé 45 minutes », « 1 h de muscu intense ».</p>
-      <textarea id="sportAi" placeholder="Ex : j’ai couru 30 minutes…" style="min-height:64px"></textarea>
+      <p class="small">Écris ou dicte ta séance : NP7 reconnaît plus de 80 activités.</p>
+      <div class="mealinput"><textarea id="sportAi" placeholder="Ex : j’ai couru 30 minutes, 1 h de muscu intense…" style="min-height:64px"></textarea><button class="mic" type="button" id="micSport" aria-label="Dicter ma séance"><svg class="i"><use href="#i-mic"/></svg></button></div>
       <button class="btn primary block" type="button" onclick="analyzeSportAI()" style="margin-top:10px">Analyser ma séance</button>
       <div id="sportAiResult" style="margin-top:10px"></div>
     </div>
@@ -394,8 +401,8 @@
       <button class="btn block" type="button" data-go="weight" style="margin-top:12px">Modifier mon profil</button></div>
     <div class="card"><h3>Sources des données</h3>
       <div class="cards"><div class="macro"><b>3 484</b><br><span class="small">aliments Ciqual 2025</span></div><div class="macro"><b>74</b><br><span class="small">constituants</span></div><div class="macro"><b>∞</b><br><span class="small">produits Open Food Facts</span></div></div>
-      <p class="small" style="margin-top:10px">Ciqual donne des valeurs moyennes françaises. Open Food Facts est collaboratif : certaines fiches peuvent être incomplètes.</p></div>
-    <div class="card"><h3>Estimations</h3><p class="small">Pour les restaurants indépendants, NP7 estime les plats selon leur type et une portion standard, avec une fourchette. Ce ne sont pas des valeurs nutritionnelles officielles. Les calories du sport sont estimées avec la méthode MET et ne remplacent pas une montre connectée.</p></div>
+      <p class="small" style="margin-top:10px">Plus de 400 aliments courants sont reconnus directement, et tout le reste est cherché dans Ciqual. Ciqual donne des valeurs moyennes françaises. Open Food Facts est collaboratif : certaines fiches peuvent être incomplètes.</p></div>
+    <div class="card"><h3>Estimations</h3><p class="small">Pour les restaurants indépendants, NP7 estime les plats selon leur type et une portion standard, avec une fourchette. Ce ne sont pas des valeurs nutritionnelles officielles. Les calories du sport sont estimées avec la méthode MET, ne remplacent pas une montre connectée, et sont ajoutées à ton budget calorique du jour.</p></div>
   </div>
 </section>
 
@@ -418,7 +425,8 @@
     <details><summary>Comment ajouter un repas ?</summary><p>Dans l’onglet Repas, écris ou dicte ce que tu as mangé avec les quantités (« 150 g de riz et 2 œufs »), puis touche « Analyser avec l’IA ».</p></details>
     <details><summary>L’« IA » envoie-t-elle mes repas quelque part ?</summary><p>Non. L’analyse se fait dans ton appareil, à partir d’une base d’aliments embarquée. Elle fonctionne hors ligne.</p></details>
     <details><summary>Les calories sont-elles exactes ?</summary><p>Ce sont des estimations basées sur des valeurs moyennes (Ciqual 2025) et, pour les restaurants, sur des fourchettes. Vérifie l’étiquette pour un produit précis.</p></details>
-    <details><summary>Comment sont calculées les calories du sport ?</summary><p>Avec la méthode MET : MET × 3,5 × poids (kg) ÷ 200 × durée (min), ajustée selon l’intensité choisie.</p></details>
+    <details><summary>Comment sont comptées les calories du sport ?</summary><p>Elles sont estimées avec la méthode MET (MET × 3,5 × poids ÷ 200 × durée, ajustée selon l’intensité) puis ajoutées à ton budget : les calories restantes = objectif − repas + sport.</p></details>
+    <details><summary>Que puis-je dire à la voix ?</summary><p>Des phrases naturelles, avec les nombres en toutes lettres : « deux œufs, cent cinquante grammes de riz et une pomme ». Pour le sport : « j’ai fait quarante-cinq minutes de natation ».</p></details>
     <details><summary>Comment retrouver mes données sur un autre appareil ?</summary><p>Crée un compte (Plus › Mon profil › Compte) ou exporte une sauvegarde depuis Paramètres.</p></details>
   </div></div>
 </section>
@@ -1064,6 +1072,7 @@ window.np7ImportAppleWorkoutsFromHealthKit=function(base64){
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+<script src="np7-nlp.js"></script>
 <script src="np7-ui.js"></script>
 </body>
 </html>

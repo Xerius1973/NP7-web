@@ -46,3 +46,19 @@ Correction du problème de portée JavaScript qui empêchait le moteur V13 de vo
 - Effets de pression sur les boutons.
 - Animation de célébration avec confettis lorsque le texte d'objectif atteint est détecté.
 - Design mobile-first, cartes arrondies et effets de profondeur.
+
+
+## Interface v2
+
+Interface refaite d'après la maquette « Ton objectif. Notre priorité. ».
+
+| Fichier | Rôle |
+|---|---|
+| `index.html` | Structure des écrans + logique de calcul (base d'aliments, parseur de repas, scanner, Supabase) |
+| `np7.css` | Tous les styles (thèmes clair/sombre via variables CSS) |
+| `np7-nlp.js` | Reconnaissance : 400+ aliments, nombres dits à l'oral, mesures (cuillères, verres…), recherche Ciqual, 83 sports |
+| `np7-ui.js` | Navigation, anneau, sport, eau, voix, connexion au premier lancement, paramètres, export/import |
+| `sw.js` | Mode hors ligne (réseau d'abord pour le code, cache d'abord pour les données Ciqual) |
+
+Les données se chargent depuis `public/data/` (GitHub Pages) ou `/data/` (serveur Node).
+Les anciens workflows qui réécrivaient `index.html` à chaque push ont été supprimés.
