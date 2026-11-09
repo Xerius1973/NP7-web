@@ -264,3 +264,27 @@ details p{margin:8px 0 0;color:var(--muted);font-size:14px}
 html[data-theme=dark] .chip.on{background:var(--blue);border-color:var(--blue)}
 .welcome #obLogin{width:100%}
 .welcome .big-logo{margin-top:auto}
+
+.ing .nm{flex:1;min-width:0}
+.ing b{margin-left:0}
+.gedit{display:inline-flex;align-items:center;gap:4px;font-weight:700}
+.gedit input{width:72px;min-height:38px;padding:6px 8px;text-align:right;border-radius:10px}
+.sizes{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 6px 36px}
+.sizes button{padding:5px 10px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--muted)}
+.sizes button:active{background:var(--blue-soft)}
+.hand{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 12px}
+.hand div{background:var(--surface-2);border-radius:14px;padding:10px;display:grid;gap:2px}
+.hand span{font-size:26px}
+.hand small{color:var(--muted);font-size:12px}
+details.card>summary{font-weight:800;font-size:15px}
+
+.handgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 14px}
+.hcard{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:10px;display:grid;gap:4px}
+.hcard b{font-size:14px}
+.hcard svg.draw{width:100%;height:auto;display:block}
+.hcard .val{font-weight:800;color:var(--blue);font-size:15px}
+.hcard .cal{display:flex;gap:6px;align-items:center;margin-top:4px}
+.hcard .cal input{min-height:36px;padding:4px 8px;font-size:13px;border-radius:10px;width:100%}
+.hcard .cal button{white-space:nowrap;padding:0 10px;min-height:36px;border-radius:10px;background:var(--navy);color:#fff;font-weight:700;font-size:12px}
+html[data-theme=dark] .hcard .cal button{background:var(--blue)}
+.hcard .reset{font-size:12px;color:var(--muted);text-decoration:underline;background:none;padding:0;text-align:left}

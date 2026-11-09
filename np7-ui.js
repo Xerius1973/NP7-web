@@ -151,7 +151,36 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-act]');if(
 $('#scanBtn').onclick=()=>openBarcodeScanner();
 window.goAIWithNutrition=function(){go('meals');setMode('text');setTimeout(()=>$('#aii').focus(),50)};
 
-/* résultat détaillé après analyse (carte « Ingrédients détectés ») */
+/* résultat détaillé après analyse : poids modifiables ingrédient par ingrédient */
+const DOTS=['#e5484d','#f5a524','#1fa968','#4a93ff','#9b6bff','#14b8a6'];
+function paintResult(){
+  const res=$('#mealResult'),before=+res.dataset.before,count=+res.dataset.count;
+  const added=foods().slice(before,before+count);
+  if(!added.length){res.hidden=true;return}
+  const base=JSON.parse(res.dataset.base||'[]'),est=JSON.parse(res.dataset.est||'[]'),miss=JSON.parse(res.dataset.miss||'[]'),raw=JSON.parse(res.dataset.raw||'[]');
+  const T=added.reduce((a,x)=>({k:a.k+x.k,pr:a.pr+x.pr,ca:a.ca+x.ca,f:a.f+x.f}),{k:0,pr:0,ca:0,f:0});
+  const h=+res.dataset.hour,slot=h<11?'Petit-déjeuner':h<15?'Déjeuner':h<18?'Collation':'Dîner';
+  const title=added.map(x=>x.name.split(' — ').pop().replace(/ cuits?| cuite?s?/i,'')).slice(0,3).join(' · ');
+  const note=(txt)=>`<div class="note" style="margin-top:10px"><svg class="i"><use href="#i-info"/></svg><div>${txt}</div></div>`;
+  res.innerHTML=`<div class="row"><div><h3>${esc(title)}</h3><div class="small">${slot} · ${res.dataset.time}</div></div><span class="pill est">Estimation</span></div>
+    <div class="kc">${fmt(T.k)} <span class="small">kcal</span></div>
+    <div class="macros" style="margin:10px 0"><div class="mtile p"><div class="n">Protéines</div><div class="v">${fmt(T.pr)} g</div></div><div class="mtile c"><div class="n">Glucides</div><div class="v">${fmt(T.ca)} g</div></div><div class="mtile l"><div class="n">Lipides</div><div class="v">${fmt(T.f)} g</div></div></div>
+    <div class="note"><svg class="i"><use href="#i-info"/></svg><div>Estimation basée sur une base de données nutritionnelle.<br>Fourchette possible : <b>${fmt(T.k*.85)} – ${fmt(T.k*1.15)} kcal</b></div></div>
+    ${raw.length?note('Poids converti de cru en cuit pour : <b>'+esc2(raw.join(', '))+'</b>.'):''}
+    ${est.length?note('Poids estimé (pièce, cuillère ou portion standard) pour : <b>'+esc2(est.join(', '))+'</b>. Corrige-le ci-dessous si besoin.'):''}
+    ${miss.length?`<div class="note" style="margin-top:10px;background:var(--carb-bg)"><svg class="i"><use href="#i-info"/></svg><div>Non reconnu, donc non compté : <b>${esc2(miss.join(', '))}</b>. Essaie un autre nom, ou crée une « Recette maison » plus bas.</div></div>`:''}
+    <div class="label" style="margin:14px 0 4px">Ingrédients détectés · touche le poids pour le corriger</div>
+    ${added.map((x,i)=>`<div class="ing"><span class="d" style="background:${DOTS[i%DOTS.length]}"></span><span class="nm">${esc(x.name)}</span><span class="gedit"><input type="number" min="1" inputmode="numeric" value="${Math.round(x.q)}" data-i="${i}" aria-label="Grammes de ${esc2(x.name)}"><span>g</span></span><button class="icon" type="button" data-rm="${i}" aria-label="Retirer ${esc2(x.name)}">✕</button></div>
+      <div class="sizes" data-i="${i}"><button type="button" data-f=".7">Petite</button><button type="button" data-f="1">Estimé</button><button type="button" data-f="1.4">Grosse</button></div>`).join('')}
+    <div class="row wrap" style="margin-top:14px"><button class="btn block" type="button" id="editMeal">Tout annuler et reprendre le texte</button></div>
+    <p class="small" style="margin:8px 0 0">Déjà ajouté à ta journée. Les changements de poids s’appliquent tout de suite.</p>`;
+  res.hidden=false;
+}
+function setQty(i,q){
+  const res=$('#mealResult'),x=foods()[+res.dataset.before+i];if(!x)return;
+  q=Math.max(1,Math.round(+q||0));if(!(x.q>0)){return}
+  const r=q/x.q;x.k*=r;x.pr*=r;x.ca*=r;x.f*=r;x.q=q;save();paintResult();
+}
 const prevAnalyze=window.analyze;
 window.analyze=async function(){
   const input=$('#aii'),text=input.value.trim(),before=foods().length;
@@ -163,32 +192,76 @@ window.analyze=async function(){
   const added=foods().slice(before);
   if(!added.length){res.hidden=true;return}
   $('#chat').innerHTML='';
-  const T=added.reduce((a,x)=>({k:a.k+x.k,pr:a.pr+x.pr,ca:a.ca+x.ca,f:a.f+x.f}),{k:0,pr:0,ca:0,f:0});
-  const h=new Date().getHours(),slot=h<11?'Petit-déjeuner':h<15?'Déjeuner':h<18?'Collation':'Dîner';
-  const hh=String(h).padStart(2,'0')+':'+String(new Date().getMinutes()).padStart(2,'0');
-  const cols=['#e5484d','#f5a524','#1fa968','#4a93ff','#9b6bff','#14b8a6'];
-  const title=added.map(x=>x.name.split(' — ').pop().replace(/ cuits?| cuite?s?/i,'')).slice(0,3).join(' · ');
-  const miss=(window.__np7Unmatched||[]).filter(Boolean),est=(window.__np7Est||[]).filter(Boolean);
-  res.dataset.before=before;res.dataset.count=added.length;res.dataset.text=text;
-  res.innerHTML=`<div class="row"><div><h3>${esc(title)}</h3><div class="small">${slot} · ${hh}</div></div><span class="pill est">Estimation</span></div>
-    <div class="kc">${fmt(T.k)} <span class="small">kcal</span></div>
-    <div class="macros" style="margin:10px 0"><div class="mtile p"><div class="n">Protéines</div><div class="v">${fmt(T.pr)} g</div></div><div class="mtile c"><div class="n">Glucides</div><div class="v">${fmt(T.ca)} g</div></div><div class="mtile l"><div class="n">Lipides</div><div class="v">${fmt(T.f)} g</div></div></div>
-    <div class="note"><svg class="i"><use href="#i-info"/></svg><div>Estimation basée sur une base de données nutritionnelle.<br>Fourchette possible : <b>${fmt(T.k*.85)} – ${fmt(T.k*1.15)} kcal</b></div></div>
-    ${miss.length?`<div class="note" style="margin-top:10px;background:var(--carb-bg)"><svg class="i"><use href="#i-info"/></svg><div>Non reconnu, donc non compté : <b>${esc2(miss.join(', '))}</b>. Essaie un autre nom, ou ajoute-le dans « Mes aliments personnalisés ».</div></div>`:''}
-    ${est.length?`<div class="note" style="margin-top:10px"><svg class="i"><use href="#i-info"/></svg><div>Poids estimé (pièce, cuillère ou portion standard) pour : <b>${esc2(est.join(', '))}</b>. Touche « Modifier » pour préciser les grammes.</div></div>`:''}
-    <div class="label" style="margin:14px 0 4px">Ingrédients détectés</div>
-    ${added.map((x,i)=>`<div class="ing"><span class="d" style="background:${cols[i%cols.length]}"></span>${esc(x.name)}<b>${Math.round(x.q)} g</b></div>`).join('')}
-    <div class="row wrap" style="margin-top:14px"><button class="btn block" type="button" id="editMeal">Modifier</button></div>
-    <p class="small" style="margin:8px 0 0">Ajouté à ta journée. « Modifier » annule cet ajout et te laisse corriger le texte.</p>`;
-  res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'nearest'});
+  const now=new Date();
+  Object.assign(res.dataset,{before,count:added.length,text,hour:now.getHours(),time:String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'),
+    base:JSON.stringify(added.map(x=>x.q)),est:JSON.stringify(window.__np7Est||[]),miss:JSON.stringify(window.__np7Unmatched||[]),raw:JSON.stringify(window.__np7Raw||[])});
+  paintResult();res.scrollIntoView({behavior:'smooth',block:'nearest'});
 };
 $('#analyzeBtn').onclick=()=>window.analyze();
 $('#mealResult').addEventListener('click',e=>{
-  if(!e.target.closest('#editMeal'))return;
-  const r=$('#mealResult'),b=+r.dataset.before,c=+r.dataset.count;
-  foods().splice(b,c);save();$('#aii').value=r.dataset.text||'';r.hidden=true;$('#aii').focus();toast('Ajout annulé : corrige ton texte');
+  const r=$('#mealResult');
+  if(e.target.closest('#editMeal')){const b=+r.dataset.before,c=+r.dataset.count;foods().splice(b,c);save();$('#aii').value=r.dataset.text||'';r.hidden=true;$('#aii').focus();toast('Ajout annulé : corrige ton texte');return}
+  const rm=e.target.closest('[data-rm]');
+  if(rm){const i=+rm.dataset.rm,b=+r.dataset.before;foods().splice(b+i,1);const base=JSON.parse(r.dataset.base);base.splice(i,1);r.dataset.base=JSON.stringify(base);r.dataset.count=+r.dataset.count-1;save();paintResult();return}
+  const sz=e.target.closest('.sizes button');
+  if(sz){const i=+sz.parentElement.dataset.i,base=JSON.parse(r.dataset.base)[i];setQty(i,base*(+sz.dataset.f))}
 });
+$('#mealResult').addEventListener('change',e=>{const inp=e.target.closest('.gedit input');if(inp)setQty(+inp.dataset.i,inp.value)});
 $('#aii').addEventListener('input',()=>{$('#mealResult').hidden=true});
+
+
+/* ---------- repères de la main (adaptés au profil) ---------- */
+const SK='fill="#F2CBA7" stroke="#B7845C" stroke-width="1.2"';
+const HAND_CARDS=[
+ {k:'palm',t:'Paume',s:'Viande ou poisson cuit',svg:`<g ${SK}><rect x="41" y="78" width="11" height="40" rx="5.5"/><rect x="54" y="70" width="11" height="48" rx="5.5"/><rect x="67" y="74" width="11" height="44" rx="5.5"/><rect x="80" y="84" width="11" height="34" rx="5.5"/><rect x="22" y="118" width="13" height="38" rx="6.5" transform="rotate(-35 28 137)"/><rect x="40" y="112" width="60" height="58" rx="10"/></g><rect x="36" y="108" width="68" height="66" rx="12" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M176 142C176 118 206 106 236 114C262 121 266 150 248 164C228 180 182 174 176 142Z" fill="#D8956B" stroke="#9C5B38" stroke-width="1.2"/><g stroke="#8A4B2B" stroke-width="1.5" stroke-linecap="round"><line x1="200" y1="124" x2="212" y2="146"/><line x1="216" y1="120" x2="228" y2="144"/><line x1="232" y1="124" x2="242" y2="142"/></g>`},
+ {k:'fist',t:'Poing fermé',s:'Riz ou pâtes cuits',svg:`<g ${SK}><rect x="38" y="118" width="64" height="56" rx="16"/><rect x="46" y="150" width="44" height="15" rx="7.5"/></g><g stroke="#B7845C" stroke-width="1.2" stroke-linecap="round"><line x1="54" y1="126" x2="54" y2="146"/><line x1="70" y1="126" x2="70" y2="146"/><line x1="86" y1="126" x2="86" y2="146"/></g><path d="M172 140H262A45 40 0 0 1 172 140Z" fill="#DDE4EE" stroke="#7B8DA6" stroke-width="1.2"/><path d="M178 140C186 112 248 112 256 140Z" fill="#FBFBF6" stroke="#CFCFC4" stroke-width="1.2"/><g fill="#FFFFFF" stroke="#D6D6CC"><ellipse cx="200" cy="130" rx="4" ry="2"/><ellipse cx="215" cy="123" rx="4" ry="2"/><ellipse cx="231" cy="127" rx="4" ry="2"/><ellipse cx="222" cy="135" rx="4" ry="2"/><ellipse cx="241" cy="134" rx="4" ry="2"/></g>`},
+ {k:'cup',t:'Main en coupe',s:'Noix ou céréales',svg:`<path d="M30 134C30 178 60 190 80 190C104 190 126 176 126 134Z" ${SK}/><g fill="#C48A4E" stroke="#8A5A2B"><ellipse cx="52" cy="132" rx="8" ry="5"/><ellipse cx="70" cy="124" rx="8" ry="5"/><ellipse cx="89" cy="127" rx="8" ry="5"/><ellipse cx="106" cy="133" rx="8" ry="5"/><ellipse cx="62" cy="140" rx="8" ry="5"/><ellipse cx="82" cy="138" rx="8" ry="5"/><ellipse cx="98" cy="142" rx="8" ry="5"/></g><path d="M30 134C30 178 60 190 80 190C104 190 126 176 126 134" fill="none" stroke="#B7845C" stroke-width="1.2"/><g fill="#C48A4E" stroke="#8A5A2B"><ellipse cx="190" cy="168" rx="8" ry="5"/><ellipse cx="206" cy="169" rx="8" ry="5"/><ellipse cx="222" cy="168" rx="8" ry="5"/><ellipse cx="238" cy="169" rx="8" ry="5"/><ellipse cx="254" cy="168" rx="8" ry="5"/><ellipse cx="198" cy="156" rx="8" ry="5"/><ellipse cx="214" cy="157" rx="8" ry="5"/><ellipse cx="230" cy="156" rx="8" ry="5"/><ellipse cx="246" cy="157" rx="8" ry="5"/><ellipse cx="206" cy="144" rx="8" ry="5"/><ellipse cx="222" cy="145" rx="8" ry="5"/><ellipse cx="238" cy="144" rx="8" ry="5"/></g>`},
+ {k:'thumb',t:'Pouce',s:'Huile ou beurre',svg:`<g ${SK}><rect x="40" y="150" width="72" height="34" rx="12"/><rect x="58" y="88" width="36" height="86" rx="18"/></g><rect x="64" y="92" width="24" height="22" rx="8" fill="#F8E6D6" stroke="#B7845C"/><g stroke="#B7845C" stroke-width="1.2" stroke-linecap="round"><line x1="64" y1="138" x2="88" y2="138"/><line x1="66" y1="146" x2="86" y2="146"/></g><rect x="54" y="84" width="44" height="54" rx="14" fill="none" stroke="#0F6E56" stroke-width="1.5" stroke-dasharray="4 3"/><polygon points="166,132 180,122 230,122 216,132" fill="#FBEDA9" stroke="#C9A93A"/><polygon points="216,132 230,122 230,152 216,162" fill="#EBCB55" stroke="#C9A93A"/><rect x="166" y="132" width="50" height="30" rx="3" fill="#F7E08A" stroke="#C9A93A"/><path d="M254 136C254 136 242 152 242 160A12 12 0 0 0 266 160C266 152 254 136 254 136Z" fill="#E8B930" stroke="#B8891A"/>`}
+];
+function paintHandGuide(){
+  const box=$('#handGuide');if(!box||typeof np7Hand!=='function')return;
+  const H=np7Hand(),p=S.p||{},r5=v=>Math.round(v/5)*5;
+  $('#handIntro').innerHTML=`Pour ton profil (<b>${p.h||170} cm</b>, ${p.sex==='female'?'femme':'homme'}), tes repères sont ${H.factor>1.03?'plus grands':H.factor<.97?'plus petits':'proches'} que ceux d’une personne de 170 cm (×${H.factor.toFixed(2).replace('.',',')}). Pour les affiner, pèse une fois ta vraie portion et saisis-la ci-dessous.`;
+  const val={palm:`≈ ${r5(H.palm*.9)}–${r5(H.palm*1.1)} g`,fist:`≈ ${r5(H.fist*.9)}–${r5(H.fist*1.1)} g`,cup:`≈ ${H.cup} g`,thumb:`≈ ${Math.round(H.thumb*.85)}–${Math.round(H.thumb*1.15)} g`};
+  box.innerHTML=HAND_CARDS.map(c=>`<div class="hcard"><svg class="draw" viewBox="18 64 262 130" role="img" aria-label="${c.t} : ${c.s}">${c.svg}</svg><b>${c.t}</b><span class="small">${c.s}</span><span class="val">${H[c.k+'Cal']?H[c.k]+' g (ma mesure)':val[c.k]}</span><div class="cal"><input type="number" min="1" inputmode="numeric" placeholder="Pesé : g" data-hand="${c.k}" aria-label="Poids réel de ma portion : ${c.t}"><button type="button" data-hsave="${c.k}">OK</button></div>${H[c.k+'Cal']?`<button class="reset" type="button" data-hreset="${c.k}">Revenir à l’estimation</button>`:''}</div>`).join('');
+}
+function handCal(){try{return JSON.parse(localStorage.getItem('np7_hand_v1')||'{}')}catch(e){return{}}}
+$('#handGuide').addEventListener('click',e=>{
+  const s=e.target.closest('[data-hsave]'),r=e.target.closest('[data-hreset]');
+  if(s){const k=s.dataset.hsave,inp=$('#handGuide [data-hand="'+k+'"]'),v=+inp.value;if(!(v>0))return toast('Saisis le poids en grammes');const c=handCal();c[k]=v;try{localStorage.setItem('np7_hand_v1',JSON.stringify(c))}catch(err){}paintHandGuide();toast('Repère enregistré')}
+  if(r){const c=handCal();delete c[r.dataset.hreset];try{localStorage.setItem('np7_hand_v1',JSON.stringify(c))}catch(err){}paintHandGuide()}
+});
+
+/* ---------- recette maison : calcule une portion à partir des ingrédients ---------- */
+let recipeDraft=null;
+const rKey=n=>np7Prep(n);
+function paintRecipes(){
+  const list=Object.entries(S.custom||{}).filter(([k,v])=>v&&v.recipe);
+  $('#recipeList').innerHTML=list.length?'<div class="label" style="margin:14px 0 4px">Mes recettes enregistrées</div>'+list.map(([k,v])=>`<div class="food"><div class="thumb" aria-hidden="true">🍲</div><div><b>${esc(v.name)}</b><div class="meta">1 portion ≈ ${Math.round(v.u)} g · ${Math.round(v.k*v.u/100)} kcal</div></div><button class="icon" type="button" data-rdel="${esc2(k)}" aria-label="Supprimer la recette ${esc2(v.name)}">✕</button></div>`).join(''):'';
+}
+$('#recipeCalc').onclick=async()=>{
+  const name=$('#rName').value.trim(),txt=$('#rIng').value.trim(),portions=Math.max(1,+$('#rPortions').value||1),cooked=+$('#rCooked').value||0,out=$('#recipeOut');
+  if(!name||!txt){out.innerHTML='<div class="note"><svg class="i"><use href="#i-info"/></svg><div>Donne un nom et la liste des ingrédients.</div></div>';return}
+  try{if(typeof CIQUAL!=='undefined'&&!CIQUAL.length&&typeof loadCiqual==='function')await loadCiqual()}catch(e){}
+  const items=window.parse(txt),est=window.__np7Est||[],miss=window.__np7Unmatched||[],raw=window.__np7Raw||[];
+  if(!items.length){out.innerHTML='<div class="note"><svg class="i"><use href="#i-info"/></svg><div>Aucun ingrédient reconnu. Écris par exemple : « 300 g de pâtes crues, 200 g de steak haché cru, 400 g de sauce tomate ».</div></div>';recipeDraft=null;return}
+  const T=items.reduce((a,x)=>({k:a.k+x.v[1]*x.q/100,pr:a.pr+x.v[2]*x.q/100,ca:a.ca+x.v[3]*x.q/100,f:a.f+x.v[4]*x.q/100,w:a.w+x.q}),{k:0,pr:0,ca:0,f:0,w:0});
+  const total=cooked>0?cooked:T.w,pw=total/portions;
+  recipeDraft={name,k100:T.k/total*100,pr100:T.pr/total*100,ca100:T.ca/total*100,f100:T.f/total*100,u:pw,portions,T,total};
+  out.innerHTML=`<div class="card flat" style="margin-top:12px;background:var(--surface-2)"><div class="label">1 portion sur ${portions} (≈ ${Math.round(pw)} g)</div><div class="kc" style="font-size:30px">${fmt(T.k/portions)} <span class="small">kcal</span></div>
+    <div class="small">P ${fmt(T.pr/portions)} g · G ${fmt(T.ca/portions)} g · L ${fmt(T.f/portions)} g</div>
+    ${raw.length?`<p class="small" style="margin:8px 0 0">Converti de cru en cuit : ${esc2(raw.join(', '))}.</p>`:''}
+    ${est.length?`<p class="small" style="margin:8px 0 0">Poids estimé (cuillère, pièce ou portion standard) pour : <b>${esc2(est.join(', '))}</b>. Indique les grammes pour un calcul plus exact.</p>`:''}
+    ${miss.length?`<p class="small" style="margin:8px 0 0;color:var(--danger)">Non reconnu : ${esc2(miss.join(', '))}.</p>`:''}
+    ${cooked>0?'':'<p class="small" style="margin:8px 0 0">Astuce : pèse le plat cuit et indique-le pour un poids de portion plus juste.</p>'}
+    <div class="row wrap" style="margin-top:12px"><button class="btn yellow" type="button" id="recipeSave">Enregistrer la recette</button><button class="btn" type="button" id="recipeAdd">Ajouter 1 portion maintenant</button></div></div>`;
+};
+$('#recipeOut').addEventListener('click',e=>{
+  if(!recipeDraft)return;const d=recipeDraft;
+  if(e.target.closest('#recipeSave')){S.custom[rKey(d.name)]={name:d.name,k:d.k100,pr:d.pr100,ca:d.ca100,f:d.f100,u:d.u,recipe:true};save();paintRecipes();toast('Recette enregistrée. Dis « 1 portion de '+d.name+' » pour l’ajouter.')}
+  if(e.target.closest('#recipeAdd')){const p=d.T;foods().push({name:d.name+' (1 portion)',q:d.u,k:p.k/d.portions,pr:p.pr/d.portions,ca:p.ca/d.portions,f:p.f/d.portions});save();toast('Portion ajoutée à ta journée')}
+});
+$('#recipeList').addEventListener('click',e=>{const b=e.target.closest('[data-rdel]');if(!b)return;if(confirm('Supprimer cette recette ?')){delete S.custom[b.dataset.rdel];save();paintRecipes()}});
 
 /* photo (aperçu seulement : l'analyse d'image arrive avec Premium) */
 function preview(f){if(!f)return;const u=URL.createObjectURL(f);$('#photoDrop').innerHTML=`<img alt="Aperçu du repas" src="${u}"><p class="small" style="margin:8px 0 0">Analyse de la photo : bientôt disponible avec Premium. Décris le repas en texte pour l’ajouter dès maintenant.</p>`}
@@ -293,9 +366,9 @@ new MutationObserver(()=>{if(!$('#welcome').hidden&&!$('#obLogin').hidden&&signe
 
 /* ---------- liaison avec render() existant ---------- */
 const prevRender=window.render;
-window.render=function(){prevRender();paintHome();paintReference()};
+window.render=function(){prevRender();paintHome();paintReference();paintHandGuide()};
 window.addEventListener('np7:ready',()=>{});
-paintHome();paintWater();paintName();paintActs();estimate();paintReference();
+paintHome();paintWater();paintName();paintActs();estimate();paintReference();paintRecipes();paintHandGuide();
 window.render();
 setTimeout(paintName,600);
 

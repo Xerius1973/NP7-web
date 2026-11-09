@@ -193,6 +193,17 @@
       <div><b>IA locale NP7</b><ul><li>Fonctionne hors ligne</li><li>100 % privée</li><li>100 % gratuite</li></ul></div>
     </div>
 
+    <details class="card" id="portionGuide">
+      <summary>Je ne sais pas combien il y a dans mon assiette</summary>
+      <p class="small" style="margin-top:10px"><b>1. Pèse tes ingrédients crus (le plus précis).</b> Écris « 80 g de riz cru » ou « 150 g de poulet cru » : NP7 convertit tout seul en poids cuit.</p>
+      <p class="small"><b>2. Utilise les mesures du quotidien.</b> Dis « un bol de riz », « deux cuillères à soupe d’huile », « un verre de lait » : NP7 sait les convertir.</p>
+      <p class="small"><b>3. Utilise ta main.</b> Les repères ci-dessous sont ajustés à ta morphologie. Tu peux même les dire : « une paume de poulet et un poing de riz ».</p>
+      <p class="small" id="handIntro"></p>
+      <div id="handGuide" class="handgrid"></div>
+      <p class="small"><b>4. Plat fait maison :</b> utilise « Recette maison » plus bas, NP7 calcule une portion à partir de tes ingrédients.</p>
+      <p class="small">Dans l’assiette, vise environ ½ légumes, ¼ viande ou poisson, ¼ féculents. Ces repères restent approximatifs : la balance reste la méthode la plus précise.</p>
+    </details>
+
     <div class="card">
       <div class="row"><h3>Scanner un produit</h3><button class="btn primary" type="button" id="scanBtn" style="min-height:40px"><svg class="i"><use href="#i-scan"/></svg>Ouvrir</button></div>
       <p class="small">Scanne un code-barres pour récupérer les valeurs nutritionnelles (Open Food Facts).</p>
@@ -214,6 +225,20 @@
       </div>
       <button class="btn primary block" type="button" onclick="addPortionFood()" style="margin-top:12px"><svg class="i"><use href="#i-plus"/></svg>Ajouter la portion</button>
     </div>
+
+    <details class="card" id="recipeCard">
+      <summary>Recette maison (plat cuisiné)</summary>
+      <p class="small" style="margin-top:10px">Liste ce que tu as mis dans la casserole, idéalement pesé cru. NP7 calcule une portion, et tu peux l’enregistrer pour la réutiliser.</p>
+      <div class="form">
+        <div class="field wide"><label for="rName">Nom du plat</label><input id="rName" placeholder="Ex. Lasagnes maison"></div>
+        <div class="field wide"><label for="rIng">Ingrédients</label><textarea id="rIng" placeholder="Ex : 300 g de pâtes crues, 200 g de steak haché cru, 400 g de sauce tomate, 100 g de fromage râpé, 2 cuillères à soupe d’huile"></textarea></div>
+        <div class="field"><label for="rPortions">Nombre de portions</label><input id="rPortions" type="number" inputmode="numeric" min="1" value="4"></div>
+        <div class="field"><label for="rCooked">Poids du plat cuit (g, facultatif)</label><input id="rCooked" type="number" inputmode="numeric" min="1" placeholder="Ex. 1200"></div>
+      </div>
+      <button class="btn primary block" type="button" id="recipeCalc" style="margin-top:12px">Calculer une portion</button>
+      <div id="recipeOut" role="status" aria-live="polite"></div>
+      <div id="recipeList"></div>
+    </details>
 
     <details class="card">
       <summary>Mes aliments personnalisés</summary>
@@ -426,7 +451,9 @@
     <details><summary>L’« IA » envoie-t-elle mes repas quelque part ?</summary><p>Non. L’analyse se fait dans ton appareil, à partir d’une base d’aliments embarquée. Elle fonctionne hors ligne.</p></details>
     <details><summary>Les calories sont-elles exactes ?</summary><p>Ce sont des estimations basées sur des valeurs moyennes (Ciqual 2025) et, pour les restaurants, sur des fourchettes. Vérifie l’étiquette pour un produit précis.</p></details>
     <details><summary>Comment sont comptées les calories du sport ?</summary><p>Elles sont estimées avec la méthode MET (MET × 3,5 × poids ÷ 200 × durée, ajustée selon l’intensité) puis ajoutées à ton budget : les calories restantes = objectif − repas + sport.</p></details>
-    <details><summary>Que puis-je dire à la voix ?</summary><p>Des phrases naturelles, avec les nombres en toutes lettres : « deux œufs, cent cinquante grammes de riz et une pomme ». Pour le sport : « j’ai fait quarante-cinq minutes de natation ».</p></details>
+    <details><summary>Je ne sais pas combien je mange, que faire ?</summary><p>Pèse les ingrédients crus et écris par exemple « 80 g de riz cru » (NP7 convertit en cuit). Sinon utilise les mesures (bol, cuillère, verre), les repères de la main (Repas › « Je ne sais pas combien… »), ou crée une Recette maison pour un plat cuisiné.</p></details>
+    <details><summary>Comment les repères de la main sont-ils adaptés à moi ?</summary><p>NP7 part de ta taille et de ton sexe (profil) : une main plus grande donne des portions plus grosses. C’est une estimation. Pour l’affiner, pèse une fois ta portion réelle (par exemple la viande qui couvre ta paume) et saisis le poids dans la carte correspondante.</p></details>
+    <details><summary>Que puis-je dire à la voix ?</summary><p>Des phrases naturelles, avec les nombres en toutes lettres : « deux œufs, cent cinquante grammes de riz et une pomme ». Tu peux aussi parler en mesures : « une paume de poulet, un poing de riz ». Pour le sport : « j’ai fait quarante-cinq minutes de natation ».</p></details>
     <details><summary>Comment retrouver mes données sur un autre appareil ?</summary><p>Crée un compte (Plus › Mon profil › Compte) ou exporte une sauvegarde depuis Paramètres.</p></details>
   </div></div>
 </section>

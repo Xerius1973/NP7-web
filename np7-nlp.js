@@ -6,8 +6,8 @@
 /* ================= normalisation ================= */
 function prep(t){
   let s=String(t==null?'':t).toLowerCase().replace(/œ/g,'oe').replace(/æ/g,'ae').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  s=s.replace(/(\d)\s*[,.]\s*(\d)/g,'$1.$2').replace(/\d+(?:\.\d+)?\s*(?:%|pour cent)/g,' ');
-  s=s.replace(/[’'`´]/g,' ').replace(/-/g,' ').replace(/[^a-z0-9. ]+/g,' ');
+  s=s.replace(/(\d)[,.](\d)/g,'$1.$2').replace(/\d+(?:\.\d+)?\s*(?:%|pour cent)/g,' ').replace(/[,;\n]+/g,' | ');
+  s=s.replace(/[’'`´]/g,' ').replace(/-/g,' ').replace(/[^a-z0-9. |]+/g,' ');
   s=s.replace(/(^|[^0-9])\.|\.(?![0-9])/g,'$1 ').replace(/\s+/g,' ').trim();
   return s;
 }
@@ -278,16 +278,42 @@ function addCommon(){
   Object.assign(UNIT,{oeuf:60,yaourt:125,pomme:150,banane:120,fromage:25,pain:30,jambon:35,'pain au chocolat':70});
 }
 
+/* ================= repères de la main, adaptés à la morphologie ================= */
+const HAND_BASE={palm:110,fist:150,cup:30,thumb:12};   // pour une personne de 170 cm
+function handFactor(){
+  const p=(typeof S!=='undefined'&&S.p)||{};const h=+p.h||170;
+  const sx=p.sex==='female'?.96:1.04;
+  return Math.min(1.4,Math.max(.7,Math.pow(h/170,2.5)*sx));
+}
+function handValues(){
+  const f=handFactor();let cal={};try{cal=JSON.parse(localStorage.getItem('np7_hand_v1')||'{}')}catch(e){}
+  const out={factor:f};
+  Object.keys(HAND_BASE).forEach(k=>{
+    const c=+cal[k]>0;const v=HAND_BASE[k]*f;
+    out[k]=c?Math.round(+cal[k]):(k==='thumb'?Math.round(v):Math.round(v/5)*5);
+    out[k+'Cal']=c;
+  });
+  return out;
+}
+window.np7Hand=handValues;
+
 /* ================= mesures du quotidien ================= */
-const MEAS_RE=/(?:(\d+(?:\.\d+)?|un|une|deux|trois)\s+)?(demi\s+)?(cuilleres? a soupe|cuilleres? a cafe|cuilleres? a dessert|c a s|c a c|cas|cac|verres?|bols?|tasses?|poignees?|tranches?|pots?|canettes?|boules?|carres?|parts?|scoops?|doses?|assiettes?)(?:\s+(?:de|d))?(?= |$)/;
-function measureGrams(unit,key){
+const MEAS_RE=/(?:(\d+(?:\.\d+)?|un|une|deux|trois)\s+)?(demi\s+)?(paumes?|poings?|pouces?|mains? en coupe|creux de (?:la )?main|cuilleres? a soupe|cuilleres? a cafe|cuilleres? a dessert|c a s|c a c|cas|cac|verres?|bols?|tasses?|poignees?|tranches?|pots?|canettes?|boules?|carres?|parts?|portions?|scoops?|doses?|assiettes?)(?:\s+(?:de|d))?(?= |$)/;
+function measureGrams(unit,key,r){
+  if(/^portion/.test(unit))return (r&&r.unit)||0;
+  if(/^(paume|poing|pouce|main|creux|poignee)/.test(unit)){
+    const H=handValues();
+    if(/^paume/.test(unit))return H.palm;
+    if(/^poing/.test(unit))return /riz|pates|spaghetti|semoule|couscous|boulgour|quinoa|lentille|pois chiche|haricots (rouge|blanc)|pomme de terre|puree|gnocchi|nouille|mais|patate|frites/.test(key)?H.fist:Math.round(H.fist*.7);
+    if(/^pouce/.test(unit))return /fromage|emmental|comte|cantal|gouda|edam|parmesan|camembert|brie|feta|chevre|mozzarella|raclette/.test(key)?H.thumb*2:H.thumb;
+    return H.cup;
+  }
   const tbsp=()=>/huile/.test(key)?13:/sucre/.test(key)?12:/miel|confiture|nutella|tartiner/.test(key)?20:/cacahuete|arachide/.test(key)?16:/beurre/.test(key)?14:/rape|parmesan/.test(key)?8:/proteine|whey/.test(key)?30:15;
   if(/soupe|^c a s$|^cas$/.test(unit))return tbsp();
   if(/cafe|dessert|^c a c$|^cac$/.test(unit))return Math.round(tbsp()/3*10)/10;
   if(/^verre/.test(unit))return /vin|champagne/.test(key)?125:200;
   if(/^bol/.test(unit))return /cereale|muesli|avoine|granola|flocons/.test(key)?40:250;
   if(/^tasse/.test(unit))return /cafe|expresso|espresso/.test(key)?100:150;
-  if(/^poignee/.test(unit))return 30;
   if(/^tranche/.test(unit))return /jambon/.test(key)?35:/fromage|emmental|comte|cantal|gouda|edam/.test(key)?25:/saumon/.test(key)?30:/pizza/.test(key)?120:30;
   if(/^pot/.test(unit))return /skyr/.test(key)?150:125;
   if(/^canette/.test(unit))return 330;
@@ -335,6 +361,21 @@ function ciqualFind(phrase){
 }
 window.np7CiqualFind=ciqualFind;
 
+/* poids cru / sec -> poids cuit (les valeurs de la base sont celles des aliments cuits) */
+const RAW_RE=/\b(cru|crue|crus|crues|seche|seches|secs?|avant cuisson|non cuite?s?)\b/;
+function rawFactor(key){
+  if(/saucisson|jambon|fruits? sec/.test(key))return 0;
+  if(/riz/.test(key))return 2.5;
+  if(/pates|spaghetti|tagliatelle|penne|fusilli|macaroni|coquillette|farfalle|rigatoni|nouille|vermicelle/.test(key))return 2.2;
+  if(/semoule|couscous|boulgour/.test(key))return 2.5;
+  if(/quinoa/.test(key))return 3;
+  if(/lentille|pois chiche|haricots? (rouge|blanc)|flageolet/.test(key))return 2.5;
+  if(/poulet|boeuf|steak|porc|veau|agneau|dinde|canard|lapin|viande|entrecote|rumsteck|bavette|filet mignon/.test(key))return .75;
+  if(/poisson|saumon|cabillaud|colin|merlu|truite|dorade|lieu|thon/.test(key))return .85;
+  if(/epinard/.test(key))return .5;
+  return 0;
+}
+
 /* portion standard quand aucune quantité n'est donnée (signalée à l'utilisateur) */
 function defaultServing(name){
   const s=prep(name);
@@ -361,7 +402,7 @@ function splitByQty(seg){
   const cuts=/^\s*$/.test(seg.slice(0,pos[0][0]))?pos.slice(1).map(p=>p[0]):pos.slice(0,-1).map(p=>p[1]);
   const parts=[];let last=0;cuts.forEach(c=>{parts.push(seg.slice(last,c));last=c});parts.push(seg.slice(last));return parts.filter(x=>x.trim());
 }
-const SEP=/\s*(?:,|;|\+|&|\bet\b|\bpuis\b|\bplus\b|\baussi\b)\s*/;
+const SEP=/\s*(?:\||\+|&|\bet\b|\bpuis\b|\bplus\b|\baussi\b)\s*/;
 const QTY=/(\d+(?:\.\d+)?)\s*(kg|g|ml|cl|dl|l)\b/;
 function toGrams(n,u){n=+n;return u==='kg'?n*1000:u==='cl'?n*10:u==='dl'?n*100:u==='l'?n*1000:n}
 const NUMW={un:1,une:1,deux:2,trois:3};
@@ -370,9 +411,9 @@ function parseText(text){
   if(!REG.length)addCommon();
   let s=normUnits(frNumbers(prep(text)));
   s=s.replace(FILLER,' ').replace(/\s+/g,' ').trim();
-  const custom=Object.values((typeof S!=='undefined'&&S.custom)||{}).map(c=>{const k=prep(c.name);return{key:k,v:[c.name,+c.k||0,+c.pr||0,+c.ca||0,+c.f||0],unit:0,src:'custom',re:new RegExp('(^| )'+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?:s|x)?(?= |$)')}}).filter(r=>r.key);
+  const custom=Object.values((typeof S!=='undefined'&&S.custom)||{}).map(c=>{const k=prep(c.name);return{key:k,v:[c.name,+c.k||0,+c.pr||0,+c.ca||0,+c.f||0],unit:+c.u||0,src:'custom',re:new RegExp('(^| )'+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?:s|x)?(?= |$)')}}).filter(r=>r.key);
   const keys=custom.concat(REG).sort((a,b)=>b.key.length-a.key.length);
-  const out=[],unmatched=[],est=[];
+  const out=[],unmatched=[],est=[],rawConv=[];
   const push=(v,q,estimated)=>{
     const ex=out.find(x=>x.v[0]===v[0]);
     if(ex){if(ex.q!=null&&q!=null)ex.q+=q;else if(q!=null)ex.q=q;return}
@@ -394,7 +435,7 @@ function parseText(text){
       found.forEach((f,i)=>{
         const r=f.r;let q=null,e=false;
         if(i===target&&qty!=null)q=qty;
-        else if(i===target&&meas){const g=measureGrams(meas.unit,r.key);if(g){q=g*meas.n;e=true}}
+        else if(i===target&&meas){const g=measureGrams(meas.unit,r.key,r);if(g){q=g*meas.n;e=true}}
         if(q==null){
           const pw=pieceWeight(r);
           if(pw){
@@ -404,6 +445,7 @@ function parseText(text){
             q=pw*c;e=true;
           }
         }
+        if(q!=null&&i===target&&qty!=null&&RAW_RE.test(seg)&&!RAW_RE.test(r.key)&&!/\bcru\b|\bsec\b/.test(prep(r.v[0]))){const rf=rawFactor(r.key);if(rf){q*=rf;rawConv.push(r.v[0])}}
         push(r.v,q,e);
       });
       return;
@@ -417,7 +459,7 @@ function parseText(text){
     }else if(phrase&&/[a-z]{3}/.test(phrase)){unmatched.push(phrase)}
   });
   out.forEach(o=>{if(o.q==null){o.q=defaultServing(o.v[0]);if(!est.includes(o.v[0]))est.push(o.v[0])}});
-  window.__np7Unmatched=unmatched;window.__np7Est=est;
+  window.__np7Unmatched=unmatched;window.__np7Est=est;window.__np7Raw=rawConv;
   return out;
 }
 window.parse=parseText;
